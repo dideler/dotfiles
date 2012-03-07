@@ -1,0 +1,7 @@
+TODO:
+- .vim/
+- .vim/autoload/ " install pathogen.vim and call it from vimrc
+- .vimrc
+- .gitconfig
+- .bashrc
+- .bash_aliases

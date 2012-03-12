@@ -1,8 +1,10 @@
+https://github.com/tpope/vim-pathogen
+https://github.com/tpope/vim-markdown
+https://github.com/tpope/vim-fugitive
+
 TODO:
-- .vim/
-- .vim/autoload/ " install pathogen.vim and call it from vimrc
+- .vim/*
 - .vimrc
 - .gitconfig
 - .bashrc
-- .bash_aliases
 - delete .vimrc gist

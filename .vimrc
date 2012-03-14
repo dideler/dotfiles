@@ -11,9 +11,11 @@ filetype on " Try to autodetect file type.
 syntax on " Use syntax highlighting.
 
 " For all files, set the format options, turn off C indentation, and set the comments option to the default.
-autocmd FileType * set formatoptions=tcql \nocindent comments&
+"autocmd FileType * set formatoptions=tcql
+"      \nocindent comments&
 " For all C and C++ files, set the formatoptions, turn on C indentation, and set the comments option.
-autocmd FileType c,cpp set formatoptions=croql \cindent comments=sr:/*,mb:*,ex:*/,://
+"autocmd FileType c,cpp set formatoptions=croql
+"      \cindent comments=sr:/*,mb:*,ex:*/,://
 
 set modelines=0 " Prevent security exploits that use modelines.
 set backspace=indent,eol,start " Allow backspacing over everything in INS mode.

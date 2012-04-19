@@ -3,6 +3,9 @@ Some of the scripts used:
 * [vim-markdown](https://github.com/tpope/vim-markdown)
 * [vim-fugitive](https://github.com/tpope/vim-fugitive)
 
+Note that all these files/directories at the top level (except README)
+are hidden in the actual filesystem.
+
 TODO:
 - finish .vimrc
 - add .gitconfig

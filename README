@@ -1,10 +1,9 @@
-https://github.com/tpope/vim-pathogen
-https://github.com/tpope/vim-markdown
-https://github.com/tpope/vim-fugitive
+Some of the scripts used:
+* [vim-pathogen](https://github.com/tpope/vim-pathogen)
+* [vim-markdown](https://github.com/tpope/vim-markdown)
+* [vim-fugitive](https://github.com/tpope/vim-fugitive)
 
 TODO:
-- .vim/*
-- .vimrc
-- .gitconfig
-- .bashrc
-- delete .vimrc gist
+- finish .vimrc
+- add .gitconfig
+- add .bashrc

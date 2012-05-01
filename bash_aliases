@@ -53,3 +53,15 @@ alias snipe='ps -x | grep' # Snipe an unresponsive process to get its pid to kil
 alias serve='python -m SimpleHTTPServer' # Serve directory on local network, port 8000.
 alias broadcast='script -qf | tee >(nc -l -p 5000) >(nc -l -p 5001) >(nc -l -p 5002)' # View with 'nc ipaddr port'.
 alias pushd='pushd >/dev/null' # Silent pushd (error messages appear on stderr).
+alias imagify='jp2a --colors' # Only works on jpeg. Convert first if necessary.
+# Git aliases from @holman
+alias gl='git pull --prune'
+alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+alias gp='git push origin HEAD'
+alias gd='git diff'
+alias gc='git commit'
+alias gca='git commit -a'
+alias gco='git checkout'
+alias gb='git branch'
+alias gs='git status -sb' # upgrade your git if -sb breaks for you. it's fun.
+alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"

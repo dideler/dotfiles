@@ -12,7 +12,7 @@ rm -rf !(README|update.sh)
 
 # Finally, copy the original files.
 echo "Password needed to properly copy files & directories."
-sudo cp -rp ~/.bash_aliases ~/.vim/ ~/.vimrc .
+sudo cp -rp ~/.bash_aliases ~/.vim/ ~/.vimrc ~/.gitconfig .
 
 # Unhide all hidden files and dirs, except .git and .gitignore.
-find . \( -iname ".*" ! -iname ".git*" \) -print0 | xargs -r0 rename -v 's|/\.+([^/]+)$|/$1|'
+find . \( -iname ".*" ! -iname ".git" ! -iname ".gitignore" \) -print0 | xargs -r0 rename -v 's|/\.+([^/]+)$|/$1|'

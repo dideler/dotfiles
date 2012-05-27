@@ -1,0 +1,19 @@
+[user]
+	name = Dennis Ideler
+	email = ideler.dennis@gmail.com
+[core]
+	autocrlf = false
+	safecrlf = true
+[github]
+	user = dideler
+	token = --redacted--
+[color]
+	ui = auto
+[alias]
+	unadd = reset HEAD # Undo staging of given files (use . for all staged files).
+	fixcommit = commit --amend # Equivalent to an uncommit + changes + recommit.
+	uncommit = reset --soft HEAD^ # Undo a commit.
+	recommit = commit -c ORIG_HEAD # Recommit files that were uncommit.
+  alias = config --get-regexp alias # Displays all git aliases.
+  rm-remote-file = rm --cached # Remove a given file from the remote branch.
+  overwrite = git fetch --all && git reset --hard origin/master # Local repo will exactly match the remote tracking branch.

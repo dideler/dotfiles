@@ -51,7 +51,9 @@ alias pinknoise='play -t sl -r48000 -c2 - synth -1 pinknoise tremolo .1 40 <  /d
 alias whitenoise='cat /dev/urandom | aplay -f cd'
 alias snipe='ps -x | grep' # Snipe an unresponsive process to get its pid to kill it.
 alias serve='python -m SimpleHTTPServer' # Serve directory on local network, port 8000.
-alias broadcast='script -qf | tee >(nc -l -p 5000) >(nc -l -p 5001) >(nc -l -p 5002)' # View with 'nc ipaddr port'.
+alias broadcast='echo "Client can watch your terminal live with '\''nc your_ip 5000'\''.";
+                 script -qf | tee >(nc -l -p 5000)'
+# To broadcast over UDP on port 5000: script -qf >(nc -ub 192.168.1.255 5000)
 alias pushd='pushd >/dev/null' # Silent pushd (error messages appear on stderr).
 alias imagify='jp2a --colors' # Only works on jpeg. Convert first if necessary.
 # Git aliases from @holman

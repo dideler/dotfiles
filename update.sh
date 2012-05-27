@@ -16,3 +16,6 @@ sudo cp -rp ~/.bash_aliases ~/.vim/ ~/.vimrc ~/.gitconfig .
 
 # Unhide all hidden files and dirs, except .git and .gitignore.
 find . \( -iname ".*" ! -iname ".git" ! -iname ".gitignore" \) -print0 | xargs -r0 rename -v 's|/\.+([^/]+)$|/$1|'
+
+# Redact my github token.
+sed -i 's/token = [0-9a-z]*/token = --redacted--/' gitconfig

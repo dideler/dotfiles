@@ -3,6 +3,7 @@ vim/backups
 vim/view
 *un~
 vim/.netrwhist
+vim/netrwhist
 vim/tmp
 .netrwhist
 bin/subl

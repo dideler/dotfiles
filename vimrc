@@ -142,7 +142,7 @@ ab #l /*------------------------------------------------------*/
 
 " C/C++ style function header. Note: ia[bbrev] is same as ab[breviate] but for Insert mode only.
 ia funcom /**<CR>*<CR>*/<Up>
-ab forl for (int i = 0; i <; ++i)<esc>7hi
+ab forl for (int i = 0; i < ; ++i)<esc>6hi
 ab cmain  int main(int argc, char** argv)<CR>{<CR>return 0;<CR>}
 " Do a sudo write with w!!
 ca w!! w !sudo tee >/dev/null "%"

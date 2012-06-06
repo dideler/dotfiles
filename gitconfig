@@ -16,4 +16,5 @@
 	recommit = commit -c ORIG_HEAD # Recommit files that were uncommit.
   alias = config --get-regexp alias # Displays all git aliases.
   rm-remote-file = rm --cached # Remove a given file from the remote branch.
-  overwrite = git fetch --all && git reset --hard origin/master # Local repo will exactly match the remote tracking branch.
+  overwrite = fetch --all && git reset --hard origin/master # Local repo will exactly match the remote tracking branch.
+  pull-rebase = pull --rebase # Reapplies commits so history stays linear (use for regular syncing).

@@ -116,6 +116,12 @@ nnoremap <leader>w <C-w>v<C-w>l
 " ,c closes current window.
 nnoremap <leader>c :close
 
+" ,h switches to hex mode (stream vim's buffer through xxd).
+nnoremap <leader>h :%!xxd<CR>
+
+" ,n switch back from hex mode to normal mode.
+nnoremap <leader>n :%!xxd -r<CR>
+
 " ,ev opens ~/.vimrc in a vertical split window, ready to edit.
 nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 

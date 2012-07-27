@@ -72,10 +72,10 @@ set shiftwidth=2 " Auto-indent uses 2 spaces.
 set expandtab " Expand tabs to spaces.
 
 set wrap " Wrap lines (on by default).
-set showbreak=----------> " Emphasize when a wrap occurs.
+"set showbreak=--->  " Emphasize when a wrap occurs.
 set textwidth=80 " Wrap after 80 characters.
 set formatoptions=qrn1
-set colorcolumn=85 " Colour the column after exceeding the wrap by too far.
+set colorcolumn=81 " Colour the column after exceeding the wrap by too far.
 
 set autoindent " Turn on automatic indentation.
 set smartindent " Autotab at start of the line. (cindent may be better)
@@ -136,6 +136,16 @@ inoremap jj <ESC>
 
 " Unhighlight search.
 nnoremap <leader><space> :noh<cr>
+
+" Tab navigation like a browser (courtesy of davvid from HN).
+nmap <c-s-tab> :tabprevious<cr>
+nmap <c-tab> :tabnext<cr>
+map <c-s-tab> :tabprevious<cr>
+map <c-tab> :tabnext<cr>
+imap <c-s-tab> <esc>:tabprevious<cr>i
+imap <c-tab> <esc>:tabnext<cr>i
+nmap <c-t> :tabnew<cr>:e<space>
+imap <c-t> <esc>:tabnew<cr>:e<space>
 
 " Define abbreviations (see http://vimdoc.sourceforge.net/htmldoc/map.html#abbreviations).
 " Abbreviating the escape character, see above link for explanation.

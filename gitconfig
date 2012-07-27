@@ -4,6 +4,7 @@
 [core]
 	autocrlf = false
 	safecrlf = true
+	excludesfile = /home/dennis/.gitignore_global
 [github]
 	user = dideler
 	token = --redacted--

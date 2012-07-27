@@ -41,7 +41,7 @@ alias t='python ~/.t/t.py --task-dir ~/tasks --list tasks'
 alias updatesite='scp index.html di07ty@sandcastle.cosc.brocku.ca:public_html/'
 alias pngcrush='pngcrush -rem alla -reduce -brute'
 alias mac='ifconfig | grep HWaddr'
-alias mencoder='-oac mp3lame -ovc lavc' # e.g.) mencoder video.ogg -o output.avi
+alias convertvideo='mencoder -oac mp3lame -ovc lavc -o' # example: convertvideo video.ogg output.avi
 alias minecraft='java -Xmx1024M -Xms512M -cp Downloads/minecraft.jar net.minecraft.LauncherFrame'
 alias size='du -ch | grep total'  # Total size of the current directory (human readable)
 alias rep='sudo add-apt-repository'  # Add a new PPA to the repository
@@ -49,15 +49,19 @@ alias units='units --verbose'
 alias pinknoise='play -t sl -r48000 -c2 - synth -1 pinknoise tremolo .1 40 <  /dev/zero'
 alias whitenoise='cat /dev/urandom | aplay -f cd'
 alias snipe='ps -x | grep' # Snipe an unresponsive process to get its pid to kill it.
-alias eth0ip="/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print \$1}'"
-alias wlan0ip="/sbin/ifconfig wlan0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print \$1}'"
+alias eth0ip="/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print \"eth: \" \$1}'"
+alias wlan0ip="/sbin/ifconfig wlan0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print \"wlan: \" \$1}'"
 alias serve='eth0ip; wlan0ip; python -m SimpleHTTPServer' # Serve directory on local network, port 8000.
 alias broadcast='echo "Client can watch your terminal live with '\''nc your_ip 5000'\''.";
                  script -qf | tee >(nc -l -p 5000)'
 # To broadcast over UDP on port 5000: script -qf >(nc -ub 192.168.1.255 5000)
 alias pushd='pushd >/dev/null' # Silent pushd (error messages appear on stderr).
 alias imagify='jp2a --colors' # Only works on jpeg. Convert first if necessary.
-# Git aliases from @holman
+alias vi='vi -O' # Default to vertical-split windows if multiple files given.
+alias combineimg='convert +append' # Combine images side-by-side.
+alias combinepdf='convert -density 200' # Combine PDFs vertically.
+
+# Git aliases (some from @holman)
 alias gl='git pull --prune'
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias gp='git push origin HEAD'
@@ -66,6 +70,6 @@ alias gc='git commit'
 alias gca='git commit -a'
 alias gco='git checkout'
 alias gb='git branch'
-alias gs='git status -sb' # upgrade your git if -sb breaks for you. it's fun.
+alias gs='git status -sb' # Upgrade your git if -sb breaks for you.
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 alias git='hub' # See http://defunkt.io/hub/

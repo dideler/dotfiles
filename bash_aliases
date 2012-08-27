@@ -5,7 +5,8 @@ alias bbc='ssh 192.168.1.2'
 alias clr='echo "BAD DENNIS! Use ctrl+L"'
 alias cls='clear; ls'
 alias distro='cat /etc/*-release'
-alias grep='grep --color=auto'
+alias grep='grep --colour'
+alias rgrep='rgrep --colour'
 alias ins='sudo apt-get install'
 alias install='sudo apt-get install'
 alias ipconfig='ifconfig'
@@ -60,6 +61,9 @@ alias imagify='jp2a --colors' # Only works on jpeg. Convert first if necessary.
 alias vi='vi -O' # Default to vertical-split windows if multiple files given.
 alias combineimg='convert +append' # Combine images side-by-side.
 alias combinepdf='convert -density 200' # Combine PDFs vertically.
+alias chromecache='cd ~/.cache/google-chrome/Media\ Cache/'
+alias restartshell='exec $SHELL'
+alias vim-mappings='echo -e "### Dynamic Window Manager\nC-N: Create new window in master pane and stack all previous windows in side pane\nC-C: Close current window if no unsaved changes\nC-J: Jump to next window (clockwise)\nC-K: Jump to previous window (counter-clockwise)\nC-H: Focus on the current window (place it in master pane)\nC-L: Fullscreen the current window (use focus [C-H] to return to normal)\n### TODO: document more mappings"'
 
 # Git aliases (some from @holman)
 alias gl='git pull --prune'

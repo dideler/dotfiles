@@ -8,7 +8,8 @@ call pathogen#helptags() " Generate documentation for every plugin in 'runtimepa
 filetype plugin indent on
 
 filetype on " Try to autodetect file type.
-syntax on " Use syntax highlighting.
+syntax on " Let Vim overrule my syntax highlighting settings with the defaults.
+"syntax enable " Keep my current colour settings.
 
 " For all files, set the format options, turn off C indentation, and set the comments option to the default.
 "autocmd FileType * set formatoptions=tcql
@@ -45,6 +46,9 @@ set noswapfile " Don't create swap.swp file.
 "set autowrite " Auto-write if modified, on certain commands.
 "set undofile " Keep a history file so you can undo even after reopening Vim.
 au FocusLost * :wa " Write all changes when window loses focus, and keep working.
+
+set ttymouse=xterm2 " (Should be by default.)
+set mouse=a " Use 'n' for normal mode, 'a' is all modes.
 
 " === Bells ===
 "set errorbells " (off by default)
@@ -160,8 +164,12 @@ ab #l /*------------------------------------------------------*/
 ia funcom /**<CR>*<CR>*/<Up>
 ab forl for (int i = 0; i < ; ++i)<esc>6hi
 ab cmain  int main(int argc, char** argv)<CR>{<CR>return 0;<CR>}
-" Do a sudo write with w!!
+
+" Do a sudo write with w!! (note that `cabbrev` can be abbreviated to `ca`).
 ca w!! w !sudo tee >/dev/null "%"
+
+" An easier way to show the value of a setting (using `set` for a get is bad).
+cabbrev get set?<Left>
 
 " Enter paste mode and give visual feedback.
 nnoremap <F2> :set invpaste paste?<CR>

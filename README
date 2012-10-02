@@ -3,8 +3,11 @@ Some of the scripts used:
 * [vim-markdown](https://github.com/tpope/vim-markdown)
 * [vim-fugitive](https://github.com/tpope/vim-fugitive)
 
-Note that all these files/directories at the top level (except README)
-are hidden in the actual filesystem.
+Note that all these files/directories at the top level (except README) are hidden in the actual filesystem.
+
+Some CLI stuff I really like (not neccesarily dotfiles):
+- https://github.com/uams/geturl
+- https://github.com/spolu/dwm.vim
 
 TODO:
 - finish .vimrc

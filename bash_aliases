@@ -4,7 +4,7 @@ alias addcrapl='wget -q http://matt.might.net/articles/crapl/CRAPL-LICENSE.txt -
 alias bbc='ssh 192.168.1.2'
 alias clr='echo "BAD DENNIS! Use ctrl+L"'
 alias cls='clear; ls'
-alias distro='cat /etc/*-release'
+alias distro='cat /etc/*-release' # 'lsb_release -rd' also works
 alias grep='grep --colour'
 alias rgrep='rgrep --colour'
 alias ins='sudo apt-get install'
@@ -62,8 +62,9 @@ alias vi='vi -O' # Default to vertical-split windows if multiple files given.
 alias combineimg='convert +append' # Combine images side-by-side.
 alias combinepdf='convert -density 200' # Combine PDFs vertically.
 alias chromecache='cd ~/.cache/google-chrome/Media\ Cache/'
+alias search='apt-cache search'
 alias restartshell='exec $SHELL'
-alias vim-mappings='echo -e "### Dynamic Window Manager\nC-N: Create new window in master pane and stack all previous windows in side pane\nC-C: Close current window if no unsaved changes\nC-J: Jump to next window (clockwise)\nC-K: Jump to previous window (counter-clockwise)\nC-H: Focus on the current window (place it in master pane)\nC-L: Fullscreen the current window (use focus [C-H] to return to normal)\n### TODO: document more mappings"'
+alias vim-mappings='echo -e "### Dynamic Window Manager\nC-N: Create new window in master pane and stack all previous windows in side pane\nC-C: Close current window if no unsaved changes\nC-J: Jump to next window (clockwise)\nC-K: Jump to previous window (counter-clockwise)\nC-H: Focus on the current window (place it in master pane)\nC-L: Fullscreen the current window (use focus [C-H] to return to normal)\n\n### Handy commands\n:retab  Change all existing tabs to spaces"'
 
 # Git aliases (some from @holman)
 alias gl='git pull --prune'
@@ -75,5 +76,6 @@ alias gca='git commit -a'
 alias gco='git checkout'
 alias gb='git branch'
 alias gs='git status -sb' # Upgrade your git if -sb breaks for you.
-alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
+#alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
+alias grm="gs | grep ' D ' | sed 's/^ D //' | xargs git rm" # Holman's version doesn't handle whitespaces.
 alias git='hub' # See http://defunkt.io/hub/

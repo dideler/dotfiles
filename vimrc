@@ -1,5 +1,6 @@
-" This .vimrc is inspired by best practices, coding styleguides, and personal preference.
-" Dennis Ideler (2012)
+" This .vimrc is inspired by others, best practices, coding styleguides, and
+" personal preference. For help, in Vim type `:help <topic>`.
+" Author: Dennis Ideler
 
 set nocompatible " Don't need to be compatible with Vi at the expense of Vim.
 
@@ -26,7 +27,11 @@ set backspace=indent,eol,start " Allow backspacing over everything in INS mode.
 set title " Change terminal title.
 set ruler " Show cursor position all the time.
 set number " Show line numbers.
-set relativenumber " Show line numbers relative to current line.
+
+" Instead of counting, use <line#>dG: deletes from the cursor to the given line.
+" A plugin of interest is numbers.vim: http://myusuf3.github.com/numbers.vim/
+"set relativenumber " Show line numbers relative to current line.
+
 "set cursorline " Highlight current line.
 set showcmd " Display an incomplete command in the lower right corner.
 "set showmode " Display current mode in the lower right corner.
@@ -47,8 +52,10 @@ set noswapfile " Don't create swap.swp file.
 "set undofile " Keep a history file so you can undo even after reopening Vim.
 au FocusLost * :wa " Write all changes when window loses focus, and keep working.
 
-set ttymouse=xterm2 " (Should be by default.)
-set mouse=a " Use 'n' for normal mode, 'a' is all modes.
+" === Mouse ===
+set ttymouse=xterm2 " Recognize mouse codes for xterm2 terminal type (default).
+set mouse=a " Enable mouse for all modes.
+set ttyfast "Send more characters for redraws (helps when using mouse for copy/paste).
 
 " === Bells ===
 "set errorbells " (off by default)

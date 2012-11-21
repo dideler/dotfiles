@@ -142,8 +142,11 @@ nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 " Press space to clear search highlighting and any message already displayed.
 nnoremap <silent> <Space> :silent noh<Bar>echo<CR>
 
-" Pres jj in insert mode to go to command/normal mode.
+" Press jj in insert mode to go to command/normal mode.
 inoremap jj <ESC>
+
+" Pretty print a JSON file using Python.
+map json :%!python -m json.tool<CR>
 
 " Unhighlight search.
 nnoremap <leader><space> :noh<cr>

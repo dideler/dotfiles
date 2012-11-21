@@ -17,8 +17,12 @@
   recommit = commit -c ORIG_HEAD # Recommit files that were uncommit.
   alias = config --get-regexp alias # Displays all git aliases.
   rm-remote-file = rm --cached # Remove a given file from the remote branch.
-  rm-remote-branch = git push origin --delete # Remove a remote branch (e.g. on GitHub).
+  rm-remote-branch = push origin --delete # Remove a remote branch (e.g. on GitHub).
   overwrite = fetch --all && git reset --hard origin/master # Local repo will exactly match the remote tracking branch.
   pull-rebase = pull --rebase # Reapplies commits so history stays linear (use for regular syncing).
   unmerged-branches = branch --no-merged # Find local unmerged branches.
   unstash = stash apply # Restore stashed modifications (potentially on top a different commit).
+  unpush = push -f origin HEAD~1:master # Undo a push. Replace 1 with number of pushes to undo.
+    # Warning: Do not rewrite history is someone has pulled your changes!
+    # Note: HEAD~1 means exactly the same thing as HEAD^, "the commit before HEAD".
+  merge-no-ff = merge --no-ff # No fast-forward merge. Shows branch in history.

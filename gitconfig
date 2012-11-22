@@ -25,4 +25,5 @@
   unpush = push -f origin HEAD~1:master # Undo a push. Replace 1 with number of pushes to undo.
     # Warning: Do not rewrite history is someone has pulled your changes!
     # Note: HEAD~1 means exactly the same thing as HEAD^, "the commit before HEAD".
-  merge-no-ff = merge --no-ff # No fast-forward merge. Shows branch in history.
+  merge-no-ff = merge --no-ff # No fast-forward merge.
+    # Shows branch in history (as merge commit) when merging finished feature into master.

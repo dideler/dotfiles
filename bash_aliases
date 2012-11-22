@@ -83,3 +83,4 @@ alias ga='git add'
 #alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 alias grm="gs | grep ' D ' | sed 's/^ D //' | xargs git rm" # Holman's version doesn't handle whitespaces.
 alias git='hub' # See http://defunkt.io/hub/
+alias ggrep='git grep --line-number --heading --break --show-function' # greps files tracked with git.

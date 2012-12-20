@@ -8,7 +8,10 @@ Note that all these files/directories at the top level (except README) are hidde
 Some CLI stuff I really like (not neccesarily dotfiles):
 - https://github.com/uams/geturl
 - https://github.com/spolu/dwm.vim
+- https://github.com/jkbr/httpie
+- https://github.com/defunkt/hub
 
 TODO:
+- add (stripped down version) .irssi
 - finish .vimrc
 - add .bashrc

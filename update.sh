@@ -10,12 +10,14 @@ set -e
 shopt -s extglob # Set extended pattern matching to be sure.
 rm -rf !(README|update.sh)
 
-# Finally, copy the original files.
+# Copy the desired dot files to this directory.
 echo "Password needed to properly copy files & directories."
 sudo cp -rp ~/.bash_aliases ~/.vim/ ~/.vimrc ~/.gitconfig .
+rsync -a ~/.irssi . --exclude=away.log --exclude=default.theme
 
 # Unhide all hidden files and dirs, except .git and .gitignore.
 find . \( -iname ".*" ! -iname ".git" ! -iname ".gitignore" \) -print0 | xargs -r0 rename -v 's|/\.+([^/]+)$|/$1|'
 
-# Redact my github token.
+# Redact sensitive information (e.g. github token and irc password).
 sed -i 's/token = [0-9a-z]*/token = --redacted--/' gitconfig
+sed -i 's/password = .*$/password = --redacted--/' irssi/config

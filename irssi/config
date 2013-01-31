@@ -37,7 +37,8 @@ channels = (
   { name = "#ubuntu"; chatnet = "Freenode"; autojoin = "no"; },
   { name = "#freeseer"; chatnet = "Freenode"; autojoin = "yes"; }
   { name = "#softwareniagara"; chatnet = "Freenode"; autojoin = "yes"; }
-  { name = "#techniagara"; chatnet = "Freenode"; autojoin = "yes"; }
+  { name = "#techniagara"; chatnet = "Freenode"; autojoin = "no"; }
+  { name = "#caribou"; chatnet = "Freenode"; autojoin = "yes"; }
 );
 
 aliases = {

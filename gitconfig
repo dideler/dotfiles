@@ -27,3 +27,5 @@
     # Note: HEAD~1 means exactly the same thing as HEAD^, "the commit before HEAD".
   merge-no-ff = merge --no-ff # No fast-forward merge.
     # Shows branch in history (as merge commit) when merging finished feature into master.
+  hash = hash-object # Get the SHA1 of the file you specify.
+  rename-branch = branch -m # Renames the local branch specified.

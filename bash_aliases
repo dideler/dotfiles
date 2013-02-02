@@ -86,6 +86,7 @@ alias gd='git diff'
 alias gc='git commit'
 alias gcm='git commit -m'
 alias gca='git commit -a'
+alias gcam='git commit -am'
 alias gco='git checkout'
 alias gb='git branch'
 alias gs='git status -sb' # Upgrade your git if -sb breaks for you.

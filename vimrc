@@ -3,14 +3,35 @@
 " Author: Dennis Ideler
 
 set nocompatible " Don't need to be compatible with Vi at the expense of Vim.
+filetype off " Required for Vundle.
 
-call pathogen#infect() " Entry point for adding plugins in ~/.vim/bundle to 'runtimepath'.
-call pathogen#helptags() " Generate documentation for every plugin in 'runtimepath'.
-filetype plugin indent on
+" Set up Vundle.
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
 
-filetype on " Try to autodetect file type.
+" Vundle bundles go here (typically listed by GitHub repo):
+Bundle 'gmarik/vundle'
+Bundle 'spolu/dwm.vim'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'tpope/vim-markdown'
+
+" Vundle brief help
+ " :BundleList          - list configured bundles
+ " :BundleInstall(!)    - install(update) bundles
+ " :BundleSearch(!) foo - search(or refresh cache first) for foo
+ " :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+ "
+ " see :h vundle for more details or wiki for FAQ
+ " NOTE: comments after Bundle command are not allowed..
+
+" NOTE: I'm trying out Vundle as a Pathogen replacement.
+""call pathogen#infect() " Entry point for adding plugins in ~/.vim/bundle to 'runtimepath'.
+""call pathogen#helptags() " Generate documentation for every plugin in 'runtimepath'.
+
+filetype plugin indent on " Required for Vundle and Pathogen.
+""filetype on " Try to autodetect file type.
 syntax on " Let Vim overrule my syntax highlighting settings with the defaults.
-"syntax enable " Keep my current colour settings.
+""syntax enable " Keep my current colour settings.
 
 " For all files, set the format options, turn off C indentation, and set the comments option to the default.
 "autocmd FileType * set formatoptions=tcql
@@ -30,15 +51,15 @@ set number " Show line numbers.
 
 " Instead of counting, use <line#>dG: deletes from the cursor to the given line.
 " A plugin of interest is numbers.vim: http://myusuf3.github.com/numbers.vim/
-"set relativenumber " Show line numbers relative to current line.
+""set relativenumber " Show line numbers relative to current line.
 
-"set cursorline " Highlight current line.
+""set cursorline " Highlight current line.
 set showcmd " Display an incomplete command in the lower right corner.
-"set showmode " Display current mode in the lower right corner.
+""set showmode " Display current mode in the lower right corner.
 set hidden " Manage multiple buffers effectively. Hides buffers in background, not in a window.
 set nostartofline " Keep the cursor in the same column (if possible).
-"set laststatus=2 " Always show status line (default=1, show if multiple windows open).
-"set statusline=%<%f\ %y[%{&ff}]%m%r%w%a\ %=%l/%L,%c%V\ %P " Improved status line.
+""set laststatus=2 " Always show status line (default=1, show if multiple windows open).
+""set statusline=%<%f\ %y[%{&ff}]%m%r%w%a\ %=%l/%L,%c%V\ %P " Improved status line.
 
 set encoding=utf-8 " Encoding displayed.
 set fileencodings=utf8 " Encoding written to file.
@@ -46,10 +67,10 @@ set history=256 " Keep a history of up to 256 commands & searches.
 
 set nobackup " Don't create backup~ file.
 set noswapfile " Don't create swap.swp file.
-"set nowb " Prevents automatic write backup before overwriting file.
-"set nobk " Prevents keeping of backup after overwriting the file.
-"set autowrite " Auto-write if modified, on certain commands.
-"set undofile " Keep a history file so you can undo even after reopening Vim.
+""set nowb " Prevents automatic write backup before overwriting file.
+""set nobk " Prevents keeping of backup after overwriting the file.
+""set autowrite " Auto-write if modified, on certain commands.
+""set undofile " Keep a history file so you can undo even after reopening Vim.
 au FocusLost * :wa " Write all changes when window loses focus, and keep working.
 
 " === Mouse ===
@@ -58,10 +79,10 @@ set mouse=a " Enable mouse for all modes.
 set ttyfast "Send more characters for redraws (helps when using mouse for copy/paste).
 
 " === Bells ===
-"set errorbells " (off by default)
+""set errorbells " (off by default)
 set noerrorbells " Shhh...
-"set visualbell " Flash the screen instead. (off by default)
-"set novisualbell
+""set visualbell " Flash the screen instead. (off by default)
+""set novisualbell
 
 " === Search ====
 set ignorecase " Ignore case when searching. Prefix search with \c to match case.
@@ -72,10 +93,10 @@ set hlsearch " Highlight search terms.
 set gdefault " Global substitutions (:%s/foo/bar/ replaces :%s/foo/bar/g).
 set wildmenu " Lets you see possible commands during auto-completion.
 set wildmode=list:longest " Auto-complete to the point of ambiguity.
-"set wildmode=longest,full " First longest match, then full match.
+""set wildmode=longest,full " First longest match, then full match.
 set wildignore=.git,*.jpg,*.png,*.o,*.obj " Ignore files matched with these patterns.
-"nnoremap / /\v " Use normal regexes search.
-"vnoremap / /\v
+""nnoremap / /\v " Use normal regexes search.
+""vnoremap / /\v
 
 " === Indentation and formatting ===
 set tabstop=2 " Tabs count as 2 spaces.
@@ -83,7 +104,7 @@ set shiftwidth=2 " Auto-indent uses 2 spaces.
 set expandtab " Expand tabs to spaces.
 
 set wrap " Wrap lines (on by default).
-"set showbreak=--->  " Emphasize when a wrap occurs.
+""set showbreak=--->  " Emphasize when a wrap occurs.
 set textwidth=80 " Wrap after 80 characters.
 set formatoptions=qrn1
 set colorcolumn=81 " Colour the column after exceeding the wrap by too far.
@@ -104,8 +125,8 @@ autocmd filetype scala setlocal foldmethod=indent
 set foldmethod=indent " Groups of lines with same indent form a fold.
 set foldnestmax=3 " Deepest fold is 3 levels.
 set nofoldenable " Dont fold by default.
-"set foldmethod=syntax " Folds defined by syntax highlighting.
-"set foldlevelstart=99 " Start with all (99 levels of) folds open.
+""set foldmethod=syntax " Folds defined by syntax highlighting.
+""set foldlevelstart=99 " Start with all (99 levels of) folds open.
 
 let mapleader = "," " Change start symbol of aliases/mappings.
 

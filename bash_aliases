@@ -10,7 +10,7 @@ alias distro='cat /etc/*-release' # 'lsb_release -rd' also works
 alias grep='grep --colour'
 alias rgrep='rgrep --colour'
 alias ipconfig='ifconfig'
-alias l='ls -CF'
+alias l='ls -rt'
 alias la='ls -A'
 alias ll='ls -l'
 alias ls='ls --color=auto'
@@ -71,7 +71,7 @@ alias vi='vi -O' # Default to vertical-split windows if multiple files given.
 alias combineimg='convert +append' # Combine images side-by-side.
 alias combinepdf='convert -density 200' # Combine PDFs vertically.
 alias tab4multiplespaces="sed -i 's/ \+ /\t/g'" # add input file at the end - replaces multiple spaces with a tab
-alias chromecache='cd ~/.cache/google-chrome/Media\ Cache/'
+alias chromecache='cd ~/.cache/google-chrome/Default/Cache/ && file $(ls -rt | tail)'
 alias search='apt-cache search'
 alias copysshkey="xclip -sel clip < ~/.ssh/id_rsa.pub && echo 'copied to cliboard'"
 alias kernelversion="uname -mrs"

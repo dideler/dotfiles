@@ -68,3 +68,7 @@
 
   last = log -1
   # Show the commit message of HEAD (i.e. last commit msg).
+  
+  release = tag -a
+  # Create an annotated tag for major version releases (e.g. v2.6 or v3.0).
+  # Use lightweight tags for smaller releases (e.g. git tag v2.5.3).

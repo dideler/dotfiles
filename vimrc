@@ -28,17 +28,6 @@ Bundle 'tpope/vim-markdown'
 ""call pathogen#infect() " Entry point for adding plugins in ~/.vim/bundle to 'runtimepath'.
 ""call pathogen#helptags() " Generate documentation for every plugin in 'runtimepath'.
 
-filetype plugin indent on " Required for Vundle and Pathogen.
-""filetype on " Try to autodetect file type.
-syntax on " Let Vim overrule my syntax highlighting settings with the defaults.
-""syntax enable " Keep my current colour settings.
-
-" For all files, set the format options, turn off C indentation, and set the comments option to the default.
-"autocmd FileType * set formatoptions=tcql
-"      \nocindent comments&
-" For all C and C++ files, set the formatoptions, turn on C indentation, and set the comments option.
-"autocmd FileType c,cpp set formatoptions=croql
-"      \cindent comments=sr:/*,mb:*,ex:*/,://
 
 set modelines=0 " Prevent security exploits that use modelines.
 set backspace=indent,eol,start " Allow backspacing over everything in INS mode.
@@ -61,8 +50,6 @@ set nostartofline " Keep the cursor in the same column (if possible).
 ""set laststatus=2 " Always show status line (default=1, show if multiple windows open).
 ""set statusline=%<%f\ %y[%{&ff}]%m%r%w%a\ %=%l/%L,%c%V\ %P " Improved status line.
 
-set encoding=utf-8 " Encoding displayed.
-set fileencodings=utf8 " Encoding written to file.
 set history=256 " Keep a history of up to 256 commands & searches.
 
 set nobackup " Don't create backup~ file.
@@ -109,15 +96,33 @@ set textwidth=80 " Wrap after 80 characters.
 set formatoptions=qrn1
 set colorcolumn=81 " Colour the column after exceeding the wrap by too far.
 
-set autoindent " Turn on automatic indentation.
-set smartindent " Autotab at start of the line. (cindent may be better)
+set fileformat=unix
+set encoding=utf-8 " The encoding displayed.
+set fileencodings=utf8 " The encoding written to file.
+
+set autoindent " autoindent does not interfere with other indentation settings.
+filetype plugin indent on " File type based indentation. Required for Vundle and Pathogen.
+""filetype on " Try to autodetect file type.
+syntax on " Let Vim overrule my syntax highlighting settings with the defaults.
+""syntax enable " Keep my current colour settings.
+
+" For all files, set the format options, turn off C indentation, and set the comments option to the default.
+"autocmd FileType * set formatoptions=tcql
+"      \nocindent comments&
+" For all C and C++ files, set the formatoptions, turn on C indentation, and set the comments option.
+"autocmd FileType c,cpp set formatoptions=croql
+"      \cindent comments=sr:/*,mb:*,ex:*/,://
 
 " Languages with other settings.
-autocmd filetype ruby setlocal sw=2
-autocmd filetype haml setlocal sw=2
-autocmd filetype yaml setlocal sw=2
-autocmd filetype javascript setlocal sw=2
-autocmd filetype python setlocal ts=4 sw=4 sts=4
+" shiftwidth == sw, tabstop == ts, softtabstop == sts
+" expandtab changes new tabs to spaces.
+" shiftwidth controls how many columns is indented with << and >>.
+autocmd filetype html setlocal shiftwidth=2 tabstop=2
+autocmd filetype ruby setlocal shiftwidth=2
+autocmd filetype haml setlocal shiftwidth=2
+autocmd filetype yaml setlocal shiftwidth=2
+autocmd filetype javascript setlocal shiftwidth=2
+autocmd filetype python setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
 autocmd filetype scala setlocal foldmethod=indent
 
 " === Folds ===
@@ -206,3 +211,8 @@ cabbrev get set?<Left>
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 set showmode
+
+" Map copy, cut, and paste to what they should be.
+vnoremap <C-c> "+y
+vnoremap <C-x> "+x
+map <C-v> "+gP

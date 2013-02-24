@@ -33,7 +33,8 @@
   # Remove a given file from the remote branch.
 
   rm-remote-branch = push origin --delete
-  # Remove the remote tracking branch (e.g. on GitHub).
+  rm-remote-tag = push origin --delete
+  # Remove the remote tag or tracking branch (e.g. on GitHub).
 
   overwrite = fetch --all && git reset --hard origin/master
   fresh = fetch --all && git reset --hard origin/master
@@ -72,3 +73,11 @@
   release = tag -a
   # Create an annotated tag for major version releases (e.g. v2.6 or v3.0).
   # Use lightweight tags for smaller releases (e.g. git tag v2.5.3).
+  
+  ### TIPS
+  #
+  # Checkout a remote branch that doesn't exist locally and track it:
+  #   git checkout --track origin/branch
+  #
+  # Grab files from a branch that don't exist in the current branch:
+  #   git checkout <branch> <paths>

@@ -14,6 +14,7 @@ Bundle 'gmarik/vundle'
 Bundle 'spolu/dwm.vim'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'tpope/vim-markdown'
+Bundle 'scrooloose/nerdtree'
 
 " Vundle brief help
  " :BundleList          - list configured bundles
@@ -136,13 +137,22 @@ set nofoldenable " Dont fold by default.
 let mapleader = "," " Change start symbol of aliases/mappings.
 
 " === Mappings ===
-" TODO test all mappings
+" Recursive/Non-recursive
+" (recursive means another mapping can use the mapping)
+" map/noremap = all modes
+" nmap/nnoremap = normal mode
+" xmap/xnoremap = visual mode
+" vmap/vnoremap = visual and select mode
+" imap/inoremap = insert mode
 
 " ,/ disables search highlighting.
-nmap <silent> <leader>/ :nohlsearch<CR>
+nnoremap <silent> <leader>/ :nohlsearch<CR>
 
-" F11 fixes tabs and kills trailing whitespace.
-map <F11> m`:retab<CR>:%s/\s\+$//eg<CR>``
+" Unhighlight search.
+nnoremap <leader><space> :noh<cr>
+
+" F3 fixes tabs and kills trailing whitespace.
+noremap <leader><F3> m`:retab<CR>:%s/\s\+$//eg<CR>``
 
 " ,W strips all trailing whitespace in current file.
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
@@ -172,10 +182,7 @@ nnoremap <silent> <Space> :silent noh<Bar>echo<CR>
 inoremap jj <ESC>
 
 " Pretty print a JSON file using Python.
-map json :%!python -m json.tool<CR>
-
-" Unhighlight search.
-nnoremap <leader><space> :noh<cr>
+nnoremap json :%!python -m json.tool<CR>
 
 " Tab navigation like a browser (courtesy of davvid from HN).
 nmap <c-s-tab> :tabprevious<cr>
@@ -187,26 +194,6 @@ imap <c-tab> <esc>:tabnext<cr>i
 nmap <c-t> :tabnew<cr>:e<space>
 imap <c-t> <esc>:tabnew<cr>:e<space>
 
-" Define abbreviations (see http://vimdoc.sourceforge.net/htmldoc/map.html#abbreviations).
-" Abbreviating the escape character, see above link for explanation.
-" ab esc 
-ab #d #define
-ab #i #include
-ab #b /********************************************************
-ab #e *********************************************************/
-ab #l /*------------------------------------------------------*/
-
-" C/C++ style function header. Note: ia[bbrev] is same as ab[breviate] but for Insert mode only.
-ia funcom /**<CR>*<CR>*/<Up>
-ab forl for (int i = 0; i < ; ++i)<esc>6hi
-ab cmain  int main(int argc, char** argv)<CR>{<CR>return 0;<CR>}
-
-" Do a sudo write with w!! (note that `cabbrev` can be abbreviated to `ca`).
-ca w!! w !sudo tee >/dev/null "%"
-
-" An easier way to show the value of a setting (using `set` for a get is bad).
-cabbrev get set?<Left>
-
 " Enter paste mode and give visual feedback.
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
@@ -216,3 +203,48 @@ set showmode
 vnoremap <C-c> "+y
 vnoremap <C-x> "+x
 map <C-v> "+gP
+
+" Autocompletion with ctrl+space.
+inoremap <c-space> <c-n>
+inoremap <Nul> <c-n>
+
+" === Abbreviations ===
+" abbreviate == ab
+" cabbrev == ca
+" iabbrev == ia  Insert mode only
+" List all abbreviations with :ab
+
+" Abbreviating the escape character, see above link for explanation.
+" ab esc 
+abbreviate #d #define
+abbreviate #i #include
+abbreviate #b /********************************************************
+abbreviate #e *********************************************************/
+abbreviate #l /*------------------------------------------------------*/
+
+" C/C++ style function header. Note: ia[bbrev] is same as ab[breviate] but for Insert mode only.
+iabbrev funcom /**<CR>*<CR>*/<Up>
+abbreviate forl for (int i = 0; i < ; ++i)<esc>6hi
+abbreviate cmain  int main(int argc, char** argv)<CR>{<CR>return 0;<CR>}
+
+" Quick Python function definition.
+abbreviate def def():<Left><Left><Left>
+
+" Do a sudo write with w!!
+" (note that `cabbrev` can be abbreviated to `ca`).
+" abbreviate
+cabbrev w!! w !sudo tee >/dev/null "%"
+
+" An easier way to show the value of a setting (using `set` for a get is bad).
+cabbrev get set?<Left>
+
+" === NERDTree ===
+
+" Toggle NERDTree (open/close).
+noremap <F4> :NERDTreeToggle<CR>
+
+" Open NERDTree if vim was opened with no arguments.
+autocmd vimenter * if !argc() | NERDTree | endif
+
+" Autoclose NERDTree if it's the only window left open.
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif

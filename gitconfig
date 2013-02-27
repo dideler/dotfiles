@@ -73,7 +73,12 @@
   release = tag -a
   # Create an annotated tag for major version releases (e.g. v2.6 or v3.0).
   # Use lightweight tags for smaller releases (e.g. git tag v2.5.3).
-  
+
+  heroku = remote add heroku # git@heroku.com:project.git
+  # Add a heroku remote for a heroku web app.
+  # Alternatively, you can use the heroku toolbelt CLI:
+  # heroku git:remote -a project, where project is the project name on heroku.
+
   ### TIPS
   #
   # Checkout a remote branch that doesn't exist locally and track it:

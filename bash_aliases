@@ -1,3 +1,7 @@
+# A list of some useful (and not so useful) aliases for bash.
+# If an alias requires special usage (e.g. an argument) it will say so in the
+# comments. Otherwise assume that the alias requires no arguments.
+
 alias ..='cd ..'
 alias ...='cd ../..'
 alias aliasloc='/home/dennis/.bash_aliases'
@@ -59,26 +63,78 @@ alias units='units --verbose'
 alias pinknoise='play -t sl -r48000 -c2 - synth -1 pinknoise tremolo .1 40 <  /dev/zero'
 alias whitenoise='cat /dev/urandom | aplay -f cd'
 alias snipe='ps -x | grep' # Snipe an unresponsive process to get its pid to kill it.
+
 alias eth0ip="/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print \"eth: \" \$1}'"
+# Shows your wired IP address.
+
 alias wlan0ip="/sbin/ifconfig wlan0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print \"wlan: \" \$1}'"
-alias serve='eth0ip; wlan0ip; python -m SimpleHTTPServer' # Serve directory on local network, port 8000.
+# Shows your wireless IP address.
+
+alias serve='eth0ip; wlan0ip; python -m SimpleHTTPServer'
+# Serves current directory on local network, port 8000.
+
 alias broadcast='echo "Client can watch your terminal live with '\''nc your_ip 5000'\''.";
                  script -qf | tee >(nc -l -p 5000)'
-# To broadcast over UDP on port 5000: script -qf >(nc -ub 192.168.1.255 5000)
-alias pushd='pushd >/dev/null' # Silent pushd (error messages appear on stderr).
-alias imagify='jp2a --colors' # Only works on jpeg. Convert first if necessary.
-alias vi='vi -O' # Default to vertical-split windows if multiple files given.
-alias combineimg='convert +append' # Combine images side-by-side.
-alias combinepdf='convert -density 200' # Combine PDFs vertically.
-alias tab4multiplespaces="sed -i 's/ \+ /\t/g'" # add input file at the end - replaces multiple spaces with a tab
-alias chromecache='cd ~/.cache/google-chrome/Default/Cache/ && file $(ls -rt | tail)'
-alias search='apt-cache search'
-alias copysshkey="xclip -sel clip < ~/.ssh/id_rsa.pub && echo 'copied to cliboard'"
-alias kernelversion="uname -mrs"
-alias restartshell='exec $SHELL'
-alias vim-mappings='echo -e "### Dynamic Window Manager\nC-N: Create new window in master pane and stack all previous windows in side pane\nC-C: Close current window if no unsaved changes\nC-J: Jump to next window (clockwise)\nC-K: Jump to previous window (counter-clockwise)\nC-H: Focus on the current window (place it in master pane)\nC-L: Fullscreen the current window (use focus [C-H] to return to normal)\n\n### Handy commands\n:retab  Change all existing tabs to spaces"'
+# Streams your terminal for others to view.
+# Warning: NOT YET TESTED
+# Note: Supposedly to broadcast over UDP on port 5000, use:
+#       script -qf >(nc -ub 192.168.1.255 5000)
 
-# Git aliases (some from @holman)
+alias pushhh='pushd $@ > /dev/null'
+# Silence pushd. Error messages appear on stderr.
+# Usage: pushd dir1, dir2, ...
+
+alias imagify='jp2a --colors'
+# Displays a JPEG image as coloured ASCII in stdout.
+# Usage: imagify file1, file2, ...
+
+alias vi='vi -O'
+# Vertical-split windows if multiple files given.
+# Usage: vi file1, file2, ...
+
+alias combineimgs='convert +append'
+# Combines images horizontally (side-by-side).
+# Usage: combineimgs infile1, infile2, ..., outfile
+
+alias combinepdfs='convert -density 200'
+# Combines PDFs vertically.
+# Usage: combinepdfs infile1, infile2, ..., outfile
+
+alias spaces2tabs="sed -i 's/ \+ /\t/g'"
+# Replaces multiple spaces with a tab.
+# Usage: spaces2tabs textfile
+
+alias chromecache='cd ~/.cache/google-chrome/Default/Cache/ && file $(ls -rt | tail)'
+# Brings you to Chrome's cache directory and shows filetypes for recent files.
+
+alias showpkg='apt-cache showpkg'
+# Shows some general information for a single package.
+# Usage: showpkg package_name
+
+alias search='apt-cache search'
+# Searches the package list for a regex pattern.
+# Usage: search some_pattern
+
+alias copysshkey="xclip -sel clip < ~/.ssh/id_rsa.pub && echo 'copied to cliboard'"
+# Copies your ssh key to your clipboard.
+
+alias remove='rm -iv'
+# A safer rm. Prompts you and tells you what has been deleted.
+# Usage: remove file1, file2, ...
+
+alias kernelversion="uname -mrs"
+# Shows the Linux kernel version (e.g. Linux 3.2.0-38-generic x86_64)
+
+alias restartshell='exec $SHELL'
+# Restarts the shell so new changes can take effect.
+
+alias removedupes="awk '!x[$0]++'"
+# Removes duplicate lines.
+# Usage: removedupes infile > outfile
+# Notes: Similar to 'sort <file> | uniq' but faster and can handle larger input.
+#        Also preserves original order ('sort <file> | uniq' doesn't).
+
+### Git aliases (some from @holman)
 alias gl='git pull --prune'
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias gp='git push origin HEAD'
@@ -98,6 +154,39 @@ alias ggrep='git grep --line-number --heading --break --show-function' # greps f
 alias gcb="gb | grep \* | sed 's/^* //'" # Show git's current branch.
 alias gup='git fetch && git rebase -p origin/$(gcb)' # A friendlier git pull --rebase.
 
+# Silently pushes directories when 'cd' is used with arguments,
+# otherwise uses 'cd' without arguments to bring you to your home directory.
+function cd {
+  if (("$#" > 0)); then
+    pushd "$@" > /dev/null
+  else
+    cd
+  fi
+}
+
 function git_current_branch() {
   git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///'
 } # gcb alternative
+
+#function gacm {
+#  
+#} # git add & git commit -m
+
+# Temporary function. FIXME
+function e {
+  #  echo $@
+  #  echo $1
+
+  ARG_COUNT=$#
+  echo "$ARG_COUNT"
+
+#  if [[ $ARG_COUNT -ne 0]]; then
+#    for i in `seq 1 $[$ARG_COUNT - 1]`; do
+#      echo $i
+#    done
+#    CMT_MSG=${!#}  # Grab the last argument as the commit message
+#    echo $CMT_MSG
+#  else
+#    echo 'Please specify the files you want to stage and the commit message.'
+#  fi
+} 

@@ -161,7 +161,7 @@ nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
 nnoremap <leader>w <C-w>v<C-w>l
 
 " ,c closes current window.
-nnoremap <leader>c :close
+nnoremap <leader>c :close<CR>
 
 " ,h switches to hex mode (stream vim's buffer through xxd).
 nnoremap <leader>h :%!xxd<CR>

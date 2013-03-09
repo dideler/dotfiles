@@ -86,3 +86,7 @@
   #
   # Grab files from a branch that don't exist in the current branch:
   #   git checkout <branch> <paths>
+  #
+  # If GitHub is asking for your username and password on a push, it's probably
+  # because you cloned using HTTPS instead of SSH. Fix with:
+  #   git remote set-url origin git@github.com:username/repo.git

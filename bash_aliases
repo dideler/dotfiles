@@ -128,11 +128,6 @@ alias kernelversion="uname -mrs"
 alias restartshell='exec $SHELL'
 # Restarts the shell so new changes can take effect.
 
-alias removedupes="awk '!x[$0]++'"
-# Removes duplicate lines.
-# Usage: removedupes infile > outfile
-# Notes: Similar to 'sort <file> | uniq' but faster and can handle larger input.
-#        Also preserves original order ('sort <file> | uniq' doesn't).
 
 ### Git aliases (some from @holman)
 alias gl='git pull --prune'
@@ -154,14 +149,37 @@ alias ggrep='git grep --line-number --heading --break --show-function' # greps f
 alias gcb="gb | grep \* | sed 's/^* //'" # Show git's current branch.
 alias gup='git fetch && git rebase -p origin/$(gcb)' # A friendlier git pull --rebase.
 
-# Silently pushes directories when 'cd' is used with arguments,
-# otherwise uses 'cd' without arguments to bring you to your home directory.
-function cd {
+function computerinfo
+# Gives you a bunch of info about your machine, using uname.
+{
+  echo "kernel-name: $(uname --kernel-name)"
+  echo "nodename: $(uname --nodename)"
+  echo "kernel-release: $(uname --kernel-release)"
+  echo "kernel-version: $(uname --kernel-version)"
+  echo "machine: $(uname --machine)"
+  echo "processor: $(uname --processor)"
+  echo "hardware-platform: $(uname --hardware-platform)"
+  echo "operating-system: $(uname --operating-system)"
+}
+
+function pd
+# Silently pushes directories when 'pd' is used with arguments,
+# otherwise uses 'cd' to bring you to your home directory.
+{
   if (("$#" > 0)); then
     pushd "$@" > /dev/null
   else
-    cd
+    cd $HOME
   fi
+}
+
+function removedupes
+# Removes duplicate lines from a file.
+# Usage: removedupes infile outfile
+# Notes: Similar to 'sort <file> | uniq' but faster and can handle larger input.
+#        Also preserves original order (sort | uniq doesn't).
+{
+  awk '!x[$0]++' "$1" > "$2"
 }
 
 function git_current_branch() {

@@ -36,7 +36,7 @@ set backspace=indent,eol,start " Allow backspacing over everything in INS mode.
 
 " === UI ===
 set title " Change terminal title.
-set ruler " Show cursor position all the time.
+set ruler " Show cursor position (line & column) in bottom right of statusline.
 set number " Show line numbers.
 
 " Instead of counting, use <line#>dG: deletes from the cursor to the given line.

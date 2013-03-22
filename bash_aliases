@@ -128,6 +128,13 @@ alias kernelversion="uname -mrs"
 alias restartshell='exec $SHELL'
 # Restarts the shell so new changes can take effect.
 
+alias difference='grep --fixed-strings --line-regexp --invert-match --file'
+# Shows the difference between two text files, one item per line.
+# Usage: difference file1 file2
+# Notes:
+#   Shorthand: grep -Fxvf
+#   Alternative: comm -13 <(sort file1) <(sort file2)
+#   Alternative: diff file1 file2 | grep '>'
 
 ### Git aliases (some from @holman)
 alias gl='git pull --prune'
@@ -149,8 +156,23 @@ alias ggrep='git grep --line-number --heading --break --show-function' # greps f
 alias gcb="gb | grep \* | sed 's/^* //'" # Show git's current branch.
 alias gup='git fetch && git rebase -p origin/$(gcb)' # A friendlier git pull --rebase.
 
-function computerinfo
+################################################################################
+# Functions
+#
+# - Note that the keyword 'function' is optional and so is '()'.
+# - Style guide: http://google-styleguide.googlecode.com/svn/trunk/shell.xml
+################################################################################
+
+# Copies the contents of a text file to your clipboard.
+# Assumes you're running X.
+# Usage: copy_file_contents file
+function copy_file_contents
+{
+  cat "$1" | xclip -selection c
+}
+
 # Gives you a bunch of info about your machine, using uname.
+function computerinfo
 {
   echo "kernel-name: $(uname --kernel-name)"
   echo "nodename: $(uname --nodename)"
@@ -162,9 +184,9 @@ function computerinfo
   echo "operating-system: $(uname --operating-system)"
 }
 
-function pd
 # Silently pushes directories when 'pd' is used with arguments,
 # otherwise uses 'cd' to bring you to your home directory.
+function pd
 {
   if (("$#" > 0)); then
     pushd "$@" > /dev/null
@@ -173,24 +195,26 @@ function pd
   fi
 }
 
-function removedupes
 # Removes duplicate lines from a file.
 # Usage: removedupes infile outfile
 # Notes: Similar to 'sort <file> | uniq' but faster and can handle larger input.
 #        Also preserves original order (sort | uniq doesn't).
+function removedupes
 {
   awk '!x[$0]++' "$1" > "$2"
 }
 
-function git_current_branch() {
+# Shows the current git branch. Alternative to gcb alias.
+function git_current_branch()
+{
   git symbolic-ref HEAD 2> /dev/null | sed -e 's/refs\/heads\///'
-} # gcb alternative
+}
 
 #function gacm {
 #  
 #} # git add & git commit -m
 
-# Temporary function. FIXME
+# Temporary function, ignore for now. FIXME
 function e {
   #  echo $@
   #  echo $1

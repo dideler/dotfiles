@@ -16,8 +16,13 @@
   # Allows you to rewrite the most recent commit message.
   # Note that this will change the id of the commit.
   # You're effectively creating a new commit to replace the old one.
-  # DO NOT USE IF you've already pushed your commit to a shared repo.
   # 
+  # You can also reword the last (or older) commit messages with git rebase and
+  # the reword operation.
+  #
+  # Both amend and rebase will rewrite history.
+  # Do NOT use them if you've already pushed your commits to a shared repo.
+  #
   # NOTE: --amend can also be used to take staged changes and push them into the
   #       previous commit. The add-to-last-commit alias is used for this, and
   #       does the staging part for you.
@@ -26,6 +31,9 @@
   # Takes unstaged changes (of given files) and adds them to the previous commit.
   # Useful when adding small chunks to a WIP commit.
   # Equivalent to: uncommit + add changes + recommit
+  #
+  # Alternatively, you can create lots of temporary commits and squash them
+  # together using git rebase and the pick and squash operations.
 
   undo = reset --hard
   # Discards all changes since the last commit.

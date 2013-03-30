@@ -37,10 +37,15 @@
 
   undo = reset --hard
   # Discards all changes since the last commit.
-  # Use "git checkout" for specific files.
+  # This includes unstaging of all files _and_ undoing any modifications.
+  # Note that "git checkout" can only undo changes prior to staging.
 
-  unadd = reset HEAD # <filenames>
-  # Undo staging of given files (use . for all staged files).
+  unstage = reset
+  unadd = reset HEAD
+  # Undo staging of all or given files.
+  # Usage: git unstage        # unstages all
+  #        git unstage .      # unstages all
+  #        git unstage <file> # unstages file
 
   uncommit = reset --soft HEAD^
   # Undo a commit.
@@ -79,8 +84,12 @@
   # Note: HEAD~1 means exactly the same thing as HEAD^, "the commit before HEAD".
 
   merge-no-ff = merge --no-ff # <branchname>
-  # No fast-forward merge.
-  # Shows branch in history (as merge commit) when merging finished feature into master.
+  # No fast-forward merge. Shows branch in history as merge commit.
+  # Use on master to ship a feature (i.e. merging finished feature into master).
+  # (on master) git merge-no-ff feature
+  #
+  # However, if topic branch contains only 1 commit, avoid the merge commit.
+  # (on master) git cherry-pick feature
 
   hash = hash-object # <filename>
   # Get the SHA1 of the file you specify.

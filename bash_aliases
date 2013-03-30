@@ -136,8 +136,16 @@ alias difference='grep --fixed-strings --line-regexp --invert-match --file'
 #   Alternative: comm -13 <(sort file1) <(sort file2)
 #   Alternative: diff file1 file2 | grep '>'
 
+alias bitch,='sudo'
+# Sometimes your computer doesn't obey unless you threaten it.
+
+alias copy='xclip -selection clip <'
+# Copies the contents of a text file to your clipboard.
+# Assumes you're running X.
+# Usage: copy file
+
 ### Git aliases (some from @holman)
-alias gl='git pull --prune'
+alias gl='git log --oneline --decorate' # Also shows tags!
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias gp='git push origin HEAD'
 alias gd='git diff'
@@ -163,16 +171,8 @@ alias gup='git fetch && git rebase -p origin/$(gcb)' # A friendlier git pull --r
 # - Style guide: http://google-styleguide.googlecode.com/svn/trunk/shell.xml
 ################################################################################
 
-# Copies the contents of a text file to your clipboard.
-# Assumes you're running X.
-# Usage: copy_file_contents file
-function copy_file_contents
-{
-  cat "$1" | xclip -selection c
-}
-
 # Gives you a bunch of info about your machine, using uname.
-function computerinfo
+function computer-info
 {
   echo "kernel-name: $(uname --kernel-name)"
   echo "nodename: $(uname --nodename)"

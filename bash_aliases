@@ -63,6 +63,7 @@ alias units='units --verbose'
 alias pinknoise='play -t sl -r48000 -c2 - synth -1 pinknoise tremolo .1 40 <  /dev/zero'
 alias whitenoise='cat /dev/urandom | aplay -f cd'
 alias snipe='ps -x | grep' # Snipe an unresponsive process to get its pid to kill it.
+alias external_ip='curl ifconfig.me'
 
 alias eth0ip="/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print \"eth: \" \$1}'"
 # Shows your wired IP address.
@@ -170,6 +171,13 @@ alias gup='git fetch && git rebase -p origin/$(gcb)' # A friendlier git pull --r
 # - Note that the keyword 'function' is optional and so is '()'.
 # - Style guide: http://google-styleguide.googlecode.com/svn/trunk/shell.xml
 ################################################################################
+
+# Recursively finds and deletes any files/dirs with the matching name.
+# E.g. find-and-delete '*.pyc'
+function find-and-delete
+{
+  find . -name "$1" -delete
+}
 
 # Gives you a bunch of info about your machine, using uname.
 function computer-info

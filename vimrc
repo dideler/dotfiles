@@ -178,8 +178,11 @@ nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 " Press space to clear search highlighting and any message already displayed.
 nnoremap <silent> <Space> :silent noh<Bar>echo<CR>
 
-" Press jj in insert mode to go to command/normal mode.
+" Press jj (in insert mode) to go to command/normal mode.
 inoremap jj <ESC>
+
+" Press kk (in insert mode) to save the file and go to normal mode.
+inoremap kk <ESC> :write<CR>
 
 " Pretty print a JSON file using Python.
 nnoremap json :%!python -m json.tool<CR>

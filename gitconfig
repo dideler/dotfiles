@@ -10,7 +10,9 @@
   token = --redacted--
 [color]
   ui = auto
-[alias] # Check out https://git.wiki.kernel.org/index.php/Aliases
+[alias]
+# Check out https://git.wiki.kernel.org/index.php/Aliases
+# Note that aliases that hide existing git commands are ignored.
   
   rewrite-commit-msg = commit --amend
   # Allows you to rewrite the most recent commit message.
@@ -29,6 +31,7 @@
 
   add-to-last-commit = !bash -c 'git add "$@" && git commit --amend' -
   # Takes unstaged changes (of given files) and adds them to the previous commit.
+  # Or if no args provided, takes the staged changes and adds them to the previous commit.
   # Useful when adding small chunks to a WIP commit.
   # Equivalent to: uncommit + add changes + recommit
   #
@@ -102,7 +105,10 @@
 
   last = log -1
   # Show the commit message of HEAD (i.e. last commit msg).
-  
+
+  last-sha-origin = !git ls-remote origin --heads refs/heads/master | cut -f1
+  # Show SHA1 of last commit on origin.
+
   release = tag -a
   # Create an annotated tag for major version releases (e.g. v2.6 or v3.0).
   # Use lightweight tags for smaller releases (e.g. git tag v2.5.3).
@@ -116,6 +122,9 @@
   # See what new commits have been created by the last command
   # (e.g. after a "git pull")
 
+  add-note = notes add
+  # Opens the editor to add a note to the last commit
+
   ### TIPS
   #
   # Checkout a remote branch that doesn't exist locally and track it:
@@ -127,3 +136,7 @@
   # If GitHub is asking for your username and password on a push, it's probably
   # because you cloned using HTTPS instead of SSH. Fix with:
   #   git remote set-url origin git@github.com:username/repo.git
+  #
+  # Show the last commit that matches a regex:
+  #   git show :/pattern
+  #   git show :/^Merge

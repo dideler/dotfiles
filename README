@@ -1,17 +1,10 @@
-Some of the scripts used:
-* [vim-pathogen](https://github.com/tpope/vim-pathogen)
-* [vim-markdown](https://github.com/tpope/vim-markdown)
-* [vim-fugitive](https://github.com/tpope/vim-fugitive)
+Dotfiles typically reside in $HOME.
+Note that I've removed the beginning dot from the files & directories in this repo.
 
-Note that all these files/directories at the top level (except README) are hidden in the actual filesystem.
+NOTE: My bash files are no longer being maintained, I've switched to the fish shell.
 
-Some CLI stuff I really like (not neccesarily dotfiles):
+Some console stuff I really like but aren't neccesarily dotfiles:
 - https://github.com/uams/geturl
-- https://github.com/spolu/dwm.vim
 - https://github.com/jkbr/httpie
 - https://github.com/defunkt/hub
-
-TODO:
-- add (stripped down version) .irssi
-- finish .vimrc
-- add .bashrc
+- https://github.com/substack/picture-tube

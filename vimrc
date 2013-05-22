@@ -3,6 +3,7 @@
 " Author: Dennis Ideler
 
 set nocompatible " Don't need to be compatible with Vi at the expense of Vim.
+set shell=sh " Vim assumes your shell is sh compatible and fish-shell isn't.
 filetype off " Required for Vundle.
 
 " Set up Vundle.
@@ -15,6 +16,7 @@ Bundle 'spolu/dwm.vim'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'tpope/vim-markdown'
 Bundle 'scrooloose/nerdtree'
+Bundle 'davidhalter/jedi-vim'
 
 " Vundle brief help
  " :BundleList          - list configured bundles
@@ -51,14 +53,15 @@ set nostartofline " Keep the cursor in the same column (if possible).
 ""set laststatus=2 " Always show status line (default=1, show if multiple windows open).
 ""set statusline=%<%f\ %y[%{&ff}]%m%r%w%a\ %=%l/%L,%c%V\ %P " Improved status line.
 
-set history=256 " Keep a history of up to 256 commands & searches.
-
+set history=128 " Keep a history of up to 128 commands & searches.
+set undofile " Keep a history file so you can undo even after reopening Vim.
+set undolevels=128 " Keep a history of the last 128 changes.
 set nobackup " Don't create backup~ file.
+""set nowritebackup "No backup file while editing.
 set noswapfile " Don't create swap.swp file.
 ""set nowb " Prevents automatic write backup before overwriting file.
 ""set nobk " Prevents keeping of backup after overwriting the file.
 ""set autowrite " Auto-write if modified, on certain commands.
-""set undofile " Keep a history file so you can undo even after reopening Vim.
 au FocusLost * :wa " Write all changes when window loses focus, and keep working.
 
 " === Mouse ===
@@ -89,9 +92,11 @@ set wildignore=.git,*.jpg,*.png,*.o,*.obj " Ignore files matched with these patt
 " === Indentation and formatting ===
 set tabstop=2 " Tabs count as 2 spaces.
 set shiftwidth=2 " Auto-indent uses 2 spaces.
+set shiftround " Improved indentation when using >> and <<.
 set expandtab " Expand tabs to spaces.
 
-set wrap " Wrap lines (on by default).
+set wrap " Wrap lines on load (on by default) -- turn off with nowrap.
+""set fo-=t " Don't automatically wrap when typing.
 ""set showbreak=--->  " Emphasize when a wrap occurs.
 set textwidth=80 " Wrap after 80 characters.
 set formatoptions=qrn1
@@ -102,8 +107,8 @@ set encoding=utf-8 " The encoding displayed.
 set fileencodings=utf8 " The encoding written to file.
 
 set autoindent " autoindent does not interfere with other indentation settings.
+filetype off " Don't try to autodetect file type.
 filetype plugin indent on " File type based indentation. Required for Vundle and Pathogen.
-""filetype on " Try to autodetect file type.
 syntax on " Let Vim overrule my syntax highlighting settings with the defaults.
 ""syntax enable " Keep my current colour settings.
 
@@ -144,6 +149,10 @@ let mapleader = "," " Change start symbol of aliases/mappings.
 " xmap/xnoremap = visual mode
 " vmap/vnoremap = visual and select mode
 " imap/inoremap = insert mode
+
+" Q formats the current paragraph by automatically wrapping to text limit.
+vnoremap Q gq
+nnoremap Q gqap
 
 " ,/ disables search highlighting.
 nnoremap <silent> <leader>/ :nohlsearch<CR>

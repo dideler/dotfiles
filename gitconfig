@@ -10,6 +10,8 @@
   token = --redacted--
 [color]
   ui = auto
+[push]
+	default = simple
 [alias]
 # Check out https://git.wiki.kernel.org/index.php/Aliases
 # Note that aliases that hide existing git commands are ignored.
@@ -56,8 +58,9 @@
   recommit = commit -c ORIG_HEAD
   # Recommit files that were uncommit.
 
-  alias = config --get-regexp alias
+  ##alias = config --get-regexp alias
   # Displays all git aliases.
+  # NOTE: Interferes with `hub alias`, use `git aliases` instead (see below).
 
   aliases = !git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'
   # A neater display of all git aliases.
@@ -124,6 +127,10 @@
 
   add-note = notes add
   # Opens the editor to add a note to the last commit
+
+  checkout-and-track = checkout -t
+  # Creates, checks out, and tracks a remote branch.
+  # Usage:  git checkout-and-track origin/some-remote-branch
 
   ### TIPS
   #

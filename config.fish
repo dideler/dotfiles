@@ -11,6 +11,7 @@
 # - more on lists: http://fishshell.com/tutorial.html#tut_lists
 #
 # Tips:
+# - you can configure fish via the browser, fish_config
 # - use alt+up (instead of !$) to get last part of previous command
 #   - note: doesn't work if you hit up first
 # - use alt+left and alt+right to skip words in the prompt
@@ -57,7 +58,7 @@ alias distro 'cat /etc/os-release | head --lines=2'
 
 alias ipconfig ifconfig
 
-#alias l ls -rt' # TODO
+alias l 'ls -rt' 
 
 #alias la ls -A'
 
@@ -113,7 +114,7 @@ alias md5 md5sum
 
 alias cman 'man 3' # Manual pages from the library section.
 
-alias disk 'df -hT' # Disk space + file system type.
+alias disk 'df --human-readable --total --print-type' # Disk space + file system type.
 
 alias show-ram 'free --human' # RAM usage in human-readable form.
 
@@ -247,4 +248,4 @@ alias grm "gs | grep ' D ' | sed 's/^ D //' | xargs git rm" # Holman's version d
 alias git hub # Git wrapper. See http://defunkt.io/hub/
 alias ggrep 'git grep --line-number --heading --break --show-function' # greps files tracked with git.
 alias gcb "gb | grep \* | sed 's/^* //'" # Show git's current branch.
-alias gup 'git fetch; and git rebase -p origin/(gcb)' # A friendlier git pull --rebase.
+alias gup 'git fetch; and git rebase --preserve-merges origin/(gcb)' # A friendlier git pull --rebase.

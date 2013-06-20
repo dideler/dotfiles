@@ -2,6 +2,7 @@ servers = (
   { address = "irc.ubuntu.com"; chatnet = "Ubuntu"; port = "8001"; },
   { address = "open.ircnet.net"; chatnet = "IRCnet"; port = "6667"; },
   { address = "irc.webchat.org"; chatnet = "WebChat"; port = "6667"; },
+  { address = "irc.oftc.net"; chatnet = "OFTC"; port = "6667"; },
   {
     address = "irc.freenode.net";
     chatnet = "Freenode";
@@ -30,15 +31,22 @@ chatnets = {
   };
   Ubuntu = { type = "IRC"; };
   Freenode = { type = "IRC"; };
+  OFTC = { type = "IRC"; };
 };
 
 channels = (
+  { name = "#caribou"; chatnet = "Freenode"; autojoin = "no"; },
+  { name = "#freeseer"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#git"; chatnet = "Freenode"; autojoin = "no"; },
+  { name = "#github"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#python"; chatnet = "Freenode"; autojoin = "no"; },
   { name = "#irssi"; chatnet = "ircnet"; autojoin = "no"; },
   { name = "#ubuntu"; chatnet = "Freenode"; autojoin = "no"; },
-  { name = "#freeseer"; chatnet = "Freenode"; autojoin = "yes"; }
-  { name = "#softwareniagara"; chatnet = "Freenode"; autojoin = "yes"; }
-  { name = "#techniagara"; chatnet = "Freenode"; autojoin = "no"; }
-  { name = "#caribou"; chatnet = "Freenode"; autojoin = "yes"; }
+  { name = "#softwareniagara"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#techniagara"; chatnet = "Freenode"; autojoin = "no"; },
+  { name = "#gsoc"; chatnet = "Freenode"; autojoin = "no"; },
+  { name = "#fish"; chatnet = "Freenode"; autojoin = "no"; },
+  { name = "#fish"; chatnet = "OFTC"; autojoin = "yes"; }
 );
 
 aliases = {
@@ -212,5 +220,8 @@ settings = {
 };
 ignores = (
   { level = "JOINS PARTS QUITS NICKS"; channels = ( "#gsoc" ); },
-  { level = "PARTS QUITS NICKS"; channels = ( "#freeseer" ); }
+  { level = "JOINS PARTS QUITS NICKS"; channels = ( "#git" ); },
+  { level = "JOINS PARTS QUITS NICKS"; channels = ( "#github" ); },
+  { level = "JOINS PARTS QUITS NICKS"; channels = ( "#python" ); },
+  { level = "PARTS QUITS NICKS"; channels = ( "#freeseer", "#softwareniagara" ); }
 );

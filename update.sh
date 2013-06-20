@@ -12,7 +12,8 @@ rm -rf !(README|update.sh)
 
 # Copy the desired dot files to this directory.
 echo "Password needed to properly copy files & directories."
-sudo cp --recursive --update -p ~/.bash_aliases ~/.vim/ ~/.vimrc ~/.gitconfig ~/.config/fish/config.fish ~/.config/fish/functions/ .
+sudo cp --recursive --update -p ~/.bash_aliases ~/.vim/plugin/ ~/.vim/syntax/ \
+        ~/.vimrc ~/.gitconfig ~/.config/fish/config.fish ~/.config/fish/functions/ .
 rsync -a ~/.irssi . --exclude=away.log --exclude=default.theme
 
 # Unhide all hidden files and dirs, except .git and .gitignore.

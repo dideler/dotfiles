@@ -6,6 +6,13 @@ set nocompatible " Don't need to be compatible with Vi at the expense of Vim.
 set shell=sh " Vim assumes your shell is sh compatible and fish-shell isn't.
 filetype off " Required for Vundle.
 
+" Download Vundle if you don't have it yet.
+if !isdirectory(expand("~/.vim/bundle/vundle"))
+  !mkdir -p ~/.vim/bundle
+  !git clone git://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+  let s:bootstrap=1
+endif
+
 " Set up Vundle.
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
@@ -20,17 +27,18 @@ Bundle 'davidhalter/jedi-vim'
 
 " Vundle brief help
  " :BundleList          - list configured bundles
- " :BundleInstall(!)    - install(update) bundles
+ " :BundleInstall(!)    - install(or update) bundles
  " :BundleSearch(!) foo - search(or refresh cache first) for foo
  " :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
  "
  " see :h vundle for more details or wiki for FAQ
- " NOTE: comments after Bundle command are not allowed..
+ " NOTE: comments after Bundle command are not allowed.
 
-" NOTE: I'm trying out Vundle as a Pathogen replacement.
-""call pathogen#infect() " Entry point for adding plugins in ~/.vim/bundle to 'runtimepath'.
-""call pathogen#helptags() " Generate documentation for every plugin in 'runtimepath'.
-
+" Install bundles if Vundle was just downloaded.
+if exists("s:bootstrap") && s:bootstrap
+  unlet s:bootstrap
+  BundleInstall
+endif
 
 set modelines=0 " Prevent security exploits that use modelines.
 set backspace=indent,eol,start " Allow backspacing over everything in INS mode.
@@ -54,7 +62,7 @@ set nostartofline " Keep the cursor in the same column (if possible).
 ""set statusline=%<%f\ %y[%{&ff}]%m%r%w%a\ %=%l/%L,%c%V\ %P " Improved status line.
 
 set history=128 " Keep a history of up to 128 commands & searches.
-set undofile " Keep a history file so you can undo even after reopening Vim.
+""set undofile " Keep a history file so you can undo even after reopening Vim. Creates annoying .un~ files.
 set undolevels=128 " Keep a history of the last 128 changes.
 set nobackup " Don't create backup~ file.
 ""set nowritebackup "No backup file while editing.
@@ -160,8 +168,8 @@ nnoremap <silent> <leader>/ :nohlsearch<CR>
 " Unhighlight search.
 nnoremap <leader><space> :noh<cr>
 
-" F3 fixes tabs and kills trailing whitespace.
-noremap <leader><F3> m`:retab<CR>:%s/\s\+$//eg<CR>``
+" F3 fixes whitespace: turns tabs to spaces and kills trailing whitespace.
+noremap <F3> m`:retab<CR>:%s/\s\+$//eg<CR>``
 
 " ,W strips all trailing whitespace in current file.
 nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>

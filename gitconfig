@@ -15,6 +15,8 @@
 [alias]
 # Check out https://git.wiki.kernel.org/index.php/Aliases
 # Note that aliases that hide existing git commands are ignored.
+# Some aliases are executed with bash or sh. This is so that the (syntax of the)
+# aliases work regardless of which shell you're using (e.g. fish shell).
   
   rewrite-commit-msg = commit --amend
   # Allows you to rewrite the most recent commit message.
@@ -68,11 +70,14 @@
   rm-remote-file = rm --cached # <filename>
   # Remove a given file from the remote branch.
 
-  rm-remote-branch = push origin --delete
-  rm-remote-tag = push origin --delete
+  # FIXME
+  rm-remote-branch = !bash -c 'git push origin --delete refs/heads/"$1"'
+  rm-remote-tag = !sh -c 'push origin --delete refs/tags/"$1"'
   # Remove the remote tag or tracking branch (e.g. on GitHub).
+  # Note that without the "refs/.../" it will delete either a branch or tag,
+  # or fail if there is a tag and branch with the same name.
 
-  overwrite = !git fetch --all && git reset --hard origin/master
+  overwrite = !bash -c 'git fetch --all && git reset --hard origin/master'
   # Local repo will exactly match the remote tracking branch.
 
   pull-rebase = pull --rebase
@@ -89,10 +94,10 @@
   # Warning: Do not rewrite history is someone has pulled your changes!
   # Note: HEAD~1 means exactly the same thing as HEAD^, "the commit before HEAD".
 
-  merge-no-ff = merge --no-ff # <branchname>
+  merge-topic-branch = merge --no-ff
   # No fast-forward merge. Shows branch in history as merge commit.
   # Use on master to ship a feature (i.e. merging finished feature into master).
-  # (on master) git merge-no-ff feature
+  # (on master) git merge-topic-branch feature
   #
   # However, if topic branch contains only 1 commit, avoid the merge commit.
   # (on master) git cherry-pick feature
@@ -117,7 +122,7 @@
   # Use lightweight tags for smaller releases (e.g. git tag v2.5.3).
 
   heroku = remote add heroku # git@heroku.com:project.git
-  # Add a heroku remote for a heroku web app.
+  # Add a heroku remote for a heroku web app; not needed if you 'heroku create'.
   # Alternatively, you can use the heroku toolbelt CLI:
   # heroku git:remote -a project, where project is the project name on heroku.
 
@@ -128,14 +133,23 @@
   add-note = notes add
   # Opens the editor to add a note to the last commit
 
-  checkout-and-track = checkout -t
-  # Creates, checks out, and tracks a remote branch.
-  # Usage:  git checkout-and-track origin/some-remote-branch
+  show-remote-branches = !bash -c 'echo "fetching changes..." && git fetch && git branch --remotes --verbose'
+  # If you want to checkout out a remote branch, simply 'git checkout <name>'.
+  # On older versions of git: git checkout --track origin/branch
+  
+  shallow-clone = clone --depth 1
+  # Clone the repo with no history.
+  # Be careful, you may not be able to push or pull.
+
+  add-all = add --all
+  # Adds all new and modified content and removes content from index that's no
+  # longer in working tree.
+
+  add-modified = add --update
+  # Adds all modified content to the staging area and removes content from index
+  # if content has been removed from working tree.
 
   ### TIPS
-  #
-  # Checkout a remote branch that doesn't exist locally and track it:
-  #   git checkout --track origin/branch
   #
   # Grab files from a branch that don't exist in the current branch:
   #   git checkout <branch> <paths>

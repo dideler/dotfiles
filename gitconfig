@@ -11,7 +11,9 @@
 [color]
   ui = auto
 [push]
-	default = simple
+  default = simple
+[credential]
+  helper = cache --timeout=3600
 [alias]
 # Check out https://git.wiki.kernel.org/index.php/Aliases
 # Note that aliases that hide existing git commands are ignored.

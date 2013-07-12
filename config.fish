@@ -6,9 +6,30 @@
 #
 # Notes:
 # - all variables in fish are really lists
+#   so you can iterate over them with a for loop
+#   e.g. for val in $PATH
+#          echo $val
+#        end
 # - a list cannot contain other lists
 # - a variable is a list of strings
+# - you can append (or prepend) to a list
+#   e.g. set PATH $PATH /usr/local/bin (which is like PATH += /usr/local/bin)
+#   note: if you want to permanently add to your $PATH, use this instead:
+#           set -U fish_user_paths $fish_user_paths /usr/local/bin
+#         or directly in config.fish (universal variables preffered):
+#           set -x PATH $PATH /urs/local/bin
+# - access elements using bracket notation
+#   e.g. $PATH[1] -> first element
+#        $argv[-1] -> last element
+# - access ranges of elements using slices (also works starting from -1)
+#   e.g. $PATH[1..2] -> first and second element
 # - more on lists: http://fishshell.com/tutorial.html#tut_lists
+# - command substitution uses the output of a command as input to another
+#   (doesn't work in double quotes, you can temporarily close quotes and reopen)
+#   e.g. >  echo In (pwd), running (uname)
+#        In /home/dennis, running Linux
+# - && = and, || = or
+#   e.g. cp file1 file1.bak; and echo "Backup successful"; or echo "Backup failed"
 #
 # Tips:
 # - you can configure fish via the browser, fish_config
@@ -32,12 +53,7 @@ alias alert 'notify-send --urgency=low --icon=(test $status = 0; and echo termin
 # An "alert" for long running commands. Icon is determined by exit status.
 # E.g. sleep 10; alert title message
 
-alias play-music 'exec mplayer -shuffle -really-quiet ~/Music/**'
-# Plays all my songs in random order then exits.
-
 alias mp 'mplayer -really-quiet -playlist' # For playing a playlist.
-
-alias m 'mplayer -really-quiet'
 
 alias ... 'cd ../..'
 
@@ -75,10 +91,6 @@ alias lsd 'ls -d */' # List all directories in current directory.
 alias nano 'nano --const' # Constantly show the cursor position in nano.
 
 alias sandcastle 'ssh di07ty@sandcastle.cosc.brocku.ca'
-
-#alias tarbz2 tar -jxvf' # TODO: make a function to handle different tars
-
-#alias targz tar -zxvf'
 
 alias temp 'sensors 2>/dev/null'
 
@@ -149,7 +161,7 @@ alias pinknoise 'play -t sl -r48000 -c2 - synth -1 pinknoise tremolo .1 40 <  /d
 
 alias whitenoise 'cat /dev/urandom | aplay -f cd'
 
-alias snipe 'ps -x | grep --ignore-case'
+alias snipe 'ps xw | grep --ignore-case'
 # Handy for finding a process (e.g. when it's unresponsive).
 
 alias external_ip 'curl ifconfig.me'
@@ -185,6 +197,7 @@ alias combineimgs 'convert +append'
 alias combinepdfs 'convert -density 200'
 # Combines PDFs vertically.
 # Usage: combinepdfs infile1, infile2, ..., outfile
+# Alternatives: pdfunite, pdftk
 
 alias spaces2tabs "sed -i 's/ \+ /\t/g'"
 # Replaces multiple spaces with a tab.
@@ -204,14 +217,14 @@ alias search 'apt-cache search'
 alias copysshkey "xclip -sel clip < ~/.ssh/id_rsa.pub; and echo 'copied to cliboard'"
 # Copies your ssh key to your clipboard.
 
-alias remove 'rm -iv'
-# A safer rm. Prompts you and tells you what has been deleted.
-# Usage: remove file1, file2, ...
+alias rmiv 'rm -iv' # Prompt before clobbering and be verbose.
+alias cpiv 'cp -iv'
+alias mviv 'mv -iv'
 
 alias kernelversion "uname -mrs"
 # Shows the Linux kernel version (e.g. Linux 3.2.0-38-generic x86_64)
 
-alias restartshell 'exec $SHELL'
+alias restartshell 'eval exec $SHELL'
 # Restarts the shell so new changes can take effect.
 
 alias difference 'grep --fixed-strings --line-regexp --invert-match --file'
@@ -230,6 +243,26 @@ alias copy 'xclip -selection clip <'
 # Assumes you're running X.
 # Usage: copy file
 
+#alias node 'env NODE_NO_READLINE=1 rlwrap -pGreen -S ">>> " node'
+# Get history from previous node REPLs and use a better prompt, at the expense
+# of losing coloured output and variable autocompletion.
+
+alias du 'du --total --human-readable --max-depth=1'
+# Show the size of all items in current directory (and not any lower).
+# Shorthand: du -chd 1
+
+alias which 'which -a'
+# Show all matches.
+
+alias symlink 'ln -s'
+# Create a symbolic link between files. Useful for large files.
+# Usage: symlink file.txt pointer-to-file.txt
+
+alias rcp 'rsync -apz'
+# A better secure copy for remote and local. Faster and more efficient than scp.
+# Preserve files, keep permissions, and compress during transfer.
+# Example usage: rcp junk.txt aws:~/
+
 ### Git aliases (some from @holman)
 alias gl 'git log --oneline --decorate' # Also shows tags!
 alias glog "git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
@@ -243,6 +276,7 @@ alias gco 'git checkout'
 alias gb 'git branch'
 alias gs 'git status -sb' # Upgrade your git if -sb breaks for you.
 alias ga 'git add'
+alias gu 'git add -u'
 #alias grm "git status | grep deleted | awk '{print \$3}' | xargs git rm"
 alias grm "gs | grep ' D ' | sed 's/^ D //' | xargs git rm" # Holman's version doesn't handle whitespaces.
 alias git hub # Git wrapper. See http://defunkt.io/hub/

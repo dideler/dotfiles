@@ -1,5 +1,4 @@
-# Converts a gif to still frames, converts those to webm, then deletes frames.
-function gif2webm
+function gif2webm --description "Converts a gif to a more efficient webm video"
   echo converting...
   for gif in $argv
     gif2frames $gif

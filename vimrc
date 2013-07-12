@@ -24,6 +24,8 @@ Bundle 'Lokaltog/vim-easymotion'
 Bundle 'tpope/vim-markdown'
 Bundle 'scrooloose/nerdtree'
 Bundle 'davidhalter/jedi-vim'
+Bundle 'mattn/webapi-vim'
+Bundle 'mmozuras/vim-github-comment'
 
 " Vundle brief help
  " :BundleList          - list configured bundles
@@ -39,6 +41,11 @@ if exists("s:bootstrap") && s:bootstrap
   unlet s:bootstrap
   BundleInstall
 endif
+
+" Set some global variables for plugins. Can view value with `echo g:varname`.
+let g:github_user = 'dideler' " Set up vim-github-comment.
+"let g:github_comment_open_browser = 1 " Open browser after adding a comment.
+let g:dwm_master_pane_width=80 " Set width of master pane in dwm.vim
 
 set modelines=0 " Prevent security exploits that use modelines.
 set backspace=indent,eol,start " Allow backspacing over everything in INS mode.
@@ -198,8 +205,9 @@ nnoremap <silent> <Space> :silent noh<Bar>echo<CR>
 " Press jj (in insert mode) to go to command/normal mode.
 inoremap jj <ESC>
 
-" Press kk (in insert mode) to save the file and go to normal mode.
+" Press kk (in insert or visual mode) to save the file and go to normal mode.
 inoremap kk <ESC> :write<CR>
+vnoremap kk <ESC> :write<CR>
 
 " Pretty print a JSON file using Python.
 nnoremap json :%!python -m json.tool<CR>

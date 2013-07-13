@@ -54,7 +54,7 @@ set -x LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
 # Install hub for github if we don't have it yet.
 begin # Create a block scope so variables created exist only in this scope.
   if test (uname) = Linux
-    if test (which hub) != /home/(whoami)/bin/hub
+    if test ! -f $HOME/bin/hub
       read -l -p "echo 'Install hub? [Y/n] '" input
       switch $input
         case '' 'y' 'Y'

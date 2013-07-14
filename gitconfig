@@ -12,7 +12,7 @@
   ui = auto
 [push]
   default = simple
-[credential]
+[credential] # Can only be used with HTTPS. Normally you want to use SSH.
   helper = cache --timeout=3600
 [alias]
 # Check out https://git.wiki.kernel.org/index.php/Aliases
@@ -115,6 +115,7 @@
 
   last = log -1
   # Show the commit message of HEAD (i.e. last commit msg).
+  # Hint: You can view the diff using the -p argument.
 
   last-sha-origin = !git ls-remote origin --heads refs/heads/master | cut -f1
   # Show SHA1 of last commit on origin.
@@ -150,6 +151,9 @@
   add-modified = add --update
   # Adds all modified content to the staging area and removes content from index
   # if content has been removed from working tree.
+
+  add-new = !git add $(git ls-files -o --exclude-standard)
+  # Adds only all new content to the staging area.
 
   ### TIPS
   #

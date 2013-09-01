@@ -5,6 +5,7 @@
 set nocompatible " Don't need to be compatible with Vi at the expense of Vim.
 set shell=sh " Vim assumes your shell is sh compatible and fish-shell isn't.
 filetype off " Required for Vundle.
+filetype plugin indent on " Required for Vundle and Pathogen.
 
 " Download Vundle if you don't have it yet.
 if !isdirectory(expand("~/.vim/bundle/vundle"))
@@ -123,7 +124,6 @@ set fileencodings=utf8 " The encoding written to file.
 
 set autoindent " autoindent does not interfere with other indentation settings.
 filetype off " Don't try to autodetect file type.
-filetype plugin indent on " File type based indentation. Required for Vundle and Pathogen.
 syntax on " Let Vim overrule my syntax highlighting settings with the defaults.
 ""syntax enable " Keep my current colour settings.
 

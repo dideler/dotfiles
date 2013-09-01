@@ -1,9 +1,3 @@
-# Seeking help?
-# - Tutorial -> http://fishshell.com/tutorial.html
-# - Docs -> http://fishshell.com/docs/current/
-# - Manuals -> man (shell), help (browser)
-# - IRC -> #fish on irc.oftc.net or irc.freenode.net
-#
 # Notes:
 # - all variables in fish are really lists
 #   so you can iterate over them with a for loop
@@ -43,14 +37,16 @@
 set fish_greeting # Clear greeting
 
 # Show ANSI colour sequences in less when viewing man pages.
+# http://en.wikipedia.org/wiki/ANSI_escape_code#CSI_codes
 set -x LESS_TERMCAP_mb \e'[01;31m'       # begin blinking
 set -x LESS_TERMCAP_md \e'[01;38;5;74m'  # begin bold
 set -x LESS_TERMCAP_me \e'[0m'           # end mode
+set -x LESS_TERMCAP_so \e'[33;5;246m'    # begin standout-mode - e.g. search result
 set -x LESS_TERMCAP_se \e'[0m'           # end standout-mode
-set -x LESS_TERMCAP_so \e'[38;5;246m'    # begin standout-mode - info box
-set -x LESS_TERMCAP_ue \e'[0m'           # end underline
 set -x LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
+set -x LESS_TERMCAP_ue \e'[0m'           # end underline
 
+# TODO test
 # Install hub for github if we don't have it yet.
 begin # Create a block scope so variables created exist only in this scope.
   if test (uname) = Linux
@@ -76,6 +72,8 @@ end
 # A list of some useful (and not so useful) aliases.
 # If an alias requires special usage (e.g. an argument) it will say so in the
 # comments. Otherwise assume that the alias requires no arguments.
+
+alias less 'less -r' # Recognize escape sequences (e.g. read --help | less).
 
 alias alert 'notify-send --urgency=low --icon=(test $status = 0; and echo terminal; or echo error)'
 # An "alert" for long running commands. Icon is determined by exit status.
@@ -193,6 +191,7 @@ alias snipe 'ps xw | grep --ignore-case'
 # Handy for finding a process (e.g. when it's unresponsive).
 
 alias external_ip 'curl ifconfig.me'
+alias externalip 'curl icanhazip.com'
 
 alias eth0ip "/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print \"eth: \" \$1}'"
 # Shows your wired IP address.
@@ -282,9 +281,10 @@ alias du 'du --total --human-readable --max-depth=1'
 alias which 'which -a'
 # Show all matches.
 
-alias symlink 'ln -s'
-# Create a symbolic link between files. Useful for large files.
-# Usage: symlink file.txt pointer-to-file.txt
+alias symlink 'ln -sf'
+# Forcefully create a symbolic link between files.
+# Useful for large files and scripts with a pointer to /usr/local/bin/.
+# Usage: symlink /path/to/file.txt /path/to/file-pointer
 
 alias rcp 'rsync -apz'
 # A better secure copy for remote and local. Faster and more efficient than scp.
@@ -303,6 +303,7 @@ alias gcam 'git commit -am'
 alias gco 'git checkout'
 alias gb 'git branch'
 alias gs 'git status -sb' # Upgrade your git if -sb breaks for you.
+alias gsi 'gs --ignored' # Also shows ignored files.
 alias ga 'git add'
 alias gu 'git add -u'
 #alias grm "git status | grep deleted | awk '{print \$3}' | xargs git rm"

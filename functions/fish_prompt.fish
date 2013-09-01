@@ -1,5 +1,5 @@
 function fish_prompt
-	set_color yellow
+   set_color yellow
    printf '%s' (whoami)
    set_color normal
    printf ' at '

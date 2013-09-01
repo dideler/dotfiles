@@ -48,6 +48,7 @@
   # Discards all changes since the last commit.
   # This includes unstaging of all files _and_ undoing any modifications.
   # Note that "git checkout" can only undo changes prior to staging.
+  # WARNING: Dangerous command, if you want to unstage, use `git unadd`.
 
   unstage = reset
   unadd = reset HEAD
@@ -154,6 +155,24 @@
 
   add-new = !git add $(git ls-files -o --exclude-standard)
   # Adds only all new content to the staging area.
+
+  diff-staged = diff --staged
+  # Diff staged (but uncommitted) changes. Default is unstaged changes.
+  # --cached also works
+  
+  show-space = diff --check
+  # Shows trailing whitespace and spaces before tabs in unstaged changes.
+
+  abort-merge = merge --abort
+  # Aborts a conflicted merge and resets the tree.
+
+  clean-untracked = !git-clean
+  # Cleans untracked files and directories in the working copy.
+  # This uses a custom script. See ~/.config/fish/functions/git-clean.fish
+
+  pu = !"git fetch origin -v; git fetch upstream -v; git merge upstream/master"
+  # Grab all of the latest changes from both remotes, and then merge in the
+  # commits from upstream. Helps to merge in changes easily.
 
   ### TIPS
   #

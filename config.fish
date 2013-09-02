@@ -28,7 +28,8 @@ begin # Create a block scope (variables created exist only in this scope).
             # Alternative is to use ~/bin/hub and then add ~/bin to $PATH.
             # This does not require permission and is what hub's install docs
             # uses, but creates yet another "bin" directory and PATH entry.
-            sudo curl --silent --show-error --location http://github.github.com/hub/standalone --output /usr/local/bin/hub
+            sudo curl --silent --show-error --location \
+              http://github.github.com/hub/standalone --output /usr/local/bin/hub
             sudo chmod +x /usr/local/bin/hub
             hub version
           else

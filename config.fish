@@ -1,39 +1,3 @@
-# Notes:
-# - all variables in fish are really lists
-#   so you can iterate over them with a for loop
-#   e.g. for val in $PATH
-#          echo $val
-#        end
-# - a list cannot contain other lists
-# - a variable is a list of strings
-# - you can append (or prepend) to a list
-#   e.g. set PATH $PATH /usr/local/bin (which is like PATH += /usr/local/bin)
-#   note: if you want to permanently add to your $PATH, use this instead:
-#           set -U fish_user_paths $fish_user_paths /usr/local/bin
-#         or directly in config.fish (universal variables preffered):
-#           set -x PATH $PATH /urs/local/bin
-# - access elements using bracket notation
-#   e.g. $PATH[1] -> first element
-#        $argv[-1] -> last element
-# - access ranges of elements using slices (also works starting from -1)
-#   e.g. $PATH[1..2] -> first and second element
-# - more on lists: http://fishshell.com/tutorial.html#tut_lists
-# - command substitution uses the output of a command as input to another
-#   (doesn't work in double quotes, you can temporarily close quotes and reopen)
-#   e.g. >  echo In (pwd), running (uname)
-#        In /home/dennis, running Linux
-# - && = and, || = or
-#   e.g. cp file1 file1.bak; and echo "Backup successful"; or echo "Backup failed"
-#
-# Tips:
-# - you can configure fish via the browser, fish_config
-# - use alt+up (instead of !$) to get last part of previous command
-#   - note: doesn't work if you hit up first
-# - use alt+left and alt+right to skip words in the prompt
-# - use alt+left and alt+right to navigate directory history if prompt is empty
-# - use math for calculations
-# - use open to open a file in its default application
-
 set fish_greeting # Clear greeting
 
 # Show ANSI colour sequences in less when viewing man pages.

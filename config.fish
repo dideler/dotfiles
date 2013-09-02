@@ -46,25 +46,39 @@ set -x LESS_TERMCAP_se \e'[0m'           # end standout-mode
 set -x LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
 set -x LESS_TERMCAP_ue \e'[0m'           # end underline
 
-# TODO test
 # Install hub for github if we don't have it yet.
-begin # Create a block scope so variables created exist only in this scope.
-  if test (uname) = Linux
-    if test ! -f $HOME/bin/hub
-      read -l -p "echo 'Install hub? [Y/n] '" input
-      switch $input
-        case '' 'y' 'Y'
-          curl http://github.github.com/hub/standalone -sLo ~/bin/hub
-          chmod +x ~/bin/hub
-          hub version
+begin # Create a block scope (variables created exist only in this scope).
+
+  if not set --query GET_HUB # Can always reset later with set -e.
+    set --universal GET_HUB true
+  end
+
+  if not type hub >/dev/null # hub not installed
+    if test $GET_HUB = 'true'
+      read --local --prompt "echo 'Install hub? [Y/n] '" choice
+      switch $choice
+        case '' 'y' 'Y' 'yes'
+          if test (uname) = Linux
+            # Requires permission to install at /usr/local/bin/hub, and using
+            # sudo in scripts is messy.
+            # Alternative is to use ~/bin/hub and then add ~/bin to $PATH.
+            # This does not require permission and is what hub's install docs
+            # uses, but creates yet another "bin" directory and PATH entry.
+            sudo curl --silent --show-error --location http://github.github.com/hub/standalone --output /usr/local/bin/hub
+            sudo chmod +x /usr/local/bin/hub
+            hub version
+          else
+            echo -e 'I currently only know instructions for Linux\n' \
+                    'Find more instructions at https://github.com/github/hub'
+          end
         case '*'
           echo 'Aborting hub installation'
-      end
+          set GET_HUB false # Universal setting is honoured, no need to specify.
+        end
     end
-  else
-    echo 'Follow the instructions at https://github.com/github/hub to install hub'
   end
-end
+
+end # block
 
 ##########
 # Aliases 

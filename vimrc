@@ -116,7 +116,21 @@ set wrap " Wrap lines on load (on by default) -- turn off with nowrap.
 ""set showbreak=--->  " Emphasize when a wrap occurs.
 set textwidth=80 " Wrap after 80 characters.
 set formatoptions=qrn1
-set colorcolumn=81 " Colour the column after exceeding the wrap by too far.
+"set colorcolumn=81 " Colour the column after exceeding the wrap by too far.
+
+" Toggle 80 column marker
+nnoremap <F5> :call ToggleColorColumn()<CR>
+func! ToggleColorColumn()
+    if exists("b:colorcolumnon") && b:colorcolumnon
+        let b:colorcolumnon = 0
+        exec ':set colorcolumn=0'
+        echo 'length limit marker off'
+    else
+        let b:colorcolumnon = 1
+        exec ':set colorcolumn=81'
+        echo 'length limit marker on'
+    endif
+endfunc
 
 set fileformat=unix
 set encoding=utf-8 " The encoding displayed.
@@ -197,7 +211,7 @@ nnoremap <leader>n :%!xxd -r<CR>
 nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 
 " Edit my .vimrc file in a split.
-"map <leader>v :sp ~/.vimrc<cr> 
+"map <leader>v :sp ~/.vimrc<cr>
 
 " Press space to clear search highlighting and any message already displayed.
 nnoremap <silent> <Space> :silent noh<Bar>echo<CR>

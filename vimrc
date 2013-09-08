@@ -290,3 +290,6 @@ autocmd vimenter * if !argc() | NERDTree | endif
 
 " Autoclose NERDTree if it's the only window left open.
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+" Add spell checking and automatic wrapping at the recommended 72 columns to commit messages.
+autocmd Filetype gitcommit setlocal spell textwidth=72

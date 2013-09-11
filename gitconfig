@@ -175,6 +175,14 @@
   # commits from upstream. Helps to merge in changes easily.
 
   show-last = !git last -p
+  # Shows the last commit with code changes.
+
+  lg = !git log --graph \
+       --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+  # Concise graph log.
+
+  log-no-merges = !git lg --no-merges
+  # Don't show merges in my concise log.
 
   ### TIPS
   #

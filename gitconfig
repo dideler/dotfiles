@@ -14,6 +14,8 @@
   default = simple
 [credential] # Can only be used with HTTPS. Normally you want to use SSH.
   helper = cache --timeout=3600
+[help]
+	autocorrect = 25 # Autocorrect typos in 2.5 seconds.
 [alias]
 # Check out https://git.wiki.kernel.org/index.php/Aliases
 # Note that aliases that hide existing git commands are ignored.
@@ -73,9 +75,8 @@
   rm-remote-file = rm --cached # <filename>
   # Remove a given file from the remote branch.
 
-  # FIXME
-  rm-remote-branch = !bash -c 'git push origin --delete refs/heads/"$1"'
-  rm-remote-tag = !sh -c 'push origin --delete refs/tags/"$1"'
+  rm-remote-branch = !sh -c 'git push origin --delete refs/heads/"$1"' -
+  rm-remote-tag = !sh -c 'push origin --delete refs/tags/"$1"' -
   # Remove the remote tag or tracking branch (e.g. on GitHub).
   # Note that without the "refs/.../" it will delete either a branch or tag,
   # or fail if there is a tag and branch with the same name.
@@ -130,14 +131,14 @@
   # Alternatively, you can use the heroku toolbelt CLI:
   # heroku git:remote -a project, where project is the project name on heroku.
 
-  new-commits = !sh -c 'git log $1@{1}..$1@{0} "$@"'
+  show-new-commits = !sh -c 'git log $1@{1}..$1@{0} "$@"'
   # See what new commits have been created by the last command
   # (e.g. after a "git pull")
 
   add-note = notes add
   # Opens the editor to add a note to the last commit
 
-  show-remote-branches = !bash -c 'echo "fetching changes..." && git fetch && git branch --remotes --verbose'
+  show-remote-branches = !bash -c 'echo "One sec..." && git fetch && git branch --remotes --verbose'
   # If you want to checkout out a remote branch, simply 'git checkout <name>'.
   # On older versions of git: git checkout --track origin/branch
   
@@ -183,6 +184,12 @@
 
   log-no-merges = !git lg --no-merges
   # Don't show merges in my concise log.
+
+  nuke-branch = !sh -c 'git branch -D "$1" && git push origin --delete "$1"' -
+  # Nukes a branch locally and on the origin remote.
+
+  # Note that you can also use (local) functions for aliases. E.g.
+  # foo = "!f() { echo "$1"; }; f"
 
   ### TIPS
   #

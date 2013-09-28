@@ -188,6 +188,24 @@
   nuke-branch = !sh -c 'git branch -D "$1" && git push origin --delete "$1"' -
   # Nukes a branch locally and on the origin remote.
 
+  ignore-versioned-file = !git update-index --assume-unchanged
+  # Ignore a versioned file by assuming it's unchanged.
+  # Usage: git ignore-versioned-file /path/to/file
+  # Note: Use this for versioned files that are often changed but rarely
+  #       committed (e.g. local configuration files).
+  #       Do not use this for files you accidentally versioned and want to
+  #       ignore! Use `git rm --cached /path/to/file` instead.
+
+  unignore-versioned-file = !git update-index --no-assume-unchanged 
+  # Tracks a versioned file that you previously ignored.
+  # See ignore-versioned-file alias.
+
+  untrack = !git rm --cached
+  # Untrack a file/directory.
+  # Usage: git untrack /path/to/file
+  # Note: Don't forget to add file/dir to your .gitignore!
+  #       For collaborative environments, consider update-index instead.
+
   # Note that you can also use (local) functions for aliases. E.g.
   # foo = "!f() { echo "$1"; }; f"
 

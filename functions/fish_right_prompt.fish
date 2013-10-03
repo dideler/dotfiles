@@ -2,10 +2,11 @@
 
 function _git_branch_name
   echo (command git symbolic-ref HEAD ^/dev/null | sed -e 's|^refs/heads/||')
+  # Instead of redirecting error messages, can also use -q or --quiet.
 end
 
 function _is_git_dirty
-  echo (command git status -s --ignore-submodules=dirty ^/dev/null)
+  echo (command git status --short --ignore-submodules=dirty ^/dev/null)
 end
 
 function fish_right_prompt

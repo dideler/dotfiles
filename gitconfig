@@ -206,6 +206,14 @@
   # Note: Don't forget to add file/dir to your .gitignore!
   #       For collaborative environments, consider update-index instead.
 
+  prune-origin = fetch --prune origin
+  # Clean up all local tracking branches that no longer exist on the remote.
+  # Use when old remote branches are polluting your auto-completion.
+  
+  housekeeping = gc --aggressive
+  # Cleanup unnecessary files and optimize the local repository.
+  # Run this task on a regular basis within each repository.
+
   # Note that you can also use (local) functions for aliases. E.g.
   # foo = "!f() { echo "$1"; }; f"
 

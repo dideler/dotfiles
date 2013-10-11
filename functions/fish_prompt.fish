@@ -1,23 +1,27 @@
 function fish_prompt
-   set_color yellow
-   printf '%s' (whoami)
-   set_color normal
-   printf ' at '
 
-   set_color magenta
-   printf '%s' (hostname|cut -d . -f 1)
-   set_color normal
-   printf ' in '
+#  function __fish_repaint_cwd --on-variable PWD --description "Event handler, repaint when PWD changes"
+#    if status --is-interactive
+#      commandline -f repaint ^/dev/null
+#    end
+#  end
 
-   set_color $fish_color_cwd
-   printf '%s' (prompt_pwd)
-   set_color normal
+  # Override prompt_pwd so pwd isn't shortened.
+  function prompt_pwd
+    echo $PWD | sed -e "s|^$HOME|~|"
+  end
 
-   # Line 2
-   echo
-   if test $VIRTUAL_ENV
-       printf "(%s) " (set_color blue)(basename $VIRTUAL_ENV)(set_color normal)
-   end
-   printf '↪ '
-   set_color normal
+  # Line 1
+  set_color $fish_color_cwd
+  printf '%s' (prompt_pwd)
+  set_color normal
+
+  # Line 2
+  echo
+  if test $VIRTUAL_ENV
+      printf "(%s) " (set_color blue)(basename $VIRTUAL_ENV)(set_color normal)
+  end
+  printf '↪ '
+  set_color normal
+
 end

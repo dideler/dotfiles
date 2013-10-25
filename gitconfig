@@ -5,9 +5,6 @@
   autocrlf = input
   safecrlf = true
   excludesfile = /home/dennis/.gitignore_global
-[github]
-  user = dideler
-  token = --redacted--
 [color]
   ui = auto
 [push]

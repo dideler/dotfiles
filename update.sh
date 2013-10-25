@@ -19,6 +19,5 @@ rsync -a ~/.irssi . --exclude=away.log --exclude=default.theme
 # Unhide all hidden files and dirs, except .git and .gitignore.
 find . \( -iname ".*" ! -iname ".git" ! -iname ".gitignore" \) -print0 | xargs -r0 rename -v 's|/\.+([^/]+)$|/$1|'
 
-# Redact sensitive information (e.g. github token and irc password).
-sed -i 's/token = [0-9a-z]*/token = --redacted--/' gitconfig
+# Redact sensitive information (e.g. irc password).
 sed -i 's/password = .*$/password = --redacted--/' irssi/config

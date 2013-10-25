@@ -12,7 +12,7 @@
 [credential] # Can only be used with HTTPS. Normally you want to use SSH.
   helper = cache --timeout=3600
 [help]
-	autocorrect = 25 # Autocorrect typos in 2.5 seconds.
+	autocorrect = 35 # Autocorrect typos in 3.5 seconds.
 [alias]
 # Check out https://git.wiki.kernel.org/index.php/Aliases
 # Note that aliases that hide existing git commands are ignored.

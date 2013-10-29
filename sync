@@ -1,23 +1,109 @@
 #!/usr/bin/env bash
 
-# Updates all files by copying them from their respective locations.
-# (C) 2012 Dennis Ideler <ideler.dennis at gmail.com>
-
 # Enable error checking.
 set -e
 
-# Delete everything except a few things (including hidden files).
-shopt -s extglob # Set extended pattern matching to be sure.
-rm -rf !(README|update.sh)
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
+Usage: $(basename "$0") [-h --help] [-i --install]
 
-# Copy the desired dot files to this directory.
-echo "Password needed to properly copy files & directories."
-sudo cp --recursive --update -p ~/.bash_aliases ~/.vim/plugin/ ~/.vim/syntax/ \
-        ~/.vimrc ~/.gitconfig ~/.config/fish/config.fish ~/.config/fish/functions/ .
-rsync -a ~/.irssi . --exclude=away.log --exclude=default.theme
+Syncs dotfiles by copying them then symlinking them. Unlike other dotfiles
+projects which copy dotfiles from the repo to $HOME, this copies dotfiles from
+$HOME to the dotfiles repo.
 
-# Unhide all hidden files and dirs, except .git and .gitignore.
-find . \( -iname ".*" ! -iname ".git" ! -iname ".gitignore" \) -print0 | xargs -r0 rename -v 's|/\.+([^/]+)$|/$1|'
+Use --install flag on the first run on a fresh machine to copy the dotfiles from
+the repo to $HOME.
 
-# Redact sensitive information (e.g. irc password).
-sed -i 's/password = .*$/password = --redacted--/' irssi/config
+See the README for documentation.  https://github.com/dideler/dotfiles#readme
+
+Copyright (c) 2012-2013 Dennis Ideler
+Licensed under the MIT license.
+HELP
+exit; fi
+
+# Fancy logging (copied from @cowboy and @holman).
+# Quotation marks for string arguments optional, but preferred.
+print_bold()     { echo -e "\n\033[1m$@\033[0m"; }
+print_question() { echo -e " \033[1;34m?\033[0m  $@"; }
+print_success()  { echo -e " \033[1;32m✔\033[0m  $@"; }
+print_error()    { echo -e " \033[1;31m✖\033[0m  $@"; }
+print_arrow()    { echo -e " \033[1;33m➜\033[0m  $@"; }
+print_info()     { echo -e "  [ \033[00;34m..\033[0m ] $@"; }
+print_prompt()   { echo -e "\r  [ \033[0;33m??\033[0m ] $@"; } # Follow with `read -e variable`.
+print_pass()     { echo -e "\r\033[2K  [ \033[00;32mOK\033[0m ] $@\n"; }
+print_fail()     { echo -e "\r\033[2K  [\033[0;31mFAIL\033[0m] $@\n"; echo; exit; }
+
+unhide() {
+  # Remove the leading dot from all hidden files and dirs, except .git and .gitignore.
+  find . \( -iname ".*" ! -iname ".git" ! -iname ".gitignore" \) -print0 | xargs -r0 rename -v 's|/\.+([^/]+)$|/$1|'
+}
+
+# $1 is the original file.
+# $2 is the pointer.
+# Must use full path.
+link() {
+  #ln -sf "$1" "$2"
+  echo $(readlink $1) -> $(readlink $2)
+  # can also use ln -s "$(pwd)/$file" "$dest" instead of readlink
+  print_success "Link $1 to $2"
+  # TODO test ln -sf full/path/dotfiles/file ~/
+  # i.e. does dest have to be full path? i don't think so!
+}
+
+clean_repo() {
+  find . -not -name 'README' -not -name 'LICENSE' -not -name 'sync' -delete
+  print_success "Repository cleaned"
+}
+
+# Copies whatever dotfiles you specified here from $HOME to your dotfiles repo.
+# This function should come in handy for users who are new to having a dotfiles repo.
+# Use this when your dotfiles repo is empty and all your dotfiles are still in $HOME.
+copy_dotfiles() {
+  print_info "Copying dotfiles"
+  clean_repo
+  # Copy the desired dot files to this directory.
+  #rsync --relative --archive --verbose --update --no-perms \
+  #      ~/.{bash_aliases,vimrc,gitconfig,config/fish/config.fish,config/fish/functions/} \
+  #      ~/.{vim/plugin/,vim/syntax/,ssh/config*,weechat/*.conf,config/redshift.conf} .
+  # Get rid of the /home/user/ path by moving all files out of there and deleting the directory.
+  #rsync --archive --remove-source-files ./home/$(whoami)/ .
+  #rm -rf ./home
+}
+
+# TODO maybe better to 
+hide_sensitive_info() {
+  #sed -i 's/password = .*$/password = --redacted--/' irssi/config # irc pass
+  #sed -i 's|password = .*S|password = ""|' weechat/irc.conf # freenode.sasl_password
+}
+
+# Symbolically links files in your dotfiles repo to your $HOME.
+# For example, if your dotfiles repo has a file named '.foo',
+# this will create a pointer: $HOME/.foo ➜ ~/path/to/dotfiles/.foo
+install_dotfiles() {
+  print_bold "Installing dotfiles"
+  #DOTFILES_ROOT=$(pwd)
+  local dotfiles=$(find -name '.*')
+  for file in $dotfiles; do
+    echo $file
+  done
+  # TODO
+  # for every *dotfile* in repo
+  #   create link in home    
+}
+
+if [[ "$1" == "-c" || "$1" == "--copy" ]]; then
+  copy_dotfiles
+else
+  install_dotfiles
+fi
+
+#copy $1
+#print_bold foo bar
+#print_question foo bar
+#print_success foo bar
+#print_error foo bar
+#print_arrow foo bar
+#print_info foo bar
+#print_prompt foo bar
+#print_pass foo bar
+#print_fail foo bar
+

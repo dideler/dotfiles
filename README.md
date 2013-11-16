@@ -1,13 +1,17 @@
-Dotfiles typically reside in $HOME.
-Note that I've removed the beginning dot from the files & directories in this repo.
+dotfiles of @dideler
+====================
 
-My bash files are no longer being maintained, I've switched to the fish shell.
+I'd love to hear from you if any of my dotfiles came in handy.
 
-syntax/ -> ~/.vim/syntax/
-plugin/ -> ~/.vim/plugin/
-functions/ -> ~/.config/fish/functions/
+The [installation](install) script will link all the dotfiles in this
+repository to your $HOME. If you're using this repository and have any
+dotfiles that you want to include, you'll have to manually move/copy them over
+to the repo's directory and then run the script to link them.
 
-Some console stuff I really like but aren't neccesarily dotfiles:
+My bash files are no longer being maintained,
+I've switched to the [fish shell](http://www.fishshell.com).
+
+Some terminal tools I like but aren't dotfiles:
 - https://github.com/uams/geturl
 - https://github.com/jkbr/httpie
 - https://github.com/defunkt/hub

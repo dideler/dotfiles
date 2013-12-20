@@ -118,6 +118,10 @@ set textwidth=80 " Wrap after 80 characters.
 set formatoptions=qrn1
 "set colorcolumn=81 " Colour the column after exceeding the wrap by too far.
 
+" Remove trailing whitespace for everything but markdown (via @gmurphey).
+let whitespace_blacklist = ['markdown']
+autocmd BufWritePre * if index(whitespace_blacklist, &ft) < 0 | :%s/\s\+$//e
+
 " Toggle 80 column marker
 nnoremap <F5> :call ToggleColorColumn()<CR>
 func! ToggleColorColumn()

@@ -4,61 +4,79 @@
 set -e
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
-Usage: $(basename "$0") [-h --help] [-c --copy]
+Usage: $(basename "$0") [-h --help] [-f --force]
 
-If run without arguments, it will symbolically link the dotfiles in this
-repository to your $HOME directory. This means that the original files have
-to be stored in the repository, while the files in $HOME will be links (aka
-pointers). The reason we do it this way is because tracking and hosting a
-bunch of absolute paths to files is rather useless.
+Symbolically links files in your dotfiles repository with your HOME directory.
+The actual dotfiles should be in this directory, links/pointers to your dotfiles
+will be created in $HOME. Directories are not symlinked, but the files within
+them are. If a directory in the dotfiles repository doesn't exist in your home
+directory, it will be created there.
 
-Use the --copy or -c flag to copy your list of specified dotfiles from $HOME
-to this repository. It will first remove all dotfiles from the repository.
-It won't stage your dotfiles or commit them. Come to think of it, this function
-isn't very useful.
+Steps:
+1. Move any dotfiles in HOME that you want symlinked, to your dotfiles
+   repository (this directory). If some of your dotfiles are in a directory,
+   that directory's structure has to be imitated in your dotfiles repository.
+2. Run the sync script to create the symlinks.
 
-See the README for documentation.  https://github.com/dideler/dotfiles#readme
+It's recommended you host your dotfiles repository on a remote code hosting
+service (e.g. GitHub, GitLab, BitBucket, private server). This will make it easy
+for you to use your dotfiles on a new machine. Simply clone the repository then
+run the sync script.
 
-Copyright (c) 2012-2013 Dennis Ideler
+Use the -f or --force flag to remove existing files with the same link name.
+
+See the README for more info:  https://github.com/dideler/dotfiles#readme
+
+Copyright (c) 2014 Dennis Ideler
 Licensed under the MIT license.
 HELP
 exit; fi
 
-# Fancy logging (inspired by @cowboy).
-# Quotation marks for string arguments optional, but preferred.
-print_info()   { echo -e "\n \033[1;36m❗\033[0m $@\033[0m"; }
-print_prompt() { echo -e " \033[1;34m?\033[0m  $@"; }
-print_pass()   { echo -e " \033[1;32m✔\033[0m  $@"; }
-print_fail()   { echo -e " \033[1;31m✗\033[0m  $@"; }
-print_link()   { echo -e " \033[1;33m➜\033[0m  $@"; }
+# Globals.
+force_flag=""
+overwrite_all=false
+backup_all=false
+skip_all=false
 
+# Fancy logging.
+BOLD=$(tput bold)
+UNDERLINE=$(tput smul)
+REVERSE=$(tput rev)
+NORMAL=$(tput sgr0)
+BLACK=0 RED=1 GREEN=2 YELLOW=3 BLUE=4 MAGENTA=5 CYAN=6 WHITE=7 # For light colours, use with bold.
+background_colour() { tput setab $1; }
+font_colour() { tput setaf $1; }
+
+print_bright() { echo -e "${BOLD}$(font_colour $1)${@:2}${NORMAL}"; }
+print_dim()    { echo -e "$(font_colour $1)${@:2}${NORMAL}"; }
+print_path()   { echo "$(font_colour $WHITE)$(pretty_path $1)${NORMAL}"; }
+print_info()   { echo -e "\n $(print_bright $YELLOW $@)"; }
+print_prompt() { echo -e "\n $(print_bright $BLUE ?)  $@"; }
+print_pass()   { echo -e " $(print_bright $GREEN ✔)  $@"; }
+print_fail()   { echo -e " $(print_bright $RED ✗)  $@"; }
+print_link()   { echo -e "Linked $(print_path $1) $(print_bright $YELLOW ➜)  $(print_path $2)"; }
+print_move()   { echo -e "Moved $(print_path $1) $(print_bright $YELLOW ➜)  $(print_path $2)"; }
+
+# Returns a pretty pathname.
+# Replaces the first part of the pathname with '~' if it is the same as $HOME.
+pretty_path() {
+  local pathname="$1"
+  [[ "$pathname" =~ ^"$HOME"(/|$) ]] && pathname="~${pathname#$HOME}"
+  echo "$pathname"
+}
+
+# Remove the leading dot from all hidden files and dirs, except '.git' and '.gitignore'.
 unhide() {
-  # Remove the leading dot from all hidden files and dirs, except .git and .gitignore.
   find . \( -iname ".*" ! -iname ".git" ! -iname ".gitignore" \) -print0 | xargs -r0 rename -v 's|/\.+([^/]+)$|/$1|'
 }
 
-# $1 is the original file.
-# $2 is the pointer.
-# Must use full path.
-link() {
-  #ln -sf "$1" "$2"
-  echo $(readlink $1) -> $(readlink $2)
-  # can also use ln -s "$(pwd)/$file" "$dest" instead of readlink
-  print_success "Link $1 to $2"
-  # TODO test
-  # $(ln --symbolic $force_flag $(pwd)/dotfile ~/)
-  # i.e. does dest have to be full path? i don't think so!
-}
-
+# Removes all the (visible) contents of your dotfiles repository except the files specified.
 clean_repo() {
-  find . -not -name 'README' -not -name 'LICENSE' -not -name 'sync' -delete
+  find . -not -name 'README.md' -not -name 'LICENSE' -not -name 'sync' -delete
   print_success "Repository cleaned"
 }
 
-# TODO: reconsider adding this function. is it useful? may be better to do manually
-# Copies whatever dotfiles you specified here from $HOME to your dotfiles repo.
-# This function should come in handy for users who are new to having a dotfiles repo.
-# Use this when your dotfiles repo is empty and all your dotfiles are still in $HOME.
+# TODO: copy files manually (since different for every user) and remove this function
 copy_dotfiles() {
   print_info "Copying dotfiles"
   #clean_repo
@@ -71,26 +89,100 @@ copy_dotfiles() {
   #rm -rf ./home
 }
 
-# TODO maybe better to not stage sensitive files?
-hide_sensitive_info() {
-  echo
-  #sed -i 's/password = .*$/password = --redacted--/' irssi/config # irc pass
-  #sed -i 's|password = .*S|password = ""|' weechat/irc.conf # freenode.sasl_password
+# Creates a symbolic link to a file.
+link() {
+  # All variables declared inside a function will be shared with the calling
+  # environment, unless declared local (though they are still shared with called
+  # environments). Don't pollute global namespace!
+  local relative_filepath="${1:2}"  # Remove leading "./" by extracting substring.
+  local homedir="$2"
+  local target="$(pwd)/$relative_filepath"  # Original file (absolute filepath).
+  local link_name="$homedir/$relative_filepath"  # Pointer file.
+
+  # Linking directories doesn't end well, so we avoid them and only link files.
+  # But we create directories in our home directory if they do not exist yet.
+  if [[ -d $target ]]; then
+    # A directory and file cannot exist at the same level with the same name.
+    # Proceeds if any file with that name doesn't exist, instead of a directory.
+    if [[ ! -e $link_name ]]; then
+      mkdir --parents $link_name
+      print_pass "Created directory $(print_path $link_name)"
+    fi
+    # Directory (or file) now exists in $HOME, move along to the next file.
+    return
+  fi
+
+  # Enters conflict resolution if force flag not set and link already exists.
+  if [ -z $force_flag ] && [ -f $link_name -o -d $link_name ]; then
+    local overwrite=false
+    local backup=false
+    local skip=false
+
+    # Prompts for current action if no global action is set.
+    if [ "$overwrite_all" == "false" -a "$backup_all" == "false" -a "$skip_all" == "false" ]; then
+      print_prompt "Destination file already exists for $(print_path $(basename $target))
+      Do you want to [${BOLD}${UNDERLINE}s${NORMAL}]kip, [${BOLD}S${NORMAL}]kip all, [${BOLD}o${NORMAL}]verwrite, [${BOLD}O${NORMAL}]verwrite all, [${BOLD}b${NORMAL}]ackup, [${BOLD}B${NORMAL}]ackup all?"
+      read -n 1 action && echo
+      case "$action" in
+        o )
+          overwrite=true ;;
+        O )
+          overwrite_all=true ;;
+        b )
+          backup=true ;;
+        B )
+          backup_all=true ;;
+        s )
+          skip=true ;;
+        S )
+          skip_all=true ;;
+        * )
+          print_fail "Unrecognized option, skipping $target"
+          skip=true ;;
+      esac
+    fi
+
+    if [ "$overwrite" == "true" -o "$overwrite_all" == "true" ]; then
+      ln --symbolic --force $target $link_name
+      print_pass "Removed existing destination file $link_name"
+    fi
+
+    if [ "$backup" == "true" -o "$backup_all" == "true" ]; then
+      mv $link_name $link_name\.backup
+      print_pass $(print_move $link_name $link_name.backup)
+      ln --symbolic $target $link_name
+    fi
+
+    if [ "$skip" == "true" -o "$skip_all" == "true" ]; then
+      print_pass "Skipped $(print_path $target)"
+      continue  # A return should be here, but continue strangely works!
+    fi
+
+  else # Don't worry about conflicts, link away!
+    ln --symbolic $force_flag $target $link_name
+  fi
+
+  print_pass $(print_link $link_name $target)
 }
 
 # Symbolically links files in your dotfiles repo to your $HOME.
-# For example, if your dotfiles repo has a file named '.foo',
-# this will create a pointer: $HOME/.foo ➜ ~/path/to/dotfiles/.foo
+# For example, if your dotfiles repo has a file named `.foo`,
+# this will create a pointer: $HOME/.foo ➜  ~/path/to/dotfiles/.foo
 link_dotfiles() {
-  print_bold "Installing dotfiles"
-  #DOTFILES_ROOT=$(pwd)
-  local dotfiles=$(find -name '.*')
-  for file in $dotfiles; do
-    echo $file
+  print_info "Creating links in $HOME to your dotfiles..."
+  # TODO: check ignored files before publishing
+  local dotfiles=$(find -not -iwholename '*.git*' -not -name 'LICENSE' -not -name 'README.md' -not -name 'sync*' -not -name '.')
+  # An alternative way to find the dotfiles:
+  # find -type d -name .git -prune -o -not -name 'LICENSE' -not -name 'README.md' -not -name 'sync*' -not -name '.' -print
+  for file in $dotfiles; do  # Known issue: does not work with filenames w/ spaces.
+    link $file $HOME
+    #echo "$file"
+    #if [[ -d $file ]]; then  # IF file exists and is directory...
+    #  echo "is directory"
+    #else
+    #  echo "is file"
+    #fi
   done
-  # TODO
-  # for every *dotfile* in repo
-  #   create link in home    
 }
 
 run_tests() {
@@ -99,16 +191,28 @@ run_tests() {
   print_pass foo bar
   print_fail foo bar
   print_link foo bar
-
+  print_move foo bar
   echo "flag has value $force_flag"
+  echo "this is ${BOLD}bold${NORMAL} but this isn't"
+  font_colour $RED
+  echo "red text"
+  font_colour $GREEN
+  echo "green text"
+  font_colour $WHITE
+  echo "grey text"
+  echo "${NORMAL}white text"
+  pretty_path "$HOME/foo"
 }
 
-force_flag=""
+main() {
+  if [[ "$1" == "-f" || "$1" == "--force" ]]; then
+    force_flag="--force"
+  fi
 
-if [[ "$1" == "-f" || "$1" == "--force" ]]; then
-  force_flag="--force"
-  print_info "Force flag set. Existing destination files will be removed when creating symbolic links."
-fi
+  run_tests
+  link_dotfiles
+  print_info "Done!"
+}
 
-run_tests
-# TODO: link_dotfiles
+
+main "$@"  # Call main and pass args.

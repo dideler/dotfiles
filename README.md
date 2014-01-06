@@ -3,58 +3,55 @@ dotfiles of @dideler
 
 I'd love to hear from you if any of my dotfiles came in handy.
 
-I now use the [dotfiles python package](https://pypi.python.org/pypi/dotfiles).
-The documentation for it isn't very detailed, so here are my added notes.
+The [link](link) script will link all the dotfiles in this repository to your
+$HOME (except the ones that are specified to be excluded--see the script).
+The symlinks will contain the same names as the dotfiles in your repo, and
+mirror the same directory structure (if they happen to reside in directories,
+e.g. ".config").
+
+If you dotfiles that you want to include in your dotfiles repo, you'll have to
+manually copy/move them over to the repo's directory and then run the script to
+link them.
+
+In some situations you may want to add only a few dotfiles in a directory
+instead of all of them. For example, you want to symlink most of your
+`~/.config` contents and put them on GitHub but there is a file `ignore_me` that
+you don't want to touch:
 
 ```
-pip install dotfiles
-dotfiles --help
+/home/dennis/.config
+|-- fakefish
+|   |-- config.fakefish
+|   `-- fakefunctions
+|       |-- 1.fakefish
+|       |-- 2.fakefish
+|       `-- 3.fakefish
+`-- ignore_me
+```
+
+One way way is to recursively copy the common ancestor directory to your
+dotfiles repo and remove the stuff you don't want symlinked and on GitHub.
+
+```
+cp -rip ~/.config ~/github/dotfiles
 cd ~/github/dotfiles
-dotfiles --sync
+rm -rf .config/ignore_me
+./link  # Et voila!
 ```
 
-Interface
----------
+So the `.config` directory in your dotfiles repo would look something like:
 
-`-a, --add FILES`
-: Adds existing dotfile(s) to the repository.  
-  To be specific: Moves dotfile to your given dotfiles repository, renames
-  their prefix according to the prefix setting (default is None, so unhides the
-  dotfile by removing the dot), and creates symlink in your home directory.
+```
+/home/dennis/github/dotfiles/.config
+|-- fakefish
+    |-- config.fakefish
+    `-- fakefunctions
+        |-- 1.fakefish
+        |-- 2.fakefish
+        `-- 3.fakefish
+```
 
-`-c, --check`
-: Lists missing or unsynced dotfiles.  
-  Missing if it exists in dotfiles repository and is not being ignored, but not existing in home directory.  
-  Unsynced if ...? TODO
-
-`-l, --list`
-: Lists currently managed dotfiles (including missing and unsynced).
-
-`-r, --remove FILES`
-: Removes dotfile(s) from the repository.  
-  To be specific: Undoes an --add action. Removes symlink in your home directory,
-  then moves dotfile from your repository to your home directory.
-
-  Using ~/ is optional, prepending files with a dot should be enough.
-
-`-s, --sync FILES`
-: Update dotfile symlinks.  
-  To be specific: Creates symlink(s) in your home directory for the dotfiles
-  specified (all if no arguments passed). All files operated on will become
-  hidden in your home directory, but only at the top level. For example,
-  /dotfiles/dir/file will be pointed to by ~/.dir/file.
-
-  Overwrite colliding files with -f or --force.
-
--m, --move <path>
-Move dotfiles repository to another location, updating all symlinks in the process.
-For all commands you can use the --dry-run option, which will print actions and won't modify anything on your drive.
-
-
-The [installation](install) script will link all the dotfiles in this
-repository to your $HOME. If you're using this repository and have any
-dotfiles that you want to include, you'll have to manually move/copy them over
-to the repo's directory and then run the script to link them.
+---
 
 My bash files are no longer being maintained,
 I've switched to the [fish shell](http://www.fishshell.com).

@@ -16,12 +16,12 @@ Steps:
 1. Move any dotfiles in HOME that you want symlinked, to your dotfiles
    repository (this directory). If some of your dotfiles are in a directory,
    that directory's structure has to be imitated in your dotfiles repository.
-2. Run the sync script to create the symlinks.
+2. Run the link script to create the symlinks.
 
 It's recommended you host your dotfiles repository on a remote code hosting
 service (e.g. GitHub, GitLab, BitBucket, private server). This will make it easy
 for you to use your dotfiles on a new machine. Simply clone the repository then
-run the sync script.
+run the link script.
 
 Use the -f or --force flag to remove existing files with the same link name.
 
@@ -72,7 +72,7 @@ unhide() {
 
 # Removes all the (visible) contents of your dotfiles repository except the files specified.
 clean_repo() {
-  find . -not -name 'README.md' -not -name 'LICENSE' -not -name 'sync' -delete
+  find . -not -name 'README.md' -not -name 'LICENSE' -not -name 'link' -delete
   print_success "Repository cleaned"
 }
 
@@ -166,42 +166,18 @@ link() {
 }
 
 # Symbolically links files in your dotfiles repo to your $HOME.
+# Ignores the license, readme, link script, and local git directory.
+#
 # For example, if your dotfiles repo has a file named `.foo`,
-# this will create a pointer: $HOME/.foo ➜  ~/path/to/dotfiles/.foo
+# this will create the link: ~/.foo ➜  ~/path/to/dotfiles/.foo
 link_dotfiles() {
   print_info "Creating links in $HOME to your dotfiles..."
-  # TODO: check ignored files before publishing
-  local dotfiles=$(find -not -iwholename '*.git*' -not -name 'LICENSE' -not -name 'README.md' -not -name 'sync*' -not -name '.')
+  local dotfiles=$(find -not -iwholename '*.git*' -not -name 'LICENSE' -not -name 'README.md' -not -name 'link' -not -name '.')
   # An alternative way to find the dotfiles:
-  # find -type d -name .git -prune -o -not -name 'LICENSE' -not -name 'README.md' -not -name 'sync*' -not -name '.' -print
+  # find -type d -name .git -prune -o -not -name 'LICENSE' -not -name 'README.md' -not -name 'link' -not -name '.' -print
   for file in $dotfiles; do  # Known issue: does not work with filenames w/ spaces.
     link $file $HOME
-    #echo "$file"
-    #if [[ -d $file ]]; then  # IF file exists and is directory...
-    #  echo "is directory"
-    #else
-    #  echo "is file"
-    #fi
   done
-}
-
-run_tests() {
-  print_info foo bar
-  print_prompt foo bar
-  print_pass foo bar
-  print_fail foo bar
-  print_link foo bar
-  print_move foo bar
-  echo "flag has value $force_flag"
-  echo "this is ${BOLD}bold${NORMAL} but this isn't"
-  font_colour $RED
-  echo "red text"
-  font_colour $GREEN
-  echo "green text"
-  font_colour $WHITE
-  echo "grey text"
-  echo "${NORMAL}white text"
-  pretty_path "$HOME/foo"
 }
 
 main() {
@@ -209,7 +185,6 @@ main() {
     force_flag="--force"
   fi
 
-  run_tests
   link_dotfiles
   print_info "Done!"
 }

@@ -5,9 +5,6 @@
   autocrlf = input
   safecrlf = true
   excludesfile = /home/dennis/.gitignore_global
-[github]
-  user = dideler
-  token = --redacted--
 [color]
   ui = auto
 [push]
@@ -15,7 +12,7 @@
 [credential] # Can only be used with HTTPS. Normally you want to use SSH.
   helper = cache --timeout=3600
 [help]
-	autocorrect = 25 # Autocorrect typos in 2.5 seconds.
+  autocorrect = 35 # Autocorrect typos in 3.5 seconds.
 [alias]
 # Check out https://git.wiki.kernel.org/index.php/Aliases
 # Note that aliases that hide existing git commands are ignored.
@@ -150,9 +147,12 @@
   # Adds all new and modified content and removes content from index that's no
   # longer in working tree.
 
-  add-modified = add --update
-  # Adds all modified content to the staging area and removes content from index
-  # if content has been removed from working tree.
+  add-modified = add --update .
+  # Adds all modified content in the current directory to the staging area,
+  # and removes content from index if content has been removed from working tree.
+
+  add-all-modified = add --update :/
+  # Similar to `add-modified` but works on the whole tree, not just cwd.
 
   add-new = !git add $(git ls-files -o --exclude-standard)
   # Adds only all new content to the staging area.
@@ -226,6 +226,11 @@
   view-topic-changes = !sh -c 'git diff master'
   # Diff of all the changes that the topic branch will introduce.
   # Use within topic branch.
+
+  today = !git log --since=midnight --author="$(git config user.name)" --oneline
+
+  co = checkout
+  # Using a shell alias (e.g. gco) doesn't provide branch name auto-completion.
 
   # Note that you can also use (local) functions for aliases. E.g.
   # foo = "!f() { echo "$1"; }; f"

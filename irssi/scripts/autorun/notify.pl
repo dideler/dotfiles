@@ -1,1 +1,0 @@
-/home/dennis/.irssi/scripts/notify.pl

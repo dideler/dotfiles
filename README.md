@@ -3,15 +3,15 @@ dotfiles of @dideler
 
 I'd love to hear from you if any of my dotfiles came in handy.
 
-The [link](link) script will link all the dotfiles in this repository to your
+The [link](link) script will symlink all the files in the repository to your
 $HOME (except the ones that are specified to be excluded--see the script).
-The symlinks will contain the same names as the dotfiles in your repo, and
-mirror the same directory structure (if they happen to reside in directories,
-e.g. ".config").
+The symlinks will contain the same names as the files in your repo, and
+mirror the same directory structure if they happen to reside in directories.
 
-If you dotfiles that you want to include in your dotfiles repo, you'll have to
-manually copy/move them over to the repo's directory and then run the script to
-link them.
+**NOTE:** The script only symlinks files, not directories.
+
+If you have dotfiles that you want to include in your dotfiles repo, you'll have to
+manually copy/move them over to the repo and then run the script to link them.
 
 In some situations you may want to add only a few dotfiles in a directory
 instead of all of them. For example, you want to symlink most of your

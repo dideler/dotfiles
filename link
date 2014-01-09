@@ -137,14 +137,14 @@ link() {
         S )
           skip_all=true ;;
         * )
-          print_fail "Unrecognized option, skipping $target"
+          print_fail "Unrecognized option, skipping $(print_path $target)"
           skip=true ;;
       esac
     fi
 
     if [ "$overwrite" == "true" -o "$overwrite_all" == "true" ]; then
       ln --symbolic --force $target $link_name
-      print_pass "Removed existing destination file $link_name"
+      print_pass "Removed existing destination file $(print_path $link_name)"
     fi
 
     if [ "$backup" == "true" -o "$backup_all" == "true" ]; then

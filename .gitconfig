@@ -1,0 +1,249 @@
+[user]
+  name = Dennis Ideler
+  email = ideler.dennis@gmail.com
+[core]
+  autocrlf = input
+  safecrlf = true
+  excludesfile = /home/dennis/.gitignore_global
+[color]
+  ui = auto
+[push]
+  default = simple
+[credential] # Can only be used with HTTPS. Normally you want to use SSH.
+  helper = cache --timeout=3600
+[help]
+  autocorrect = 35 # Autocorrect typos in 3.5 seconds.
+[alias]
+# Check out https://git.wiki.kernel.org/index.php/Aliases
+# Note that aliases that hide existing git commands are ignored.
+# Some aliases are executed with bash or sh. This is so that the (syntax of the)
+# aliases work regardless of which shell you're using (e.g. fish shell).
+  
+  rewrite-commit-msg = commit --amend
+  # Allows you to rewrite the most recent commit message.
+  # Note that this will change the id of the commit.
+  # You're effectively creating a new commit to replace the old one.
+  # 
+  # You can also reword the last (or older) commit messages with git rebase and
+  # the reword operation.
+  #
+  # Both amend and rebase will rewrite history.
+  # Do NOT use them if you've already pushed your commits to a shared repo.
+  #
+  # NOTE: --amend can also be used to take staged changes and push them into the
+  #       previous commit. The add-to-last-commit alias is used for this, and
+  #       does the staging part for you.
+
+  add-to-last-commit = !bash -c 'git add "$@" && git commit --amend' -
+  # Takes unstaged changes (of given files) and adds them to the previous commit.
+  # Or if no args provided, takes the staged changes and adds them to the previous commit.
+  # Useful when adding small chunks to a WIP commit.
+  # Equivalent to: uncommit + add changes + recommit
+  #
+  # Alternatively, you can create lots of temporary commits and squash them
+  # together using git rebase and the pick and squash operations.
+
+  undo = reset --hard
+  # Discards all changes since the last commit.
+  # This includes unstaging of all files _and_ undoing any modifications.
+  # Note that "git checkout" can only undo changes prior to staging.
+  # WARNING: Dangerous command, if you want to unstage, use `git unadd`.
+
+  unstage = reset
+  unadd = reset HEAD
+  # Undo staging of all or given files.
+  # Usage: git unstage        # unstages all
+  #        git unstage .      # unstages all
+  #        git unstage <file> # unstages file
+
+  uncommit = reset --soft HEAD^
+  # Undo a commit.
+
+  recommit = commit -c ORIG_HEAD
+  # Recommit files that were uncommit.
+
+  ##alias = config --get-regexp alias
+  # Displays all git aliases.
+  # NOTE: Interferes with `hub alias`, use `git aliases` instead (see below).
+
+  aliases = !git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'
+  # A neater display of all git aliases.
+
+  rm-remote-file = rm --cached # <filename>
+  # Remove a given file from the remote branch.
+
+  rm-remote-branch = !sh -c 'git push origin --delete refs/heads/"$1"' -
+  rm-remote-tag = !sh -c 'push origin --delete refs/tags/"$1"' -
+  # Remove the remote tag or tracking branch (e.g. on GitHub).
+  # Note that without the "refs/.../" it will delete either a branch or tag,
+  # or fail if there is a tag and branch with the same name.
+
+  overwrite = !bash -c 'git fetch --all && git reset --hard origin/master'
+  # Local repo will exactly match the remote tracking branch.
+
+  pull-rebase = pull --rebase
+  # Reapplies commits so history stays linear (use for regular syncing).
+
+  unmerged-branches = branch --no-merged
+  # Find local unmerged branches.
+
+  unstash = stash apply
+  # Restore stashed modifications (potentially on top a different commit).
+
+  unpush = push -f origin HEAD~1:master
+  # Undo a push. Replace 1 with number of pushes to undo.
+  # Warning: Do not rewrite history is someone has pulled your changes!
+  # Note: HEAD~1 means exactly the same thing as HEAD^, "the commit before HEAD".
+
+  merge-topic-branch = merge --no-ff
+  # No fast-forward merge. Shows branch in history as merge commit.
+  # Use on master to ship a feature (i.e. merging finished feature into master).
+  # (on master) git merge-topic-branch feature
+  #
+  # However, if topic branch contains only 1 commit, avoid the merge commit.
+  # (on master) git cherry-pick feature
+
+  hash = hash-object # <filename>
+  # Get the SHA1 of the file you specify.
+
+  rename-branch = branch -m # <oldname> <newname>
+  # Renames the local branch specified.
+
+  push-tags = push --tags
+  # Push tags to remote (e.g. GitHub).
+
+  last = log -1
+  # Show the commit message of HEAD (i.e. last commit msg).
+  # Hint: You can view the diff using the -p argument.
+
+  last-sha-origin = !git ls-remote origin --heads refs/heads/master | cut -f1
+  # Show SHA1 of last commit on origin.
+
+  release = tag -a
+  # Create an annotated tag for major version releases (e.g. v2.6 or v3.0).
+  # Use lightweight tags for smaller releases (e.g. git tag v2.5.3).
+
+  heroku = remote add heroku # git@heroku.com:project.git
+  # Add a heroku remote for a heroku web app; not needed if you 'heroku create'.
+  # Alternatively, you can use the heroku toolbelt CLI:
+  # heroku git:remote -a project, where project is the project name on heroku.
+
+  show-new-commits = !sh -c 'git log $1@{1}..$1@{0} "$@"'
+  # See what new commits have been created by the last command
+  # (e.g. after a "git pull")
+
+  add-note = notes add
+  # Opens the editor to add a note to the last commit
+
+  show-remote-branches = !bash -c 'echo "One sec..." && git fetch && git branch --remotes --verbose'
+  # If you want to checkout out a remote branch, simply 'git checkout <name>'.
+  # On older versions of git: git checkout --track origin/branch
+  
+  shallow-clone = clone --depth 1
+  # Clone the repo with no history.
+  # Be careful, you may not be able to push or pull.
+
+  add-all = add --all
+  # Adds all new and modified content and removes content from index that's no
+  # longer in working tree.
+
+  add-modified = add --update .
+  # Adds all modified content in the current directory to the staging area,
+  # and removes content from index if content has been removed from working tree.
+
+  add-all-modified = add --update :/
+  # Similar to `add-modified` but works on the whole tree, not just cwd.
+
+  add-new = !git add $(git ls-files -o --exclude-standard)
+  # Adds only all new content to the staging area.
+
+  diff-staged = diff --staged
+  # Diff staged (but uncommitted) changes. Default is unstaged changes.
+  # --cached also works
+  
+  diff-since-commit = diff HEAD
+  # View changes since your last commit.
+  # Compares your last commit with your working directory.
+  
+  show-space = diff --check
+  # Shows trailing whitespace and spaces before tabs in unstaged changes.
+
+  abort-merge = merge --abort
+  # Aborts a conflicted merge and resets the tree.
+
+  clean-untracked = !git-clean
+  # Cleans untracked files and directories in the working copy.
+  # This uses a custom script. See ~/.config/fish/functions/git-clean.fish
+
+  pu = !"git fetch origin -v; git fetch upstream -v; git merge upstream/master"
+  # Grab all of the latest changes from both remotes, and then merge in the
+  # commits from upstream. Helps to merge in changes easily.
+
+  show-last = !git last -p
+  # Shows the last commit with code changes.
+
+  lg = !git log --graph \
+       --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+  # Concise graph log.
+
+  log-no-merges = !git lg --no-merges
+  # Don't show merges in my concise log.
+
+  nuke-branch = !sh -c 'git branch -D "$1" && git push origin --delete "$1"' -
+  # Nukes a branch locally and on the origin remote.
+
+  ignore-versioned-file = !git update-index --assume-unchanged
+  # Ignore a versioned file by assuming it's unchanged.
+  # Usage: git ignore-versioned-file /path/to/file
+  # Note: Use this for versioned files that are often changed but rarely
+  #       committed (e.g. local configuration files).
+  #       Do not use this for files you accidentally versioned and want to
+  #       ignore! Use `git rm --cached /path/to/file` instead.
+
+  unignore-versioned-file = !git update-index --no-assume-unchanged 
+  # Tracks a versioned file that you previously ignored.
+  # See ignore-versioned-file alias.
+
+  untrack = !git rm --cached
+  # Untrack a file/directory.
+  # Usage: git untrack /path/to/file
+  # Note: Don't forget to add file/dir to your .gitignore!
+  #       For collaborative environments, consider update-index instead.
+
+  prune-origin = fetch --prune origin
+  # Clean up all local tracking branches that no longer exist on the remote.
+  # Use when old remote branches are polluting your auto-completion.
+  
+  housekeeping = gc --aggressive
+  # Cleanup unnecessary files and optimize the local repository.
+  # Run this task on a regular basis within each repository.
+
+  view-topic-commits = !sh -c 'git log master..'
+  # Shows a list of commits in the current topic branch so far.
+  # Of course you can also see this on GitHub.
+  # Use within topic branch.
+  
+  view-topic-changes = !sh -c 'git diff master'
+  # Diff of all the changes that the topic branch will introduce.
+  # Use within topic branch.
+
+  today = !git log --since=midnight --author="$(git config user.name)" --oneline
+
+  co = checkout
+  # Using a shell alias (e.g. gco) doesn't provide branch name auto-completion.
+
+  # Note that you can also use (local) functions for aliases. E.g.
+  # foo = "!f() { echo "$1"; }; f"
+
+  ### TIPS
+  #
+  # Grab files from a branch that don't exist in the current branch:
+  #   git checkout <branch> <paths>
+  #
+  # If GitHub is asking for your username and password on a push, it's probably
+  # because you cloned using HTTPS instead of SSH. Fix with:
+  #   git remote set-url origin git@github.com:username/repo.git
+  #
+  # Show the last commit that matches a regex:
+  #   git show :/pattern
+  #   git show :/^Merge

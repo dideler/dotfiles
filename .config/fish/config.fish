@@ -270,8 +270,8 @@ alias rcp 'rsync -apz'
 # Preserve files, keep permissions, and compress during transfer.
 # Example usage: rcp junk.txt aws:~/
 
-alias pyqt4version 'python -c "from PyQt4 import QtCore; print QtCore.PYQT_VERSION_STR"'
-# Shows the specific PyQt4 version
+alias lt 'lt ^/dev/null'
+# Light Table IDE logs to terminal, but I don't want to see that stuff.
 
 ### Git aliases (some from @holman)
 alias gl 'git log --oneline --decorate' # Also shows tags!

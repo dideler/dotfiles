@@ -3,35 +3,6 @@
 # Enable error checking.
 set -e
 
-if [[ "$1" == "-h" || "$1" == "--help" ]]; then cat <<HELP
-Usage: $(basename "$0") [-h --help] [-f --force]
-
-Symbolically links files in your dotfiles repository with your HOME directory.
-The actual dotfiles should be in this directory, links/pointers to your dotfiles
-will be created in $HOME. Directories are not symlinked, but the files within
-them are. If a directory in the dotfiles repository doesn't exist in your home
-directory, it will be created there.
-
-Steps:
-1. Move any dotfiles in HOME that you want symlinked, to your dotfiles
-   repository (this directory). If some of your dotfiles are in a directory,
-   that directory's structure has to be imitated in your dotfiles repository.
-2. Run the link script to create the symlinks.
-
-It's recommended you host your dotfiles repository on a remote code hosting
-service (e.g. GitHub, GitLab, BitBucket, private server). This will make it easy
-for you to use your dotfiles on a new machine. Simply clone the repository then
-run the link script.
-
-Use the -f or --force flag to remove existing files with the same link name.
-
-See the README for more info:  https://github.com/dideler/dotfiles#readme
-
-Copyright (c) 2014 Dennis Ideler
-Licensed under the MIT license.
-HELP
-exit; fi
-
 # Globals.
 force_flag=""
 overwrite_all=false
@@ -180,11 +151,48 @@ link_dotfiles() {
   done
 }
 
-main() {
-  if [[ "$1" == "-f" || "$1" == "--force" ]]; then
-    force_flag="--force"
-  fi
+parse_args() {
+  while getopts 'hf' flag; do
+    case "${flag}" in
+      h)
+        cat <<HELP
+Usage: $(basename "$0") [-h help] [-f force]
 
+Symbolically links files in your dotfiles repository with your HOME directory.
+The actual dotfiles should be in this directory, links/pointers to your dotfiles
+will be created in $HOME. Directories are not symlinked, but the files within
+them are. If a directory in the dotfiles repository doesn't exist in your home
+directory, it will be created there.
+
+Steps:
+1. Move any dotfiles in HOME that you want symlinked, to your dotfiles
+   repository (this directory). If some of your dotfiles are in a directory,
+   that directory's structure has to be imitated in your dotfiles repository.
+2. Run the link script to create the symlinks.
+
+It's recommended you host your dotfiles repository on a remote code hosting
+service (e.g. GitHub, GitLab, BitBucket, private server). This will make it easy
+for you to use your dotfiles on a new machine. Simply clone the repository then
+run the link script.
+
+Use the -f (force) flag to remove existing files with the same link name.
+
+See the README for more info:  https://github.com/dideler/dotfiles#readme
+
+Copyright (c) 2014 Dennis Ideler
+Licensed under the MIT license.
+HELP
+        exit
+        ;;
+      f)
+        force_flag="--force"
+        ;;
+    esac
+  done
+}
+
+main() {
+  parse_args "$@"
   link_dotfiles
   print_info "Done!"
 }

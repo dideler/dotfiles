@@ -5,6 +5,7 @@ set -e
 
 # Globals.
 force_flag=""
+dry_run=false
 overwrite_all=false
 backup_all=false
 skip_all=false
@@ -152,17 +153,18 @@ link_dotfiles() {
 }
 
 parse_args() {
-  while getopts 'hf' flag; do
+  while getopts 'hfn' flag; do
     case "${flag}" in
       h)
         cat <<HELP
-Usage: $(basename "$0") [-h help] [-f force]
+Usage: $(basename "$0") [-h help] [-f force] [-n dry run]
 
-Symbolically links files in your dotfiles repository with your HOME directory.
-The actual dotfiles should be in this directory, links/pointers to your dotfiles
-will be created in $HOME. Directories are not symlinked, but the files within
-them are. If a directory in the dotfiles repository doesn't exist in your home
-directory, it will be created there.
+Symbolically links files in your dotfiles repository with your home directory.
+
+- The actual dotfiles should be in this directory (i.e. dotfiles repo)
+- Links to your dotfiles will be created in $HOME
+- Directories are not symlinked, but the files within them are
+- If a directory in the dotfiles repository doesn't exist in your home directory, it will be created
 
 Steps:
 1. Move any dotfiles in HOME that you want symlinked, to your dotfiles
@@ -171,11 +173,14 @@ Steps:
 2. Run the link script to create the symlinks.
 
 It's recommended you host your dotfiles repository on a remote code hosting
-service (e.g. GitHub, GitLab, BitBucket, private server). This will make it easy
+service (e.g. GitHub, GitLab, BitBucket, private Git server). This will make it easy
 for you to use your dotfiles on a new machine. Simply clone the repository then
 run the link script.
 
-Use the -f (force) flag to remove existing files with the same link name.
+Flags:
+  -h (help)     Read this help message.
+  -f (force)    Remove existing files with the same link name.
+  -n (dry run)  Do no execute any actions, only print what would happen.
 
 See the README for more info:  https://github.com/dideler/dotfiles#readme
 
@@ -186,6 +191,9 @@ HELP
         ;;
       f)
         force_flag="--force"
+        ;;
+      n)
+        dry_run=true
         ;;
     esac
   done

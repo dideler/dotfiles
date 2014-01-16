@@ -27,6 +27,8 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'davidhalter/jedi-vim'
 Bundle 'mattn/webapi-vim'
 Bundle 'mmozuras/vim-github-comment'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'tpope/vim-rails'
 
 " Vundle brief help
  " :BundleList          - list configured bundles
@@ -37,16 +39,22 @@ Bundle 'mmozuras/vim-github-comment'
  " see :h vundle for more details or wiki for FAQ
  " NOTE: comments after Bundle command are not allowed.
 
+" Set some global variables for plugins. Can view value with `echo g:varname`.
+let g:github_user = 'dideler' " Set up vim-github-comment.
+""let g:github_comment_open_browser = 1 " Open browser after adding a comment.
+
+let g:dwm_master_pane_width = 84 " Set width of master pane in dwm.vim. For percentages, use quotes.
+autocmd VimResized * call DWM_ResizeMasterPaneWidth()
+
+let g:rubycomplete_buffer_loading = 1
+let g:rubycomplete_rails = 1
+
 " Install bundles if Vundle was just downloaded.
 if exists("s:bootstrap") && s:bootstrap
   unlet s:bootstrap
   BundleInstall
 endif
 
-" Set some global variables for plugins. Can view value with `echo g:varname`.
-let g:github_user = 'dideler' " Set up vim-github-comment.
-"let g:github_comment_open_browser = 1 " Open browser after adding a comment.
-let g:dwm_master_pane_width=80 " Set width of master pane in dwm.vim
 
 set modelines=0 " Prevent security exploits that use modelines.
 set backspace=indent,eol,start " Allow backspacing over everything in INS mode.
@@ -274,7 +282,10 @@ abbreviate forl for (int i = 0; i < ; ++i)<esc>6hi
 abbreviate cmain  int main(int argc, char** argv)<CR>{<CR>return 0;<CR>}
 
 " Quick Python function definition.
-abbreviate def def():<Left><Left><Left>
+autocmd FileType python abbreviate def def():<Left><Left><Left>
+
+" Quick Ruby method definition.
+autocmd FileType ruby abbreviate def def <CR>end<Up><Up>
 
 " Do a sudo write with w!!
 " (note that `cabbrev` can be abbreviated to `ca`).

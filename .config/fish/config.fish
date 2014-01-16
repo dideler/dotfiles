@@ -10,10 +10,18 @@ set -x LESS_TERMCAP_se \e'[0m'           # end standout-mode
 set -x LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
 set -x LESS_TERMCAP_ue \e'[0m'           # end underline
 
+# Load rbenv automatically
+status --is-interactive; and . (rbenv init -|psub)
+
 # Install hub for github if we don't have it yet.
+# TODO: install rbenv and ruby-build (clone repos then set fish_user_paths)
 begin # Create a block scope (variables created exist only in this scope).
 
-  if not set --query GET_HUB # Can always reset later with set -e.
+  if not set --query EDITOR
+    setenv EDITOR vim
+  end
+
+  if not set --query GET_HUB # Can always reset later with set --erase.
     set --universal GET_HUB true
   end
 
@@ -46,7 +54,7 @@ begin # Create a block scope (variables created exist only in this scope).
 end # block
 
 ##########
-# Aliases 
+# Aliases
 ##########
 # A list of some useful (and not so useful) aliases.
 # If an alias requires special usage (e.g. an argument) it will say so in the
@@ -79,7 +87,7 @@ alias distro 'cat /etc/os-release | head --lines=2'
 
 alias ipconfig ifconfig
 
-alias l 'ls -rt' 
+alias l 'ls -rt'
 
 #alias la ls -A'
 

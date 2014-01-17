@@ -285,7 +285,7 @@ abbreviate cmain  int main(int argc, char** argv)<CR>{<CR>return 0;<CR>}
 autocmd FileType python abbreviate def def():<Left><Left><Left>
 
 " Quick Ruby method definition.
-autocmd FileType ruby abbreviate def def <CR>end<Up><Up>
+autocmd FileType ruby abbreviate def def <CR>end<Up>
 
 " Do a sudo write with w!!
 " (note that `cabbrev` can be abbreviated to `ca`).

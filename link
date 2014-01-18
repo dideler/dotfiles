@@ -28,6 +28,40 @@ print_pass()   { echo -e " $(print_bright $GREEN ✔)  $@"; }
 print_fail()   { echo -e " $(print_bright $RED ✗)  $@"; }
 print_link()   { echo -e "Linked $(print_path $1) $(print_bright $YELLOW ➜)  $(print_path $2)"; }
 print_move()   { echo -e "Moved $(print_path $1) $(print_bright $YELLOW ➜)  $(print_path $2)"; }
+print_usage()  { echo "Usage: $(basename $0) [-h help] [-f force] [-n dry run]"; }
+print_help()   {
+cat <<HELP
+$(print_usage)
+
+Symbolically links files in your dotfiles repository with your home directory.
+
+- The actual dotfiles should be in this directory (i.e. dotfiles repo)
+- Links to your dotfiles will be created in $HOME
+- Directories are not symlinked, but the files within them are
+- If a directory in the dotfiles repository doesn't exist in your home directory, it will be created
+
+Steps:
+1. Move any dotfiles in HOME that you want symlinked, to your dotfiles
+   repository (this directory). If some of your dotfiles are in a directory,
+   that directory's structure has to be imitated in your dotfiles repository.
+2. Run the link script to create the symlinks.
+
+It's recommended you host your dotfiles repository on a remote code hosting
+service (e.g. GitHub, GitLab, BitBucket, private Git server). This will make it easy
+for you to use your dotfiles on a new machine. Simply clone the repository then
+run the link script.
+
+Flags:
+  -h (help)     Read this help message.
+  -f (force)    Remove existing files with the same link name.
+  -n (dry run)  Do no execute any actions, only print what would happen.
+
+See the README for more info:  https://github.com/dideler/dotfiles#readme
+
+Copyright (c) 2014 Dennis Ideler
+Licensed under the MIT license.
+HELP
+}
 
 # Returns a pretty pathname.
 # Replaces the first part of the pathname with '~' if it is the same as $HOME.
@@ -156,37 +190,7 @@ parse_args() {
   while getopts 'hfn' flag; do
     case "${flag}" in
       h)
-        cat <<HELP
-Usage: $(basename "$0") [-h help] [-f force] [-n dry run]
-
-Symbolically links files in your dotfiles repository with your home directory.
-
-- The actual dotfiles should be in this directory (i.e. dotfiles repo)
-- Links to your dotfiles will be created in $HOME
-- Directories are not symlinked, but the files within them are
-- If a directory in the dotfiles repository doesn't exist in your home directory, it will be created
-
-Steps:
-1. Move any dotfiles in HOME that you want symlinked, to your dotfiles
-   repository (this directory). If some of your dotfiles are in a directory,
-   that directory's structure has to be imitated in your dotfiles repository.
-2. Run the link script to create the symlinks.
-
-It's recommended you host your dotfiles repository on a remote code hosting
-service (e.g. GitHub, GitLab, BitBucket, private Git server). This will make it easy
-for you to use your dotfiles on a new machine. Simply clone the repository then
-run the link script.
-
-Flags:
-  -h (help)     Read this help message.
-  -f (force)    Remove existing files with the same link name.
-  -n (dry run)  Do no execute any actions, only print what would happen.
-
-See the README for more info:  https://github.com/dideler/dotfiles#readme
-
-Copyright (c) 2014 Dennis Ideler
-Licensed under the MIT license.
-HELP
+        print_help  # TODO: print_help_and_exit?
         exit
         ;;
       f)
@@ -194,6 +198,10 @@ HELP
         ;;
       n)
         dry_run=true
+        ;;
+      *)
+        print_usage  # TODO: print_help_and_exit?
+        exit
         ;;
     esac
   done

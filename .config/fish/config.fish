@@ -18,7 +18,7 @@ status --is-interactive; and . (rbenv init -|psub)
 begin # Create a block scope (variables created exist only in this scope).
 
   if not set --query EDITOR
-    setenv EDITOR vim
+    set --export EDITOR vim
   end
 
   if not set --query GET_HUB # Can always reset later with set --erase.

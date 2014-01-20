@@ -17,7 +17,7 @@ status --is-interactive; and . (rbenv init -|psub)
 begin # Variables created within exist only in this block scope.
 
   if not set --query EDITOR
-    setenv EDITOR vim
+    set --export EDITOR vim
   end
 
   # Note: rbenv is incompatible with RVM.

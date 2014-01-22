@@ -29,6 +29,7 @@ Bundle 'mattn/webapi-vim'
 Bundle 'mmozuras/vim-github-comment'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'tpope/vim-rails'
+Bundle 'tpope/vim-haml'
 
 " Vundle brief help
  " :BundleList          - list configured bundles
@@ -289,6 +290,12 @@ autocmd FileType python abbreviate def def():<Left><Left><Left>
 
 " Quick Ruby method definition.
 autocmd FileType ruby abbreviate def def <CR>end<Up>
+
+" Change color scheme when viewing Ruby files.
+autocmd FileType ruby colorscheme railscasts
+
+" Change color scheme when viewing HAML files.
+autocmd FileType haml colorscheme pablo
 
 " Do a sudo write with w!!
 " (note that `cabbrev` can be abbreviated to `ca`).

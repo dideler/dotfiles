@@ -18,12 +18,12 @@
 # Note that aliases that hide existing git commands are ignored.
 # Some aliases are executed with bash or sh. This is so that the (syntax of the)
 # aliases work regardless of which shell you're using (e.g. fish shell).
-  
+
   rewrite-commit-msg = commit --amend
   # Allows you to rewrite the most recent commit message.
   # Note that this will change the id of the commit.
   # You're effectively creating a new commit to replace the old one.
-  # 
+  #
   # You can also reword the last (or older) commit messages with git rebase and
   # the reword operation.
   #
@@ -108,6 +108,8 @@
 
   rename-branch = branch -m # <oldname> <newname>
   # Renames the local branch specified.
+  # If you have the branch checked out that you want to rename, you can supply
+  # only the new name.
 
   push-tags = push --tags
   # Push tags to remote (e.g. GitHub).
@@ -138,7 +140,7 @@
   show-remote-branches = !bash -c 'echo "One sec..." && git fetch && git branch --remotes --verbose'
   # If you want to checkout out a remote branch, simply 'git checkout <name>'.
   # On older versions of git: git checkout --track origin/branch
-  
+
   shallow-clone = clone --depth 1
   # Clone the repo with no history.
   # Be careful, you may not be able to push or pull.
@@ -160,18 +162,18 @@
   diff-staged = diff --staged
   # Diff staged (but uncommitted) changes. Default is unstaged changes.
   # --cached also works
-  
+
   diff-since-commit = diff HEAD
   # View changes since your last commit.
   # Compares your last commit with your working directory.
-  
+
   show-space = diff --check
   # Shows trailing whitespace and spaces before tabs in unstaged changes.
 
   abort-merge = merge --abort
   # Aborts a conflicted merge and resets the tree.
 
-  clean-untracked = !git-clean
+  rm-untracked = !fish -ic 'git-clean' # FIXME
   # Cleans untracked files and directories in the working copy.
   # This uses a custom script. See ~/.config/fish/functions/git-clean.fish
 
@@ -189,7 +191,7 @@
   log-no-merges = !git lg --no-merges
   # Don't show merges in my concise log.
 
-  nuke-branch = !sh -c 'git branch -D "$1" && git push origin --delete "$1"' -
+  nuke = !sh -c 'git branch -D "$1" && git push origin --delete "$1"' -
   # Nukes a branch locally and on the origin remote.
 
   ignore-versioned-file = !git update-index --assume-unchanged
@@ -200,7 +202,7 @@
   #       Do not use this for files you accidentally versioned and want to
   #       ignore! Use `git rm --cached /path/to/file` instead.
 
-  unignore-versioned-file = !git update-index --no-assume-unchanged 
+  unignore-versioned-file = !git update-index --no-assume-unchanged
   # Tracks a versioned file that you previously ignored.
   # See ignore-versioned-file alias.
 
@@ -213,7 +215,7 @@
   prune-origin = fetch --prune origin
   # Clean up all local tracking branches that no longer exist on the remote.
   # Use when old remote branches are polluting your auto-completion.
-  
+
   housekeeping = gc --aggressive
   # Cleanup unnecessary files and optimize the local repository.
   # Run this task on a regular basis within each repository.
@@ -222,15 +224,20 @@
   # Shows a list of commits in the current topic branch so far.
   # Of course you can also see this on GitHub.
   # Use within topic branch.
-  
+
   view-topic-changes = !sh -c 'git diff master'
   # Diff of all the changes that the topic branch will introduce.
   # Use within topic branch.
 
   today = !git log --since=midnight --author="$(git config user.name)" --oneline
 
+  yesterday = !git log --since=yesterday.midnight --until=midnight --author="$(git config user.name)" --oneline
+
   co = checkout
   # Using a shell alias (e.g. gco) doesn't provide branch name auto-completion.
+
+  standup = !fish -ic 'git log --since (yesterworkday)'
+  # Info for daily standup.
 
   # Note that you can also use (local) functions for aliases. E.g.
   # foo = "!f() { echo "$1"; }; f"

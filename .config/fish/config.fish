@@ -10,10 +10,13 @@ set -x LESS_TERMCAP_se \e'[0m'           # end standout-mode
 set -x LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
 set -x LESS_TERMCAP_ue \e'[0m'           # end underline
 
-# Load rbenv automatically
+# Load rbenv automatically.
+# Make sure your PATH includes rbenv and ruby-build.
+# set --universal fish_user_paths $fish_user_paths ~/.rbenv/bin ~/.rbenv/plugins/ruby-build/bin
 status --is-interactive; and . (rbenv init -|psub)
 
 # Install hub, rbenv, and ruby-build if we don't have them yet.
+# TODO move this stuff to the setup script, slows down shell startup
 begin # Variables created within exist only in this block scope.
 
   if not set --query EDITOR

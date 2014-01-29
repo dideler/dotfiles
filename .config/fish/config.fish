@@ -10,22 +10,40 @@ set -x LESS_TERMCAP_se \e'[0m'           # end standout-mode
 set -x LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
 set -x LESS_TERMCAP_ue \e'[0m'           # end underline
 
-# Load rbenv automatically
+# Load rbenv automatically.
+# Make sure your PATH includes rbenv and ruby-build.
+# set --universal fish_user_paths $fish_user_paths ~/.rbenv/bin ~/.rbenv/plugins/ruby-build/bin
 status --is-interactive; and . (rbenv init -|psub)
 
-# Install hub for github if we don't have it yet.
-# TODO: install rbenv and ruby-build (clone repos then set fish_user_paths)
-begin # Create a block scope (variables created exist only in this scope).
+# Install hub, rbenv, and ruby-build if we don't have them yet.
+# TODO move this stuff to the setup script, slows down shell startup
+begin # Variables created within exist only in this block scope.
 
   if not set --query EDITOR
     set --export EDITOR vim
   end
 
-  if not set --query GET_HUB # Can always reset later with set --erase.
+  # Note: rbenv is incompatible with RVM.
+  # Fully uninstall RVM and remove any references to it before installing rbenv.
+  if not type rbenv >/dev/null  # rbenv not installed
+    switch (uname)
+      case 'Linux'
+        git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
+        git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+        set fish_user_paths $fish_user_paths ~/.rbenv/bin ~/.rbenv/plugins/ruby-build/bin
+      case 'Darwin'
+        brew update
+        brew install rbenv ruby-build
+      case '*'
+        echo 'OS not recognized, skipping auto-installation of rbenv.'
+    end
+  end
+
+  if not set --query GET_HUB  # Note: can reset later with `set --erase`.
     set --universal GET_HUB true
   end
 
-  if not type hub >/dev/null # hub not installed
+  if not type hub >/dev/null  # hub not installed
     if test $GET_HUB = 'true'
       read --local --prompt "echo 'Install hub? [Y/n] '" choice
       switch $choice
@@ -47,7 +65,7 @@ begin # Create a block scope (variables created exist only in this scope).
         case '*'
           echo 'Aborting hub installation'
           set GET_HUB false # Universal setting is honoured, no need to specify.
-        end
+      end
     end
   end
 

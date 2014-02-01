@@ -236,8 +236,8 @@ inoremap jj <ESC>
 inoremap kk <ESC> :write<CR>
 vnoremap kk <ESC> :write<CR>
 
-" Press .. to quickly quit while in normal mode.
-noremap .. :quit<CR>
+" Press qq to quickly quit while in normal mode.
+noremap qq :quit<CR>
 
 " Pretty print a JSON file using Python.
 nnoremap json :%!python -m json.tool<CR>

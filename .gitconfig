@@ -229,7 +229,7 @@
   # Diff of all the changes that the topic branch will introduce.
   # Use within topic branch.
 
-  today = !git log --since=midnight --author="$(git config user.name)" --oneline
+  today = !git log --since=midnight --author=\"$(git config user.name)\" --oneline
 
   yesterday = !git log --since=yesterday.midnight --until=midnight --author="$(git config user.name)" --oneline
 

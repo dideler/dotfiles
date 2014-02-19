@@ -231,13 +231,20 @@
 
   today = !git log --since=midnight --author=\"$(git config user.name)\" --oneline
 
-  yesterday = !git log --since=yesterday.midnight --until=midnight --author="$(git config user.name)" --oneline
+  yesterday = !git log --since=yesterday.midnight --until=midnight --author=\"$(git config user.name)\" --oneline
+
+  standup = !fish -ic 'git log --since (yesterworkday)'
+  # Info for daily standup. Uses yesterworkday fish function.
 
   co = checkout
   # Using a shell alias (e.g. gco) doesn't provide branch name auto-completion.
 
-  standup = !fish -ic 'git log --since (yesterworkday)'
-  # Info for daily standup.
+
+  # FIXME (tip: match words with \b, e.g. \bsent\b)
+  #sed = !bash -ic 'git ls-files | xargs sed "${@:2}"'
+  #sed = !bash -ic 'echo "${@:2}"' -
+  #sed = !fish -ic 'echo $argv' -
+  #sed = !fish -ic 'git ls-files | xargs sed -i "$argv"'
 
   # Note that you can also use (local) functions for aliases. E.g.
   # foo = "!f() { echo "$1"; }; f"

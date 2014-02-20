@@ -239,6 +239,9 @@
   co = checkout
   # Using a shell alias (e.g. gco) doesn't provide branch name auto-completion.
 
+  commit-count = rev-list --count HEAD
+  # Show commit count of current branch.
+  # Replace HEAD with branch name to see other branch counts.
 
   # FIXME (tip: match words with \b, e.g. \bsent\b)
   #sed = !bash -ic 'git ls-files | xargs sed "${@:2}"'

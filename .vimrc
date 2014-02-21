@@ -23,6 +23,8 @@ Bundle 'gmarik/vundle'
 Bundle 'spolu/dwm.vim'
 Bundle 'Lokaltog/vim-easymotion'
 Bundle 'tpope/vim-markdown'
+Bundle 'tpope/vim-git'
+Bundle 'tpope/vim-fugitive'
 Bundle 'scrooloose/nerdtree'
 Bundle 'davidhalter/jedi-vim'
 Bundle 'mattn/webapi-vim'
@@ -30,6 +32,7 @@ Bundle 'mmozuras/vim-github-comment'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'tpope/vim-rails'
 Bundle 'tpope/vim-haml'
+Bundle 'kchmck/vim-coffee-script'
 
 " Vundle brief help
  " :BundleList          - list configured bundles
@@ -151,8 +154,8 @@ set fileencodings=utf8 " The encoding written to file.
 
 set autoindent " autoindent does not interfere with other indentation settings.
 filetype off " Don't try to autodetect file type.
-syntax on " Let Vim overrule my syntax highlighting settings with the defaults.
-""syntax enable " Keep my current colour settings.
+""syntax on " Let Vim overrule my syntax highlighting settings with the defaults.
+syntax enable " Keep my current colour settings.
 
 " For all files, set the format options, turn off C indentation, and set the comments option to the default.
 "autocmd FileType * set formatoptions=tcql

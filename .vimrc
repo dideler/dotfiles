@@ -320,4 +320,5 @@ autocmd vimenter * if !argc() | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " Add spell checking and automatic wrapping at the recommended 72 columns to commit messages.
+" Note that the summary line is recommended to be 50 chars max, though the GH limit is 69.
 autocmd Filetype gitcommit setlocal spell textwidth=72

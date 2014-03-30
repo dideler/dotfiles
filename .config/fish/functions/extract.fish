@@ -16,8 +16,8 @@ function extract --description "Expand or extract bundled & compressed files"
           gunzip $file
         case *.rar
           unrar x $file
-        case *.zip *.ZIP
-          unzip $file
+        case *.zip
+          unzip $file -d (basename $file .zip)
         case *.pax
           pax -r < $file
         case '*'

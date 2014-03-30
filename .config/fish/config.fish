@@ -299,6 +299,8 @@ alias rcp 'rsync -apz'
 alias lt 'lt ^/dev/null'
 # Light Table IDE logs to terminal, but I don't want to see that stuff.
 
+alias ext extract
+
 ### Git aliases (some from @holman)
 alias gl 'git log --oneline --decorate' # Also shows tags!
 alias glog "git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"

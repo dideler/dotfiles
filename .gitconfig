@@ -243,6 +243,9 @@
   # Show commit count of current branch.
   # Replace HEAD with branch name to see other branch counts.
 
+  first-push = git push --set-upstream origin --all
+  # Pushes up the repo and its refs and sets upstream for git pull/status.
+
   # FIXME (tip: match words with \b, e.g. \bsent\b)
   #sed = !bash -ic 'git ls-files | xargs sed "${@:2}"'
   #sed = !bash -ic 'echo "${@:2}"' -

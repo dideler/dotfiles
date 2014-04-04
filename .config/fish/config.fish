@@ -170,6 +170,7 @@ alias update-di07ty 'scp index.html di07ty@sandcastle.cosc.brocku.ca:public_html
 alias pngcrush 'pngcrush -rem alla -reduce -brute'
 # pngcrush is best used when the options are optimized for the image.
 # For something easier, try an online tool like http://kraken.io.
+# Update: pngquant has slightly lower quality but much better compression.
 
 alias mac 'ifconfig | grep HWaddr | awk \'{print $1 " " $5}\''
 # Shows the MAC address of your network devices.

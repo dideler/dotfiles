@@ -246,6 +246,9 @@
   first-push = git push --set-upstream origin --all
   # Pushes up the repo and its refs and sets upstream for git pull/status.
 
+  start = !git init && git commit --allow-empty -m \"Let's do this!\"
+  # Use this instead of git init when creating a new repo.
+
   # FIXME (tip: match words with \b, e.g. \bsent\b)
   #sed = !bash -ic 'git ls-files | xargs sed "${@:2}"'
   #sed = !bash -ic 'echo "${@:2}"' -

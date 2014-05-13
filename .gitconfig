@@ -250,6 +250,11 @@
   start = !git init && git commit --allow-empty -m \"Let's do this!\"
   # Use this instead of git init when creating a new repo.
 
+  to-push = diff --stat origin/master HEAD
+  # List of committed files to be pushed.
+  # To see changes: git diff origin/master HEAD
+  # Or see changes file by file: git difftool origin/master
+
   # FIXME (tip: match words with \b, e.g. \bsent\b)
   #sed = !bash -ic 'git ls-files | xargs sed "${@:2}"'
   #sed = !bash -ic 'echo "${@:2}"' -

@@ -87,8 +87,9 @@
   unmerged-branches = branch --no-merged
   # Find local unmerged branches.
 
-  unstash = stash apply
+  unstash = stash pop
   # Restore stashed modifications (potentially on top a different commit).
+  # Removes the state from the stash list. Use `stash apply` to keep the state.
 
   unpush = push -f origin HEAD~1:master
   # Undo a push. Replace 1 with number of pushes to undo.

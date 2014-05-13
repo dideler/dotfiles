@@ -18,7 +18,7 @@ endif
 set rtp+=~/.vim/bundle/vundle/
 call vundle#begin()
 
-" Vundle bundles go here (typically listed by GitHub repo):
+" Vundle-compatible plugins go here (typically listed by GitHub repo):
 Plugin 'gmarik/vundle'
 Plugin 'spolu/dwm.vim'
 Plugin 'Lokaltog/vim-easymotion'
@@ -36,10 +36,12 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'tpope/vim-commentary'
 
 " Vundle brief help
- " :PluginList          - list configured bundles
- " :PluginInstall(!)    - install(or update) bundles
- " :PluginSearch(!) foo - search(or refresh cache first) for foo
- " :PluginClean(!)      - confirm(or auto-approve) removal of unused bundles
+ " :Plugin
+ " :PluginList          - list configured plugins
+ " :PluginInstall(!)    - install (or update) plugins
+ " :PluginUpdate        - update plugins
+ " :PluginSearch(!) foo - search (or refresh cache first) for foo
+ " :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
  "
  " see :h vundle for more details or wiki for FAQ
  " NOTE: comments after Plugin command are not allowed.
@@ -92,6 +94,9 @@ set noswapfile " Don't create swap.swp file.
 ""set nobk " Prevents keeping of backup after overwriting the file.
 ""set autowrite " Auto-write if modified, on certain commands.
 au FocusLost * :wa " Write all changes when window loses focus, and keep working.
+
+command! W write " :W will write the file instead of complaining.
+nnoremap Q <nop> " No more annoying command menu by accident.
 
 " === Mouse ===
 set ttymouse=xterm2 " Recognize mouse codes for xterm2 terminal type (default).
@@ -323,6 +328,3 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " Add spell checking and automatic wrapping at the recommended 72 columns to commit messages.
 " Note that the summary line is recommended to be 50 chars max, though the GH limit is 69.
 autocmd Filetype gitcommit setlocal spell textwidth=72
-
-command! W write
-nnoremap Q <nop>

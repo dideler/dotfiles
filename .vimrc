@@ -16,7 +16,7 @@ endif
 
 " Set up Vundle.
 set rtp+=~/.vim/bundle/vundle/
-call vundle#begin()
+call vundle#rc()
 
 " Vundle-compatible plugins go here (typically listed by GitHub repo):
 Plugin 'gmarik/vundle'
@@ -315,6 +315,8 @@ cabbrev w!! w !sudo tee >/dev/null "%"
 cabbrev get set?<Left>
 
 " === NERDTree ===
+
+let NERDTreeWinSize=35
 
 " Toggle NERDTree (open/close).
 noremap <F4> :NERDTreeToggle<CR>

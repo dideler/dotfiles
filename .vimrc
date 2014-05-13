@@ -16,33 +16,33 @@ endif
 
 " Set up Vundle.
 set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+call vundle#begin()
 
 " Vundle bundles go here (typically listed by GitHub repo):
-Bundle 'gmarik/vundle'
-Bundle 'spolu/dwm.vim'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'tpope/vim-markdown'
-Bundle 'tpope/vim-git'
-Bundle 'tpope/vim-fugitive'
-Bundle 'scrooloose/nerdtree'
-Bundle 'davidhalter/jedi-vim'
-Bundle 'mattn/webapi-vim'
-Bundle 'mmozuras/vim-github-comment'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'tpope/vim-rails'
-Bundle 'tpope/vim-haml'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'tpope/vim-commentary'
+Plugin 'gmarik/vundle'
+Plugin 'spolu/dwm.vim'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'tpope/vim-markdown'
+Plugin 'tpope/vim-git'
+Plugin 'tpope/vim-fugitive'
+Plugin 'scrooloose/nerdtree'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'mattn/webapi-vim'
+Plugin 'mmozuras/vim-github-comment'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'tpope/vim-rails'
+Plugin 'tpope/vim-haml'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'tpope/vim-commentary'
 
 " Vundle brief help
- " :BundleList          - list configured bundles
- " :BundleInstall(!)    - install(or update) bundles
- " :BundleSearch(!) foo - search(or refresh cache first) for foo
- " :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+ " :PluginList          - list configured bundles
+ " :PluginInstall(!)    - install(or update) bundles
+ " :PluginSearch(!) foo - search(or refresh cache first) for foo
+ " :PluginClean(!)      - confirm(or auto-approve) removal of unused bundles
  "
  " see :h vundle for more details or wiki for FAQ
- " NOTE: comments after Bundle command are not allowed.
+ " NOTE: comments after Plugin command are not allowed.
 
 " Set some global variables for plugins. Can view value with `echo g:varname`.
 let g:github_user = 'dideler' " Set up vim-github-comment.
@@ -54,10 +54,10 @@ autocmd VimResized * call DWM_ResizeMasterPaneWidth()
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_rails = 1
 
-" Install bundles if Vundle was just downloaded.
+" Install plugins if Vundle was just downloaded.
 if exists("s:bootstrap") && s:bootstrap
   unlet s:bootstrap
-  BundleInstall
+  PluginInstall
 endif
 
 

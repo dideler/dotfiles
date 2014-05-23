@@ -221,6 +221,8 @@
   # Cleanup unnecessary files and optimize the local repository.
   # Run this task on a regular basis within each repository.
 
+  topic-commits = !git lg master..
+
   view-topic-commits = !sh -c 'git log master..'
   # Shows a list of commits in the current topic branch so far.
   # Of course you can also see this on GitHub.

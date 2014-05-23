@@ -131,7 +131,7 @@
   # Alternatively, you can use the heroku toolbelt CLI:
   # heroku git:remote -a project, where project is the project name on heroku.
 
-  show-new-commits = !sh -c 'git log $1@{1}..$1@{0} "$@"'
+  fresh-commits = !sh -c 'git log $1@{1}..$1@{0} "$@"'
   # See what new commits have been created by the last command
   # (e.g. after a "git pull")
 

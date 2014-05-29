@@ -222,13 +222,14 @@
   # Run this task on a regular basis within each repository.
 
   topic-commits = !git lg master..
-
-  view-topic-commits = !sh -c 'git log master..'
-  # Shows a list of commits in the current topic branch so far.
-  # Of course you can also see this on GitHub.
+  # List short form of commits that differ from master.
   # Use within topic branch.
 
-  view-topic-changes = !sh -c 'git diff master'
+  list-topic-commits = log master..
+  # List long form of commits that differ from master.
+  # Use within topic branch.
+
+  topic-changes = !sh -c 'git diff master'
   # Diff of all the changes that the topic branch will introduce.
   # Use within topic branch.
 

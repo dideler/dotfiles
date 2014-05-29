@@ -271,11 +271,6 @@ alias difference 'grep --fixed-strings --line-regexp --invert-match --file'
 alias bitch, sudo
 # Sometimes your computer doesn't obey unless you threaten it.
 
-alias copy 'xclip -selection clip <'
-# Copies the contents of a text file to your clipboard.
-# Assumes you're running X.
-# Usage: copy file
-
 #alias node 'env NODE_NO_READLINE=1 rlwrap -pGreen -S ">>> " node'
 # Get history from previous node REPLs and use a better prompt, at the expense
 # of losing coloured output and variable autocompletion.

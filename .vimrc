@@ -306,6 +306,9 @@ autocmd FileType ruby colorscheme railscasts
 " Change color scheme when viewing HAML files.
 autocmd FileType haml colorscheme pablo
 
+" Change color scheme when viewing Markdown files.
+autocmd FileType markdown colorscheme torte
+
 " Do a sudo write with w!!
 " (note that `cabbrev` can be abbreviated to `ca`).
 " abbreviate

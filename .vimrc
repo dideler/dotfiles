@@ -275,6 +275,14 @@ map <C-v> "+gP
 inoremap <c-space> <c-n>
 inoremap <Nul> <c-n>
 
+" Resize the width of main pane to n/4 of the full window.
+nmap ,.. :call DWM_mod_align(3)<CR>
+nmap .,, :call DWM_mod_align(1)<CR>
+function! DWM_mod_align(n)
+  execute "1wincmd w"
+  execute "vertical resize ".(&columns * a:n) / 4
+endfunction
+
 " === Abbreviations ===
 " abbreviate == ab
 " cabbrev == ca

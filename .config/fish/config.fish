@@ -31,6 +31,7 @@ begin # Variables created within exist only in this block scope.
         git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
         git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
         set fish_user_paths $fish_user_paths ~/.rbenv/bin ~/.rbenv/plugins/ruby-build/bin
+        rbenv rehash
       case 'Darwin'
         brew update
         brew install rbenv ruby-build

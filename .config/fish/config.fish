@@ -15,7 +15,7 @@ set -x LESS_TERMCAP_ue \e'[0m'           # end underline
 # set --universal fish_user_paths $fish_user_paths ~/.rbenv/bin ~/.rbenv/plugins/ruby-build/bin
 status --is-interactive; and . (rbenv init -|psub)
 
-# Install hub, rbenv, and ruby-build if we don't have them yet.
+# Set Vim as editor and install rbenv and ruby-build if we don't have them yet.
 # TODO move this stuff to the setup script, slows down shell startup
 begin # Variables created within exist only in this block scope.
 
@@ -37,36 +37,6 @@ begin # Variables created within exist only in this block scope.
         brew install rbenv ruby-build
       case '*'
         echo 'OS not recognized, skipping auto-installation of rbenv.'
-    end
-  end
-
-  if not set --query GET_HUB  # Note: can reset later with `set --erase`.
-    set --universal GET_HUB true
-  end
-
-  if not type hub >/dev/null  # hub not installed
-    if test $GET_HUB = 'true'
-      read --local --prompt "echo 'Install hub? [Y/n] '" choice
-      switch $choice
-        case '' 'y' 'Y' 'yes'
-          if test (uname) = Linux
-            # Requires permission to install at /usr/local/bin/hub, and using
-            # sudo in scripts is messy.
-            # Alternative is to use ~/bin/hub and then add ~/bin to $PATH.
-            # This does not require permission and is what hub's install docs
-            # uses, but creates yet another "bin" directory and PATH entry.
-            sudo curl --silent --show-error --location \
-              http://github.github.com/hub/standalone --output /usr/local/bin/hub
-            sudo chmod +x /usr/local/bin/hub
-            hub version
-          else
-            echo -e 'I currently only know instructions for Linux\n' \
-                    'Find more instructions at https://github.com/github/hub'
-          end
-        case '*'
-          echo 'Aborting hub installation'
-          set GET_HUB false # Universal setting is honoured, no need to specify.
-      end
     end
   end
 

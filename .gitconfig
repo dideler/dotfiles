@@ -258,6 +258,11 @@
   # To see changes: git diff origin/master HEAD
   # Or see changes file by file: git difftool origin/master
 
+  yolo = push origin HEAD --force
+  # Look, if you had one shot, or one opportunity...
+  # To seize everything you ever wanted. One moment.
+  # Would you capture it or just let it slip?
+
   # FIXME (tip: match words with \b, e.g. \bsent\b)
   #sed = !bash -ic 'git ls-files | xargs sed "${@:2}"'
   #sed = !bash -ic 'echo "${@:2}"' -

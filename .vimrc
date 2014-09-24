@@ -266,11 +266,6 @@ nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 set showmode
 
-" Map copy, cut, and paste to what they should be.
-vnoremap <C-c> "+y
-vnoremap <C-x> "+x
-map <C-v> "+gP
-
 " Autocompletion with ctrl+space.
 inoremap <c-space> <c-n>
 inoremap <Nul> <c-n>
@@ -282,6 +277,25 @@ function! DWM_mod_align(n)
   execute "1wincmd w"
   execute "vertical resize ".(&columns * a:n) / 4
 endfunction
+
+" Shift + Arrow selection
+nmap <S-Up> v<Up>
+nmap <S-Down> v<Down>
+nmap <S-Left> v<Left>
+nmap <S-Right> v<Right>
+vmap <S-Up> <Up>
+vmap <S-Down> <Down>
+vmap <S-Left> <Left>
+vmap <S-Right> <Right>
+imap <S-Up> <Esc>v<Up>
+imap <S-Down> <Esc>v<Down>
+imap <S-Left> <Esc>v<Left>
+imap <S-Right> <Esc>v<Right>
+
+" Map copy, cut, and paste to what they should be.
+vnoremap <C-c> "+y
+vnoremap <C-x> "+x
+map <C-v> "+gP
 
 " === Abbreviations ===
 " abbreviate == ab

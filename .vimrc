@@ -322,8 +322,8 @@ autocmd FileType python abbreviate def def():<Left><Left><Left>
 " Quick Ruby method definition.
 autocmd FileType ruby abbreviate def def <CR>end<Up>
 
-" Change color scheme when viewing Ruby files.
-autocmd FileType ruby colorscheme railscasts
+" Change color scheme when viewing Ruby files (torte is also pretty good).
+autocmd FileType ruby colorscheme slate
 
 " Change color scheme when viewing HAML files.
 autocmd FileType haml colorscheme pablo

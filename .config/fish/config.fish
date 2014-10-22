@@ -88,8 +88,6 @@ alias l 'ls -rt'
 
 #alias lsp ls -1 /var/log/packages/ > package-list'
 
-alias lsd 'ls -d */' # List all directories in current directory.
-
 alias nano 'nano --const' # Constantly show the cursor position in nano.
 
 alias sandcastle 'ssh di07ty@sandcastle.cosc.brocku.ca'

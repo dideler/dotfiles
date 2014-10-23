@@ -19,6 +19,11 @@
 # Some aliases are executed with bash or sh. This is so that the (syntax of the)
 # aliases work regardless of which shell you're using (e.g. fish shell).
 
+  co-pr = !sh -c 'git fetch origin pull/$1/head:pr/$1 && git checkout pr/$1' -
+  # Checkout a PR branch: git co-pr 123
+  # Merge as: git merge pr/123 --ff-only
+  # Or with hub: git checkout https://github.com/organization/project/pull/123
+
   rewrite-commit-msg = commit --amend
   # Allows you to rewrite the most recent commit message.
   # Note that this will change the id of the commit.

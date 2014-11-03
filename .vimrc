@@ -27,8 +27,6 @@ Plugin 'tpope/vim-git'
 Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree'
 Plugin 'davidhalter/jedi-vim'
-" Plugin 'mattn/webapi-vim'
-" Plugin 'mmozuras/vim-github-comment'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-haml'
@@ -47,9 +45,6 @@ Plugin 'tpope/vim-commentary'
  " NOTE: comments after Plugin command are not allowed.
 
 " Set some global variables for plugins. Can view value with `echo g:varname`.
-let g:github_user = 'dideler' " Set up vim-github-comment.
-""let g:github_comment_open_browser = 1 " Open browser after adding a comment.
-
 let g:dwm_master_pane_width = 84 " Set width of master pane in dwm.vim. For percentages, use quotes.
 autocmd VimResized * call DWM_ResizeMasterPaneWidth()
 

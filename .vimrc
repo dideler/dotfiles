@@ -19,19 +19,20 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 " Vundle-compatible plugins go here (typically listed by GitHub repo):
-Plugin 'gmarik/vundle'
-Plugin 'spolu/dwm.vim'
 Plugin 'Lokaltog/vim-easymotion'
-Plugin 'tpope/vim-markdown'
-Plugin 'tpope/vim-git'
-Plugin 'tpope/vim-fugitive'
-Plugin 'scrooloose/nerdtree'
 Plugin 'davidhalter/jedi-vim'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'tpope/vim-rails'
-Plugin 'tpope/vim-haml'
+Plugin 'gmarik/vundle'
 Plugin 'kchmck/vim-coffee-script'
+Plugin 'scrooloose/nerdtree'
+Plugin 'spolu/dwm.vim'
 Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-git'
+Plugin 'tpope/vim-haml'
+Plugin 'tpope/vim-markdown'
+Plugin 'tpope/vim-rails'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'vim-scripts/closetag.vim'  " <C-_> to close tags.
 
 " Vundle brief help
  " :Plugin

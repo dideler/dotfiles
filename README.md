@@ -59,5 +59,6 @@ I've switched to the [fish shell](http://www.fishshell.com).
 Some terminal tools I like but aren't dotfiles:
 - https://github.com/uams/geturl
 - https://github.com/jkbr/httpie
-- https://github.com/defunkt/hub
+- https://github.com/github/hub
 - https://github.com/substack/picture-tube
+- https://github.com/rg3/youtube-dl

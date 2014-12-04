@@ -22,6 +22,7 @@ call vundle#rc()
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'gmarik/vundle'
+Plugin 'junegunn/vim-emoji'  " CTRL-X CTRL-U to autocomplete.
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'scrooloose/nerdtree'
 Plugin 'spolu/dwm.vim'
@@ -32,7 +33,7 @@ Plugin 'tpope/vim-haml'
 Plugin 'tpope/vim-markdown'
 Plugin 'tpope/vim-rails'
 Plugin 'vim-ruby/vim-ruby'
-Plugin 'vim-scripts/closetag.vim'  " <C-_> to close tags.
+Plugin 'vim-scripts/closetag.vim'  " CTRL-_ to close tags.
 
 " Vundle brief help
  " :Plugin
@@ -51,6 +52,8 @@ autocmd VimResized * call DWM_ResizeMasterPaneWidth()
 
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_rails = 1
+
+set completefunc=emoji#complete " Autocomplete emoji
 
 " Install plugins if Vundle was just downloaded.
 if exists("s:bootstrap") && s:bootstrap

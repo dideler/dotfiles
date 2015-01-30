@@ -127,7 +127,7 @@
   last-sha-origin = !git ls-remote origin --heads refs/heads/master | cut -f1
   # Show SHA1 of last commit on origin.
 
-  release = tag -a
+  release = tag --annotate #<version num>
   # Create an annotated tag for major version releases (e.g. v2.6 or v3.0).
   # Use lightweight tags for smaller releases (e.g. git tag v2.5.3).
 

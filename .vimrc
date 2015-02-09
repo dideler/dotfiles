@@ -20,6 +20,7 @@ call vundle#rc()
 
 " Vundle-compatible plugins go here (typically listed by GitHub repo):
 Plugin 'Lokaltog/vim-easymotion'
+Plugin 'chriskempson/base16-vim'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'gmarik/vundle'
 Plugin 'junegunn/vim-emoji'  " CTRL-X CTRL-U to autocomplete.
@@ -321,14 +322,18 @@ autocmd FileType python abbreviate def def():<Left><Left><Left>
 " Quick Ruby method definition.
 autocmd FileType ruby abbreviate def def <CR>end<Up>
 
-" Change color scheme when viewing Ruby files (torte is also pretty good).
-autocmd FileType ruby colorscheme slate
+" Let's try base16 colours.
+set background=dark
+colorscheme base16-default
 
-" Change color scheme when viewing HAML files.
-autocmd FileType haml colorscheme pablo
+" " Change color scheme when viewing Ruby files (torte is also pretty good).
+" autocmd FileType ruby colorscheme slate
 
-" Change color scheme when viewing Markdown files.
-autocmd FileType markdown colorscheme torte
+" " Change color scheme when viewing HAML files.
+" autocmd FileType haml colorscheme pablo
+
+" " Change color scheme when viewing Markdown files.
+" autocmd FileType markdown colorscheme torte
 
 " Do a sudo write with w!!
 " (note that `cabbrev` can be abbreviated to `ca`).

@@ -19,8 +19,10 @@
 # Some aliases are executed with bash or sh. This is so that the (syntax of the)
 # aliases work regardless of which shell you're using (e.g. fish shell).
 
-  branches = for-each-ref --sort=-committerdate --format=\"%(color:blue)%(authordate:relative)\t%(color:red)%(authorname)\t%(color:white)%(color:bold)%(refname:short)\" refs/remotes
+  branches = for-each-ref --sort=-committerdate --format=\"%(authordate:relative)\t%(color:blue)%(authorname)\t%(color:green)%(refname:short)\" refs/remotes
   # Lists all remote branches, sorted by most recent commit date.
+  # Note: for-each-ref --format does not yet support %< syntax for column alignment.
+  # http://lists-archives.com/git/797299-for-each-ref-support-aligned-for-left-alignment.html
 
   co-pr = !sh -c 'git fetch origin pull/$1/head:pr/$1 && git checkout pr/$1' -
   # Checkout a PR branch: git co-pr 123

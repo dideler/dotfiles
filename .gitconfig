@@ -271,6 +271,12 @@
   # To seize everything you ever wanted. One moment.
   # Would you capture it or just let it slip?
 
+  pr = !hub pull-request
+  # Shortcut for opening a PR via the CLI with hub.
+  # On topic branch w/o args: Opens text editor to edit title & body for the PR.
+  # Can use args for explicit title, pull base, head, and more:
+  #   git pr -m "Fix gh-123" -b dev -h 123-bug-fix
+
   # FIXME (tip: match words with \b, e.g. \bsent\b)
   #sed = !bash -ic 'git ls-files | xargs sed "${@:2}"'
   #sed = !bash -ic 'echo "${@:2}"' -

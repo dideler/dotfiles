@@ -10,37 +10,40 @@ set -x LESS_TERMCAP_se \e'[0m'           # end standout-mode
 set -x LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
 set -x LESS_TERMCAP_ue \e'[0m'           # end underline
 
+
+# Set Vim as editor if no default is set.
+if not set --query EDITOR
+  set --export EDITOR vim
+end
+
+# Install rbenv and friends if needed.
+# Note: Anything RVM related should be fully removed for rbenv to work.
+if not type rbenv >/dev/null  # rbenv not installed
+  switch (uname)
+    case 'Linux'
+      git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
+      git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+      git clone https://github.com/sstephenson/rbenv-default-gems.git ~/.rbenv/plugins/rbenv-default-gems
+      # git clone https://github.com/sstephenson/rbenv-gem-rehash.git ~/.rbenv/plugins/rbenv-gem-rehash
+      # git clone https://github.com/rkh/rbenv-update.git ~/.rbenv/plugins/rbenv-update
+      set -U fish_user_paths $fish_user_paths ~/.rbenv/bin ~/.rbenv/plugins/ruby-build/bin
+      rbenv rehash
+      echo "To update rbenv and ruby-build, go into their repos and pull the latest changes."
+    case 'Darwin'
+      brew update
+      brew install --HEAD rbenv ruby-build rbenv-default-gems
+      # TODO: Does homebrew modify PATH for rbenv bins or do we still have to do that?
+      echo "To update rbenv and ruby-build, brew update; and brew upgrade rbenv ruby-build"
+    case '*'
+      echo "OS not recognized, skipping auto-installation of rbenv."
+  end
+end
+
 # Load rbenv automatically.
 # Make sure your PATH includes rbenv and ruby-build.
 # set --universal fish_user_paths $fish_user_paths ~/.rbenv/bin ~/.rbenv/plugins/ruby-build/bin
 status --is-interactive; and . (rbenv init -|psub)
 
-# Set Vim as editor and install rbenv and ruby-build if we don't have them yet.
-# TODO move this stuff to the setup script, slows down shell startup
-begin # Variables created within exist only in this block scope.
-
-  if not set --query EDITOR
-    set --export EDITOR vim
-  end
-
-  # Note: rbenv is incompatible with RVM.
-  # Fully uninstall RVM and remove any references to it before installing rbenv.
-  if not type rbenv >/dev/null  # rbenv not installed
-    switch (uname)
-      case 'Linux'
-        git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
-        git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-        set fish_user_paths $fish_user_paths ~/.rbenv/bin ~/.rbenv/plugins/ruby-build/bin
-        rbenv rehash
-      case 'Darwin'
-        brew update
-        brew install rbenv ruby-build
-      case '*'
-        echo 'OS not recognized, skipping auto-installation of rbenv.'
-    end
-  end
-
-end # block
 
 ##########
 # Aliases

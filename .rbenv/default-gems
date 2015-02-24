@@ -1,0 +1,4 @@
+# This file is used by rbenv-default-gems to install default gems whenever a
+# new version of Ruby is installed with `rbenv install`.
+
+bundler

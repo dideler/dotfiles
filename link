@@ -72,14 +72,9 @@ pretty_path() {
 }
 
 # Remove the leading dot from all hidden files and dirs, except '.git' and '.gitignore'.
+# TODO: Not useful here, but could be a useful stand-alone script. Extract and remove?
 unhide() {
   find . \( -iname ".*" ! -iname ".git" ! -iname ".gitignore" \) -print0 | xargs -r0 rename -v 's|/\.+([^/]+)$|/$1|'
-}
-
-# Removes all the (visible) contents of your dotfiles repository except the files specified.
-clean_repo() {
-  find . -not -name 'README.md' -not -name 'LICENSE' -not -name 'link' -delete
-  print_success "Repository cleaned"
 }
 
 # Creates a symbolic link to a file.

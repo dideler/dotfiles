@@ -20,7 +20,6 @@ background_colour() { tput setab $1; }
 font_colour() { tput setaf $1; }
 
 print_bright() { echo -e "${BOLD}$(font_colour $1)${@:2}${NORMAL}"; }
-print_dim()    { echo -e "$(font_colour $1)${@:2}${NORMAL}"; }
 print_path()   { echo "$(font_colour $WHITE)$(pretty_path $1)${NORMAL}"; }
 print_info()   { echo -e "\n $(print_bright $YELLOW $@)"; }
 print_prompt() { echo -e "\n $(print_bright $BLUE ?)  $@"; }

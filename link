@@ -93,11 +93,11 @@ link() {
     # A directory and file cannot exist at the same level with the same name.
     # Proceeds if any file with that name doesn't exist, instead of a directory.
     if [[ ! -e $link_name ]]; then
+      # TODO: If dry run, do not execute
       mkdir --parents $link_name
       print_pass "Created directory $(print_path $link_name)"
     fi
-    # Directory (or file) now exists in $HOME, move along to the next file.
-    return
+    return  # Directory (or file) now exists in $HOME, move onto the next file.
   fi
 
   # Enters conflict resolution if force flag not set and link already exists.
@@ -107,7 +107,7 @@ link() {
     local skip=false
 
     # Prompts for current action if no global action is set.
-    if [ "$overwrite_all" == "false" -a "$backup_all" == "false" -a "$skip_all" == "false" ]; then
+    if [ "$overwrite_all" = false -a "$backup_all" = false -a "$skip_all" = false ]; then
       print_prompt "Destination file already exists for $(print_path $(basename $target))
       Do you want to [${BOLD}${UNDERLINE}s${NORMAL}]kip, [${BOLD}S${NORMAL}]kip all, [${BOLD}o${NORMAL}]verwrite, [${BOLD}O${NORMAL}]verwrite all, [${BOLD}b${NORMAL}]ackup, [${BOLD}B${NORMAL}]ackup all?"
       read -n 1 action && echo
@@ -130,23 +130,26 @@ link() {
       esac
     fi
 
-    if [ "$overwrite" == "true" -o "$overwrite_all" == "true" ]; then
+    if [ "$overwrite" = true -o "$overwrite_all" = true ]; then
+      # TODO: If dry run, do not execute
       ln --symbolic --force $target $link_name
       print_pass "Removed existing destination file $(print_path $link_name)"
     fi
 
-    if [ "$backup" == "true" -o "$backup_all" == "true" ]; then
+    if [ "$backup" = true -o "$backup_all" = true ]; then
+      # TODO: If dry run, do not execute
       mv $link_name $link_name\.backup
       print_pass $(print_move $link_name $link_name.backup)
       ln --symbolic $target $link_name
     fi
 
-    if [ "$skip" == "true" -o "$skip_all" == "true" ]; then
+    if [ "$skip" = true -o "$skip_all" = true ]; then
       print_pass "Skipped $(print_path $target)"
       continue  # A return should be here, but continue strangely works!
     fi
 
   else # Don't worry about conflicts, link away!
+    # TODO: If dry run, do not execute
     ln --symbolic $force_flag $target $link_name
   fi
 

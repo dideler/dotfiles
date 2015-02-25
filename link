@@ -93,8 +93,7 @@ link() {
     # A directory and file cannot exist at the same level with the same name.
     # Proceeds if any file with that name doesn't exist, instead of a directory.
     if [[ ! -e $link_name ]]; then
-      # TODO: If dry run, do not execute
-      mkdir --parents $link_name
+      [ "$dry_run" = false ] && mkdir --parents $link_name
       print_pass "Created directory $(print_path $link_name)"
     fi
     return  # Directory (or file) now exists in $HOME, move onto the next file.
@@ -131,16 +130,14 @@ link() {
     fi
 
     if [ "$overwrite" = true -o "$overwrite_all" = true ]; then
-      # TODO: If dry run, do not execute
-      ln --symbolic --force $target $link_name
+      [ "$dry_run" = false ] && ln --symbolic --force $target $link_name
       print_pass "Removed existing destination file $(print_path $link_name)"
     fi
 
     if [ "$backup" = true -o "$backup_all" = true ]; then
-      # TODO: If dry run, do not execute
-      mv $link_name $link_name\.backup
+      [ "$dry_run" = false ] && mv $link_name $link_name\.backup
       print_pass $(print_move $link_name $link_name.backup)
-      ln --symbolic $target $link_name
+      [ "$dry_run" = false ] && ln --symbolic $target $link_name
     fi
 
     if [ "$skip" = true -o "$skip_all" = true ]; then
@@ -149,8 +146,7 @@ link() {
     fi
 
   else # Don't worry about conflicts, link away!
-    # TODO: If dry run, do not execute
-    ln --symbolic $force_flag $target $link_name
+    [ "$dry_run" = false ] && ln --symbolic $force_flag $target $link_name
   fi
 
   print_pass $(print_link $link_name $target)

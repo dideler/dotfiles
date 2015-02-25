@@ -177,6 +177,7 @@ parse_args() {
         force_flag="--force"
         ;;
       n)
+        print_info "Running in dry (aka pretend) mode. No changes will be made."
         dry_run=true
         ;;
       *)

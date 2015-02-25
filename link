@@ -82,19 +82,6 @@ clean_repo() {
   print_success "Repository cleaned"
 }
 
-# TODO: copy files manually (since different for every user) and remove this function
-copy_dotfiles() {
-  print_info "Copying dotfiles"
-  #clean_repo
-  # Copy the desired dot files to this directory.
-  #rsync --relative --archive --verbose --update --no-perms \
-  #      ~/.{bash_aliases,vimrc,gitconfig,config/fish/config.fish,config/fish/functions/} \
-  #      ~/.{vim/plugin/,vim/syntax/,ssh/config*,weechat/*.conf,config/redshift.conf} .
-  # Get rid of the /home/user/ path by moving all files out of there and deleting the directory.
-  #rsync --archive --remove-source-files ./home/$(whoami)/ .
-  #rm -rf ./home
-}
-
 # Creates a symbolic link to a file.
 link() {
   # All variables declared inside a function will be shared with the calling
@@ -190,7 +177,7 @@ parse_args() {
   while getopts 'hfn' flag; do
     case "${flag}" in
       h)
-        print_help  # TODO: print_help_and_exit?
+        print_help
         exit
         ;;
       f)
@@ -200,7 +187,7 @@ parse_args() {
         dry_run=true
         ;;
       *)
-        print_usage  # TODO: print_help_and_exit?
+        print_usage
         exit
         ;;
     esac

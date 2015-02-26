@@ -92,7 +92,7 @@ link() {
     # A directory and file cannot exist at the same level with the same name.
     # Proceeds if any file with that name doesn't exist, instead of a directory.
     if [[ ! -e $link_name ]]; then
-      [ "$dry_run" = false ] && mkdir --parents $link_name
+      [ "$dry_run" = false ] && mkdir -p $link_name
       print_pass "Created directory $(print_path $link_name)"
     fi
     return  # Directory (or file) now exists in $HOME, move onto the next file.

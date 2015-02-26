@@ -129,14 +129,14 @@ link() {
     fi
 
     if [ "$overwrite" = true -o "$overwrite_all" = true ]; then
-      [ "$dry_run" = false ] && ln --symbolic --force $target $link_name
+      [ "$dry_run" = false ] && ln -s -f $target $link_name
       print_pass "Removed existing destination file $(print_path $link_name)"
     fi
 
     if [ "$backup" = true -o "$backup_all" = true ]; then
       [ "$dry_run" = false ] && mv $link_name $link_name\.backup
       print_pass $(print_move $link_name $link_name.backup)
-      [ "$dry_run" = false ] && ln --symbolic $target $link_name
+      [ "$dry_run" = false ] && ln -s $target $link_name
     fi
 
     if [ "$skip" = true -o "$skip_all" = true ]; then
@@ -145,7 +145,7 @@ link() {
     fi
 
   else # Don't worry about conflicts, link away!
-    [ "$dry_run" = false ] && ln --symbolic $force_flag $target $link_name
+    [ "$dry_run" = false ] && ln -s $force_flag $target $link_name
   fi
 
   print_pass $(print_link $link_name $target)

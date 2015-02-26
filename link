@@ -158,9 +158,8 @@ link() {
 # this will create the link: ~/.foo ➜  ~/path/to/dotfiles/.foo
 link_dotfiles() {
   print_info "Creating links in $HOME to your dotfiles..."
-  local dotfiles=$(find -not -iwholename '*.git*' -not -name 'LICENSE' -not -name 'README.md' -not -name 'link' -not -name '.')
-  # An alternative way to find the dotfiles:
-  # find -type d -name .git -prune -o -not -name 'LICENSE' -not -name 'README.md' -not -name 'link' -not -name '.' -print
+  local dotfiles=$(find . -type d -name .git -prune -o -not -name 'LICENSE' -not -name 'README.md' -not -name 'link' -not -name '.' -print)
+
   for file in $dotfiles; do  # Known issue: does not work with filenames w/ spaces.
     link $file $HOME
   done

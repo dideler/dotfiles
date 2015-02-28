@@ -27,6 +27,8 @@
 
   pr-msg = !git log -n 1 --pretty=format:'%s%n%n%b' | hub pull-request -F -
   # Opens a PR with the title and body based on the last commit message (default is empty).
+  # Note that this does not open a text editor with the commit msg pre-filled;
+  # It will immediately open the PR without chance to review.
 
   branches = for-each-ref --sort=-committerdate --format=\"%(authordate:relative)\t%(color:blue)%(authorname)\t%(color:green)%(refname:short)\" refs/remotes
   # Lists all remote branches, sorted by most recent commit date.

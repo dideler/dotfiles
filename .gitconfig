@@ -19,6 +19,15 @@
 # Some aliases are executed with bash or sh. This is so that the (syntax of the)
 # aliases work regardless of which shell you're using (e.g. fish shell).
 
+  pr = !hub pull-request
+  # Shortcut for opening a PR via the CLI with hub.
+  # On topic branch w/o args: Opens text editor to edit title & body for the PR.
+  # Can use args for explicit title, pull base, head, and more:
+  #   git pr -m "Fix gh-123" -b dev -h 123-bug-fix
+
+  pr-msg = !git log -n 1 --pretty=format:'%s%n%n%b' | hub pull-request -F -
+  # Opens a PR with the title and body based on the last commit message (default is empty).
+
   branches = for-each-ref --sort=-committerdate --format=\"%(authordate:relative)\t%(color:blue)%(authorname)\t%(color:green)%(refname:short)\" refs/remotes
   # Lists all remote branches, sorted by most recent commit date.
   # Note: for-each-ref --format does not yet support %< syntax for column alignment.
@@ -275,12 +284,6 @@
   # Look, if you had one shot, or one opportunity...
   # To seize everything you ever wanted. One moment.
   # Would you capture it or just let it slip?
-
-  pr = !hub pull-request
-  # Shortcut for opening a PR via the CLI with hub.
-  # On topic branch w/o args: Opens text editor to edit title & body for the PR.
-  # Can use args for explicit title, pull base, head, and more:
-  #   git pr -m "Fix gh-123" -b dev -h 123-bug-fix
 
   # FIXME (tip: match words with \b, e.g. \bsent\b)
   #sed = !bash -ic 'git ls-files | xargs sed "${@:2}"'

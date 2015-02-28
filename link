@@ -5,6 +5,7 @@ set -e
 
 # Globals.
 force_flag=""
+interactive=false
 dry_run=false
 overwrite_all=false
 backup_all=false
@@ -166,7 +167,7 @@ link_dotfiles() {
 }
 
 parse_args() {
-  while getopts 'hfn' flag; do
+  while getopts 'hfni' flag; do
     case "${flag}" in
       h)
         print_help
@@ -178,6 +179,9 @@ parse_args() {
       n)
         print_info "Running in dry (aka pretend) mode. No changes will be made."
         dry_run=true
+        ;;
+      i)
+        interactive=true
         ;;
       *)
         print_usage

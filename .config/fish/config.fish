@@ -11,16 +11,13 @@ set -x LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
 set -x LESS_TERMCAP_ue \e'[0m'           # end underline
 
 
-# Set Vim as editor if no default is set.
-if not set --query EDITOR
-  set --export EDITOR vim
-end
-
 if not set --query FIRST_RUN  # Note: can reset later with `set --erase`.
   set --universal --export FIRST_RUN true
 end
 
 if test $FIRST_RUN = 'true'
+  set --universal --export EDITOR vim  # Set vim as default editor.
+
   read --local --prompt "echo 'Run setup routine to install tools? [Y/n] '" choice
   switch $choice
     case '' 'y' 'Y' 'yes'

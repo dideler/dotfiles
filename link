@@ -100,6 +100,17 @@ link() {
     return  # Directory (or file) now exists in $HOME, move onto the next file.
   fi
 
+  # Before we try to link a file, we should prompt if we're in interactive mode.
+  if [ "$interactive" = true ]; then
+    print_prompt "Link $(print_path $relative_filepath)? [Y/n]"
+    read -n 1 reply
+    if [[ "$reply" =~ ^[Nn]$ ]]; then
+      echo
+      print_fail "Skipping $(print_path $target)"
+      return
+    fi
+  fi
+
   # Enters conflict resolution if force flag not set and link already exists.
   if [ -z $force_flag ] && [ -f $link_name -o -d $link_name ]; then
     local overwrite=false

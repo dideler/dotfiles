@@ -12,6 +12,7 @@ function setup-linux --description "Setup script for Ubuntu Linux"
     echo "linuxbrew installed"
   end
 
+  # Note: Anything RVM related should be fully removed for rbenv to work.
   function _setup_rbenv  # Install rbenv and friends.
     if not type rbenv >/dev/null  # Only check if rbenv installed
       git clone git://github.com/sstephenson/rbenv.git ~/.rbenv

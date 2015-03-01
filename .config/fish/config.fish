@@ -16,20 +16,30 @@ if not set --query EDITOR
   set --export EDITOR vim
 end
 
-# Install rbenv and friends if needed.
-# Note: Anything RVM related should be fully removed for rbenv to work.
-if not type rbenv >/dev/null  # rbenv not installed
-  switch (uname)
-    case 'Linux'
-      setup-linux
-    case 'Darwin'
-      brew update
-      brew install --HEAD rbenv ruby-build rbenv-default-gems
-      # TODO: Does homebrew modify PATH for rbenv bins or do we still have to do that?
-      echo "To update rbenv and ruby-build, brew update; and brew upgrade rbenv ruby-build"
+if not set --query FIRST_RUN  # Note: can reset later with `set --erase`.
+  set --universal --export FIRST_RUN true
+end
+
+if test $FIRST_RUN = 'true'
+  read --local --prompt "echo 'Run setup routine to install tools? [Y/n] '" choice
+  switch $choice
+    case '' 'y' 'Y' 'yes'
+      switch (uname)
+        case 'Linux'
+          setup-linux
+        case 'Darwin'
+          # TODO: move to separate script
+          brew update
+          brew install --HEAD rbenv ruby-build rbenv-default-gems
+          # TODO: Does homebrew modify PATH for rbenv bins or do we still have to do that?
+          echo "To update rbenv and ruby-build, brew update; and brew upgrade rbenv ruby-build"
+        case '*'
+          echo "OS not recognized, aborting setup routine."
+      end
     case '*'
-      echo "OS not recognized, skipping auto-installation of rbenv."
+      echo "Aborting setup routine..."
   end
+  set FIRST_RUN false  # Scope settings are honoured, no need to re-specify.
 end
 
 # Load rbenv automatically.

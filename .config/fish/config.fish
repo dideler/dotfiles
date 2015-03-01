@@ -21,14 +21,7 @@ end
 if not type rbenv >/dev/null  # rbenv not installed
   switch (uname)
     case 'Linux'
-      git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
-      git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
-      git clone https://github.com/sstephenson/rbenv-default-gems.git ~/.rbenv/plugins/rbenv-default-gems
-      # git clone https://github.com/sstephenson/rbenv-gem-rehash.git ~/.rbenv/plugins/rbenv-gem-rehash
-      # git clone https://github.com/rkh/rbenv-update.git ~/.rbenv/plugins/rbenv-update
-      set -U fish_user_paths $fish_user_paths ~/.rbenv/bin ~/.rbenv/plugins/ruby-build/bin
-      rbenv rehash
-      echo "To update rbenv and ruby-build, go into their repos and pull the latest changes."
+      setup-linux
     case 'Darwin'
       brew update
       brew install --HEAD rbenv ruby-build rbenv-default-gems

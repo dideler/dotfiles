@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # Note: not necessary to load 'rubygems' explicitly since Ruby 1.9.
 
 STDOUT.sync = true  # Do not buffer output.

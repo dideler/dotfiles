@@ -19,6 +19,9 @@
 # Some aliases are executed with bash or sh. This is so that the (syntax of the)
 # aliases work regardless of which shell you're using (e.g. fish shell).
 
+  tag-fca = !sh -c 'git tag --annotate deploy_production_$(date +%Y%m%d%H%M%S)'
+  # Use for creating a new fca release.
+
   pr = !hub pull-request
   # Shortcut for opening a PR via the CLI with hub.
   # On topic branch w/o args: Opens text editor to edit title & body for the PR.

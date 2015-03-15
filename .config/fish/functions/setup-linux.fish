@@ -4,10 +4,12 @@ function setup-linux --description "Setup script for Ubuntu Linux"
   function _setup_homebrew
     if not type brew >/dev/null
       sudo apt-get install build-essential curl git m4 ruby texinfo libbz2-dev libcurl4-openssl-dev libexpat-dev libncurses-dev zlib1g-dev
-      ruby -e (curl -fsSL https://raw.githubusercontent.com/Homebrew/linuxbrew/go/install)
+      curl https://raw.githubusercontent.com/Homebrew/linuxbrew/go/install --location --show-error --output /tmp/install-linuxbrew
+      ruby /tmp/install-linuxbrew
       add_to_path ~/.linuxbrew/bin
-      set --universal --export MANPATH ~/.linuxbrew/share/man $MANPATH
-      set --universal --export INFOPATH ~/.linuxbrew/share/info $INFOPATH
+      # set --universal --export MANPATH ~/.linuxbrew/share/man $MANPATH
+      # set --universal --export INFOPATH ~/.linuxbrew/share/info $INFOPATH
+      brew doctor
       brew update
     end
     echo "linuxbrew installed"

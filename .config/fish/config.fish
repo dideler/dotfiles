@@ -40,8 +40,6 @@ if test $FIRST_RUN = 'true'
 end
 
 # Load rbenv automatically.
-# Make sure your PATH includes rbenv and ruby-build.
-# set --universal fish_user_paths $fish_user_paths ~/.rbenv/bin ~/.rbenv/plugins/ruby-build/bin
 status --is-interactive; and . (rbenv init -|psub)
 
 # TODO: Also set up https://github.com/yyuu/pyenv (it's Python's rbenv )

@@ -1,6 +1,7 @@
 function setup-linux --description "Setup script for Ubuntu Linux"
 
-  function _setup_homebrew  # Install linuxbrew.
+  # Installs linuxbrew.
+  function _setup_homebrew
     if not type brew >/dev/null
       sudo apt-get install build-essential curl git m4 ruby texinfo libbz2-dev libcurl4-openssl-dev libexpat-dev libncurses-dev zlib1g-dev
       ruby -e (curl -fsSL https://raw.githubusercontent.com/Homebrew/linuxbrew/go/install)
@@ -12,9 +13,11 @@ function setup-linux --description "Setup script for Ubuntu Linux"
     echo "linuxbrew installed"
   end
 
+  # Installs rbenv and friends.
   # Note: Anything RVM related should be fully removed for rbenv to work.
-  function _setup_rbenv  # Install rbenv and friends.
-    if not type rbenv >/dev/null  # Only check if rbenv installed
+  # Note: rbenv and friends can also be installed via linuxbrew.
+  function _setup_rbenv
+    if not type rbenv >/dev/null
       git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
       git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
       git clone https://github.com/sstephenson/rbenv-default-gems.git ~/.rbenv/plugins/rbenv-default-gems
@@ -27,6 +30,7 @@ function setup-linux --description "Setup script for Ubuntu Linux"
     echo "rbenv installed"
   end
 
-  # TODO: Call setup scripts
+  _setup_homebrew
+  _setup_rbenv
 
 end

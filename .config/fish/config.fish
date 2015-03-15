@@ -25,11 +25,7 @@ if test $FIRST_RUN = 'true'
         case 'Linux'
           setup-linux
         case 'Darwin'
-          # TODO: move to separate script
-          brew update
-          brew install --HEAD rbenv ruby-build rbenv-default-gems
-          # TODO: Does homebrew modify PATH for rbenv bins or do we still have to do that?
-          echo "To update rbenv and ruby-build, brew update; and brew upgrade rbenv ruby-build"
+          setup-mac
         case '*'
           echo "OS not recognized, aborting setup routine."
       end

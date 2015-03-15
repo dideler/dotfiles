@@ -6,7 +6,7 @@ function setup-linux --description "Setup script for Ubuntu Linux"
       ruby -e (curl -fsSL https://raw.githubusercontent.com/Homebrew/linuxbrew/go/install)
       add_to_path ~/.linuxbrew/bin
       set --universal --export MANPATH ~/.linuxbrew/share/man $MANPATH
-      set --universal --export INFOPATH ~/.linuxbrew/share/man $MANPATH
+      set --universal --export INFOPATH ~/.linuxbrew/share/info $INFOPATH
       brew update
     end
     echo "linuxbrew installed"

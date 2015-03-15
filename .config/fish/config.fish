@@ -1,4 +1,4 @@
-set fish_greeting # Clear greeting
+set fish_greeting  # Clear greeting
 
 # Show ANSI colour sequences in less when viewing man pages.
 # http://en.wikipedia.org/wiki/ANSI_escape_code#CSI_codes

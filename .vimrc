@@ -122,6 +122,7 @@ set wildmode=list:longest " Auto-complete to the point of ambiguity.
 set wildignore=.git,*.jpg,*.png,*.o,*.obj " Ignore files matched with these patterns.
 ""nnoremap / /\v " Use normal regexes search.
 ""vnoremap / /\v
+set complete+=kspell " Autocomplete with dictionary words when spell check is on
 
 " === Indentation and formatting ===
 set tabstop=2 " Tabs count as 2 spaces.

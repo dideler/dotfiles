@@ -47,6 +47,10 @@ status --is-interactive; and . (rbenv init -|psub)
 # If an alias requires special usage (e.g. an argument) it will say so in the
 # comments. Otherwise assume that the alias requires no arguments.
 
+alias nginx 'sudo nginx'
+
+alias nginx-stop 'sudo nginx -s stop'
+
 alias be 'bundle exec'
 
 alias less 'less -r' # Recognize escape sequences (e.g. read --help | less).

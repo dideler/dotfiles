@@ -311,3 +311,9 @@
   # Show the last commit that matches a regex:
   #   git show :/pattern
   #   git show :/^Merge
+
+# git-hawser is used by GitHub for Mac
+[filter "hawser"]
+	clean = git hawser clean %f
+	smudge = git hawser smudge %f
+	required = true

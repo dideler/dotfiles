@@ -19,9 +19,12 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 " Vundle-compatible plugins go here (typically listed by GitHub repo):
+" TODO: Switch to vim-plug since Vundle isn't actively developed?
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'chriskempson/base16-vim'
 Plugin 'davidhalter/jedi-vim'
+" Plugin 'endel/vim-github-colorscheme'
+" Plugin 'croaky/vim-colors-github'
 Plugin 'gmarik/vundle'
 Plugin 'junegunn/vim-emoji'  " CTRL-X CTRL-U to autocomplete.
 Plugin 'kchmck/vim-coffee-script'
@@ -101,7 +104,7 @@ nnoremap Q <nop> " No more annoying command menu by accident.
 " === Mouse ===
 set ttymouse=xterm2 " Recognize mouse codes for xterm2 terminal type (default).
 set mouse=a " Enable mouse for all modes.
-set ttyfast "Send more characters for redraws (helps when using mouse for copy/paste).
+set ttyfast " Send more characters for redraws (helps when using mouse for copy/paste).
 
 " === Bells ===
 ""set errorbells " (off by default)
@@ -122,7 +125,14 @@ set wildmode=list:longest " Auto-complete to the point of ambiguity.
 set wildignore=.git,*.jpg,*.png,*.o,*.obj " Ignore files matched with these patterns.
 ""nnoremap / /\v " Use normal regexes search.
 ""vnoremap / /\v
-set complete+=kspell " Autocomplete with dictionary words when spell check is on
+
+autocmd BufRead,BufNewFile *.md setlocal spell textwidth=80 " Enable spell check for Markdown files and wrap at 80 chars.
+setlocal spell spelllang=en_ca  " There's also en_gb and en_us, but I prefer Canadian spelling.
+set complete+=kspell  " Autocomplete dictionary words with C-x + s when spell check is on. Add words to dictionary with 'zg'.
+
+" Add spell checking and automatic wrapping at the recommended 72 columns to commit messages.
+" Note that the summary line is recommended to be 50 chars max, though the GH limit is 69.
+autocmd Filetype gitcommit setlocal spell textwidth=72
 
 " === Indentation and formatting ===
 set tabstop=2 " Tabs count as 2 spaces.
@@ -323,12 +333,17 @@ autocmd FileType python abbreviate def def():<Left><Left><Left>
 " Quick Ruby method definition.
 autocmd FileType ruby abbreviate def def <CR>end<Up>
 
+" Color scheme
+" colorscheme github
+" highlight NonText guibg=#060606
+" highlight Folded  guibg=#0A0A0A guifg=#9090D0
+
 " Let's try base16 colours.
 set background=dark
 colorscheme base16-default
 
-" " Change color scheme when viewing Ruby files (torte is also pretty good).
-" autocmd FileType ruby colorscheme slate
+" Change color scheme when viewing Ruby files (torte is also pretty good).
+autocmd FileType ruby colorscheme slate
 
 " " Change color scheme when viewing HAML files.
 " autocmd FileType haml colorscheme pablo
@@ -356,10 +371,6 @@ autocmd vimenter * if !argc() | NERDTree | endif
 
 " Autoclose NERDTree if it's the only window left open.
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
-" Add spell checking and automatic wrapping at the recommended 72 columns to commit messages.
-" Note that the summary line is recommended to be 50 chars max, though the GH limit is 69.
-autocmd Filetype gitcommit setlocal spell textwidth=72
 
 " Local config to override values in ~/.vimrc (useful if vimrc is shared).
 if filereadable($HOME . "/.vimrc.local")

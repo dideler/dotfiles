@@ -47,6 +47,13 @@ status --is-interactive; and . (rbenv init -|psub)
 # If an alias requires special usage (e.g. an argument) it will say so in the
 # comments. Otherwise assume that the alias requires no arguments.
 
+# Temporary deprecation fix until next minor version of fish (2.2) is released.
+# https://github.com/fish-shell/fish-shell/commit/efc3846fcfa6f0bae8312645c41b132c6156b3d1
+set --erase GREP_OPTIONS  # GREP_OPTIONS is deprecated since GNU grep 2.21
+alias grep 'grep --color=auto'
+
+alias textedit 'open -a TextEdit'
+
 alias nginx 'sudo nginx'
 
 alias nginx-stop 'sudo nginx -s stop'

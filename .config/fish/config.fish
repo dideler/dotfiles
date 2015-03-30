@@ -36,7 +36,7 @@ if test $FIRST_RUN = 'true'
 end
 
 # Load rbenv automatically.
-status --is-interactive; and . (rbenv init -|psub)
+status --is-interactive; and source (rbenv init -|psub)
 
 # TODO: Also set up https://github.com/yyuu/pyenv (it's Python's rbenv )
 

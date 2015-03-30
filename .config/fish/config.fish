@@ -52,6 +52,8 @@ status --is-interactive; and source (rbenv init -|psub)
 set --erase GREP_OPTIONS  # GREP_OPTIONS is deprecated since GNU grep 2.21
 alias grep 'grep --color=auto'
 
+alias rgrep 'rgrep --colour'
+
 alias textedit 'open -a TextEdit'
 
 alias nginx 'sudo nginx'
@@ -83,7 +85,6 @@ alias distro 'cat /etc/os-release | head --lines=2'
 
 #alias grep grep --colour' # TODO
 
-#alias rgrep rgrep --colour' # TODO
 
 alias ipconfig ifconfig
 

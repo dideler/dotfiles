@@ -19,6 +19,10 @@
 # Some aliases are executed with bash or sh. This is so that the (syntax of the)
 # aliases work regardless of which shell you're using (e.g. fish shell).
 
+  logfile = log --all -- "$1"
+  # Show history of a file given its path.
+  # Can also be used for deleted files to see when they were removed.
+
   tag-fca = !sh -c 'git tag --annotate deploy_production_$(date +%Y%m%d%H%M%S)'
   # Use for creating a new fca release.
 

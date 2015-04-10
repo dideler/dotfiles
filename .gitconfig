@@ -1,5 +1,6 @@
 [user]
   name = Dennis Ideler
+  initials = di
   email = ideler.dennis@gmail.com
 [core]
   autocrlf = input

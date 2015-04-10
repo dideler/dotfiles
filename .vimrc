@@ -20,17 +20,18 @@ call vundle#rc()
 
 " Vundle-compatible plugins go here (typically listed by GitHub repo):
 " TODO: Switch to vim-plug since Vundle isn't actively developed?
+" Plugin 'croaky/vim-colors-github'
+" Plugin 'endel/vim-github-colorscheme'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'chriskempson/base16-vim'
 Plugin 'davidhalter/jedi-vim'
-" Plugin 'endel/vim-github-colorscheme'
-" Plugin 'croaky/vim-colors-github'
 Plugin 'gmarik/vundle'
 Plugin 'junegunn/vim-emoji'  " CTRL-X CTRL-U to autocomplete.
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'scrooloose/nerdtree'
 Plugin 'spolu/dwm.vim'
 Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-git'
 Plugin 'tpope/vim-haml'
@@ -58,6 +59,12 @@ let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_rails = 1
 
 set completefunc=emoji#complete " Autocomplete emoji
+
+" Run tasks from Vim without losing focus.
+" E.g. :Dispatch bundle install
+autocmd FileType ruby let b:dispatch = 'bundle exec rspec %'
+nnoremap <F9> :Dispatch<CR>
+
 
 " Install plugins if Vundle was just downloaded.
 if exists("s:bootstrap") && s:bootstrap

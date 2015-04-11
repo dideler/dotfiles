@@ -221,7 +221,7 @@
   log-no-merges = !git lg --no-merges
   # Don't show merges in my concise log.
 
-  nuke = !sh -c 'git branch -D "$1" && git push origin --delete "$1"' -
+  delete-branch = !sh -c 'git branch -D "$1" && git push origin --delete "$1"' -
   # Nukes a branch locally and on the origin remote.
 
   ignore-versioned-file = !git update-index --assume-unchanged

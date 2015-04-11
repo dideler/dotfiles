@@ -10,6 +10,8 @@
   ui = auto
 [push]
   default = simple
+[fetch]
+  prune = true
 [credential] # Can only be used with HTTPS. Normally you want to use SSH.
   helper = cache --timeout=3600
 [help]

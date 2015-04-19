@@ -13,7 +13,7 @@ function setup-mac --description "Setup script for OS X"
     if not type rbenv >/dev/null
       brew install --HEAD rbenv ruby-build rbenv-default-gems
       rbenv rehash
-      echo "To update rbenv and ruby-build, brew update; and brew upgrade rbenv ruby-build"
+      echo "To update rbenv and ruby-build, brew update; and brew upgrade --HEAD rbenv ruby-build"
     end
     echo "rbenv installed"
   end

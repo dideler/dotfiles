@@ -134,7 +134,7 @@ set wildignore=.git,*.jpg,*.png,*.o,*.obj " Ignore files matched with these patt
 ""vnoremap / /\v
 
 autocmd BufRead,BufNewFile *.md setlocal spell textwidth=80 " Enable spell check for Markdown files and wrap at 80 chars.
-setlocal spell spelllang=en_ca  " There's also en_gb and en_us, but I prefer Canadian spelling.
+setlocal spelllang=en_ca  " There's also en_gb and en_us, but I prefer Canadian spelling.
 set complete+=kspell  " Autocomplete dictionary words with C-x + s when spell check is on. Add words to dictionary with 'zg'.
 
 " Add spell checking and automatic wrapping at the recommended 72 columns to commit messages.

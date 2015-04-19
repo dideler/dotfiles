@@ -346,8 +346,8 @@ autocmd FileType ruby abbreviate def def <CR>end<Up>
 " highlight Folded  guibg=#0A0A0A guifg=#9090D0
 
 " Let's try base16 colours.
-set background=dark
-colorscheme base16-default
+" set background=dark
+" colorscheme base16-default
 
 " Change color scheme when viewing Ruby files (torte is also pretty good).
 autocmd FileType ruby colorscheme slate
@@ -355,8 +355,8 @@ autocmd FileType ruby colorscheme slate
 " " Change color scheme when viewing HAML files.
 " autocmd FileType haml colorscheme pablo
 
-" " Change color scheme when viewing Markdown files.
-" autocmd FileType markdown colorscheme torte
+" Change color scheme when viewing Markdown files.
+autocmd FileType markdown colorscheme torte
 
 " Do a sudo write with w!!
 " (note that `cabbrev` can be abbreviated to `ca`).

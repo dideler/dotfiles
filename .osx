@@ -98,5 +98,5 @@ defaults write com.apple.Dock autohide-delay -float 0
 defaults write com.apple.terminal FocusFollowsMouse -bool true
 defaults write org.x.X11 wm_ffm -bool true
 
-echo "Done. Some changes require a logout/restart to take effect."
+echo "Done OS X configurations. Some changes require a logout/restart to take effect."
 

@@ -8,7 +8,6 @@ function setup-mac --description "Setup script for OS X"
     echo "homebrew installed"
   end
 
-  # Installs rbenv and friends.
   function _setup_rbenv
     if not type rbenv >/dev/null
       brew install --HEAD rbenv ruby-build rbenv-default-gems
@@ -18,7 +17,16 @@ function setup-mac --description "Setup script for OS X"
     echo "rbenv installed"
   end
 
+  function _run_osx_script
+    if test -f ~/.osx
+      source ~/.osx
+    else
+      echo "Could not find OS X script"
+    end
+  end
+
   _setup_homebrew
   _setup_rbenv
+  _run_osx_script
 
 end

@@ -12,33 +12,98 @@
   default = simple
 [fetch]
   prune = true
-[credential] # Can only be used with HTTPS. Normally you want to use SSH.
-  helper = cache --timeout=3600
+[credential]
+  helper = cache --timeout=3600  # Cache credentials for 1 hour when using HTTPS.
 [help]
-  autocorrect = 35 # Autocorrect typos in 3.5 seconds.
-[alias]
-# Check out https://git.wiki.kernel.org/index.php/Aliases
-# Note that aliases that hide existing git commands are ignored.
-# Some aliases are executed with bash or sh. This is so that the (syntax of the)
-# aliases work regardless of which shell you're using (e.g. fish shell).
+  autocorrect = 35  # Autocorrect typos in 3.5 seconds.
+[alias]  # Note: Git ignores aliases that hide existing git commands.
 
-  logfile = log --all -- "$1"
-  # Show history of a file given its path.
-  # Can also be used for deleted files to see when they were removed.
+  ### Basics
 
-  tag-fca = !sh -c 'git tag --annotate deploy_production_$(date +%Y%m%d%H%M%S)'
-  # Use for creating a new fca release.
+  br = branch
+  cm = commit
+  co = checkout
+  df = diff
+  st = status
 
+
+  ### Logging
+
+  # Shows history of an existing or deleted file given its path.
+  history = log --all -- "$1"
+
+  # Shows the commit message of HEAD.
+  last = log -1
+
+  # Shows the commit of HEAD.
+  show-last = !git last -p
+
+  # Shows new commits since last command (e.g. after a `git pull`).
+  new-commits = !sh -c 'git log $1@{1}..$1@{0} "$@"'
+
+  # Logs commits in a concise graph.
+  lg = !git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+
+  # Hides merges (shows a linear graph).
+  linear-log = !git lg --no-merges
+
+  # Lists commits of a topic branch that differ from master.
+  topic-commits = !git lg master..
+
+  # Lists yours commits made since midnight.
+  today = !git log --since=midnight --author=\"$(git config user.name)\" --oneline
+
+  # Lists yours commits made yesterday.
+  yesterday = !git log --since=yesterday.midnight --until=midnight --author=\"$(git config user.name)\" --oneline
+
+  # Commit history of last workday; use for daily standup. Uses yesterworkday fish function.
+  standup = !fish -ic 'git log --since "(yesterworkday)" --author "(git config user.name)"'
+
+
+  ### Push
+
+  # "Undo" the last push by force pushing the previous commit. Caution: rewrites pushed history.
+  unpush = push -f origin HEAD~1:master
+
+  # Push tags to remote (e.g. GitHub).
+  push-tags = push --tags
+
+  # You only live once.
+  yolo = push origin HEAD --force --no-verify
+
+  # Pushes all branches and sets upstream.
+  go = git push --all --set-upstream origin
+
+  # Lists committed files to be pushed.
+  to-push = diff --stat origin/master HEAD
+
+
+  ### Commits
+
+  # Amends a commit. Adds staged changes to the last commit and rewrites commit msg.
+  amend = commit --amend
+
+  # Recommits files that were uncommited.
+  recommit = commit --reedit-message ORIG_HEAD
+
+  ### Reset
+
+
+  ### Pull Requests
+
+  # Opens a PR via hub, after you give a PR title & description.
+  # Accepts args for explicit title, pull base, head, and more.
+  # E.g.  git pr -m "Fix gh-123" -b dev -h 123-bug-fix
   pr = !hub pull-request
-  # Shortcut for opening a PR via the CLI with hub.
-  # On topic branch w/o args: Opens text editor to edit title & body for the PR.
-  # Can use args for explicit title, pull base, head, and more:
-  #   git pr -m "Fix gh-123" -b dev -h 123-bug-fix
 
+  # Immediately opens a PR with the title and body from the last commit message.
   pr-msg = !git log -n 1 --pretty=format:'%s%n%n%b' | hub pull-request -F -
-  # Opens a PR with the title and body based on the last commit message (default is empty).
-  # Note that this does not open a text editor with the commit msg pre-filled;
-  # It will immediately open the PR without chance to review.
+
+  ##################
+
+  # Use for creating a new fca release.
+  tag-fca = !sh -c 'git tag --annotate deploy_production_$(date +%Y%m%d%H%M%S)'
+
 
   branches = for-each-ref --sort=-committerdate --format=\"%(authordate:relative)\t%(color:blue)%(authorname)\t%(color:green)%(refname:short)\" refs/remotes
   # Lists all remote branches, sorted by most recent commit date.
@@ -50,29 +115,6 @@
   # Merge as: git merge pr/123 --ff-only
   # Or with hub: git checkout https://github.com/organization/project/pull/123
 
-  rewrite-commit-msg = commit --amend
-  # Allows you to rewrite the most recent commit message.
-  # Note that this will change the id of the commit.
-  # You're effectively creating a new commit to replace the old one.
-  #
-  # You can also reword the last (or older) commit messages with git rebase and
-  # the reword operation.
-  #
-  # Both amend and rebase will rewrite history.
-  # Do NOT use them if you've already pushed your commits to a shared repo.
-  #
-  # NOTE: --amend can also be used to take staged changes and push them into the
-  #       previous commit. The add-to-last-commit alias is used for this, and
-  #       does the staging part for you.
-
-  add-to-last-commit = !bash -c 'git add "$@" && git commit --amend' -
-  # Takes unstaged changes (of given files) and adds them to the previous commit.
-  # Or if no args provided, takes the staged changes and adds them to the previous commit.
-  # Useful when adding small chunks to a WIP commit.
-  # Equivalent to: uncommit + add changes + recommit
-  #
-  # Alternatively, you can create lots of temporary commits and squash them
-  # together using git rebase and the pick and squash operations.
 
   undo = reset --hard
   # Discards all changes since the last commit.
@@ -90,8 +132,6 @@
   uncommit = reset --soft HEAD^
   # Undo a commit.
 
-  recommit = commit -c ORIG_HEAD
-  # Recommit files that were uncommit.
 
   ##alias = config --get-regexp alias
   # Displays all git aliases.
@@ -122,10 +162,6 @@
   # Restore stashed modifications (potentially on top a different commit).
   # Removes the state from the stash list. Use `stash apply` to keep the state.
 
-  unpush = push -f origin HEAD~1:master
-  # Undo a push. Replace 1 with number of pushes to undo.
-  # Warning: Do not rewrite history is someone has pulled your changes!
-  # Note: HEAD~1 means exactly the same thing as HEAD^, "the commit before HEAD".
 
   merge-topic-branch = merge --no-ff
   # No fast-forward merge. Shows branch in history as merge commit.
@@ -143,13 +179,6 @@
   # If you have the branch checked out that you want to rename, you can supply
   # only the new name.
 
-  push-tags = push --tags
-  # Push tags to remote (e.g. GitHub).
-
-  last = log -1
-  # Show the commit message of HEAD (i.e. last commit msg).
-  # Hint: You can view the diff using the -p argument.
-
   last-sha-origin = !git ls-remote origin --heads refs/heads/master | cut -f1
   # Show SHA1 of last commit on origin.
 
@@ -162,9 +191,6 @@
   # Alternatively, you can use the heroku toolbelt CLI:
   # heroku git:remote -a project, where project is the project name on heroku.
 
-  fresh-commits = !sh -c 'git log $1@{1}..$1@{0} "$@"'
-  # See what new commits have been created by the last command
-  # (e.g. after a "git pull")
 
   add-note = notes add
   # Opens the editor to add a note to the last commit
@@ -213,15 +239,7 @@
   # Grab all of the latest changes from both remotes, and then merge in the
   # commits from upstream. Helps to merge in changes easily.
 
-  show-last = !git last -p
-  # Shows the last commit with code changes.
 
-  lg = !git log --graph \
-       --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
-  # Concise graph log.
-
-  log-no-merges = !git lg --no-merges
-  # Don't show merges in my concise log.
 
   delete-branch = !sh -c 'git branch -D "$1" && git push origin --delete "$1"' -
   # Nukes a branch locally and on the origin remote.
@@ -252,56 +270,20 @@
   # Cleanup unnecessary files and optimize the local repository.
   # Run this task on a regular basis within each repository.
 
-  topic-commits = !git lg master..
-  # List short form of commits that differ from master.
-  # Use within topic branch.
-
-  list-topic-commits = log master..
-  # List long form of commits that differ from master.
-  # Use within topic branch.
-
   topic-changes = !sh -c 'git diff master'
   # Diff of all the changes that the topic branch will introduce.
   # Use within topic branch.
 
-  today = !git log --since=midnight --author=\"$(git config user.name)\" --oneline
-
-  yesterday = !git log --since=yesterday.midnight --until=midnight --author=\"$(git config user.name)\" --oneline
-
-  standup = !fish -ic 'git log --since (yesterworkday)'
-  # Info for daily standup. Uses yesterworkday fish function.
-
-  co = checkout
-  # Using a shell alias (e.g. gco) doesn't provide branch name auto-completion.
 
   commit-count = rev-list --count HEAD
   # Show commit count of current branch.
   # Replace HEAD with branch name to see other branch counts.
 
-  first-push = git push --set-upstream origin --all
-  # Pushes up the repo and its refs and sets upstream for git pull/status.
-
   start = !git init && git commit --allow-empty -m \"Let's do this!\"
   # Use this instead of git init when creating a new repo.
 
-  to-push = diff --stat origin/master HEAD
-  # List of committed files to be pushed.
-  # To see changes: git diff origin/master HEAD
-  # Or see changes file by file: git difftool origin/master
-
   recent = for-each-ref --count=5 --sort=-committerdate --format='%(refname:short)' refs/heads
   # Shows recent branches.
-
-  yolo = push origin HEAD --force --no-verify
-  # Look, if you had one shot, or one opportunity...
-  # To seize everything you ever wanted. One moment.
-  # Would you capture it or just let it slip?
-
-  # FIXME (tip: match words with \b, e.g. \bsent\b)
-  #sed = !bash -ic 'git ls-files | xargs sed "${@:2}"'
-  #sed = !bash -ic 'echo "${@:2}"' -
-  #sed = !fish -ic 'echo $argv' -
-  #sed = !fish -ic 'git ls-files | xargs sed -i "$argv"'
 
   # Note that you can also use (local) functions for aliases. E.g.
   # foo = "!f() { echo "$1"; }; f"
@@ -319,8 +301,7 @@
   #   git show :/pattern
   #   git show :/^Merge
 
-# git-hawser is used by GitHub for Mac
-[filter "hawser"]
+[filter "hawser"]  # Added by GitHub for Mac, which uses git-hawser.
 	clean = git hawser clean %f
 	smudge = git hawser smudge %f
 	required = true

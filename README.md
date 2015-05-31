@@ -1,7 +1,5 @@
-dotfiles of @dideler
-====================
-
-I'd love to hear from you if any of my dotfiles came in handy.
+dotfiles etc. of @dideler
+=========================
 
 The [link](link) script will symlink all the files in the repository to your
 $HOME (except the ones that are specified to be excluded--see the script).
@@ -20,16 +18,16 @@ you don't want to touch:
 
 ```
 /home/dennis/.config
-|-- fakefish
-|   |-- config.fakefish
-|   `-- fakefunctions
-|       |-- 1.fakefish
-|       |-- 2.fakefish
-|       `-- 3.fakefish
-`-- ignore_me
+|-- fish
+|   |-- config.fish
+|   `-- functions
+|       |-- 1.fish
+|       |-- 2.fish
+|       `-- 3.fish
+`-- ignore_this_file
 ```
 
-One way way is to recursively copy the common ancestor directory to your
+One way is to recursively copy the common ancestor directory to your
 dotfiles repo and remove the stuff you don't want symlinked and on GitHub.
 
 ```

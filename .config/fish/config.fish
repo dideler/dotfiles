@@ -91,6 +91,7 @@ alias combinepdfs 'convert -density 200'
 
 ### Git aliases
 alias gl 'git log --oneline --decorate' # Also shows tags!
+alias gg 'git log --graph --date=relative'
 alias glog "git log --graph \
             --abbrev-commit \
             --date=relative \

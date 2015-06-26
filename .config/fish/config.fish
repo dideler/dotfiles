@@ -20,7 +20,7 @@ if test $FIRST_RUN = 'true'
   read --local --prompt "echo 'Run setup routine to install tools? [Y/n] '" choice
   switch $choice
     case '' 'y' 'Y' 'yes'
-      setup
+      setup-tools
     case '*'
       echo "Aborting setup routine..."
   end

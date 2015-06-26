@@ -32,9 +32,14 @@ function setup-mac --description "Setup script for OS X"
     end
   end
 
+  function _print_reminders
+    echo -e "A few more things you may wish to do:
+     - gem install iStats"
+  end
+
   _setup_homebrew
   _setup_rbenv
   _setup_aliases
   _run_osx_script
-
+  _print_reminders
 end

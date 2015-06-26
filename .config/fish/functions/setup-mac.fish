@@ -27,7 +27,7 @@ function setup-mac --description "Setup script for OS X"
   function _run_osx_script
     echo "Configuring OS X"
     if test -f ~/.osx
-      source ~/.osx
+      bash ~/.osx
     else
       echo "Could not find OS X script"
     end

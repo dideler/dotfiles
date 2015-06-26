@@ -1,30 +1,31 @@
 function setup-mac --description "Setup script for OS X"
 
   function _setup_homebrew
+    echo "Setting up homebrew"
     if not type brew >/dev/null
       ruby -e (curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)
       brew update
     end
-    echo "homebrew installed"
   end
 
   function _setup_rbenv
+    echo "Setting up rbenv and friends"
     if not type rbenv >/dev/null
       brew install --HEAD rbenv ruby-build rbenv-default-gems
       rbenv rehash
       echo "To update rbenv and ruby-build, brew update; and brew upgrade --HEAD rbenv ruby-build"
     end
-    echo "rbenv installed"
   end
 
   function _setup_aliases
+    echo "Setting up OS X aliases"
     if test -f ~/.config/fish/osx-aliases.fish
       source ~/.config/fish/osx-aliases.fish
-      echo "mac aliases installed"
     end
   end
 
   function _run_osx_script
+    echo "Configuring OS X"
     if test -f ~/.osx
       source ~/.osx
     else

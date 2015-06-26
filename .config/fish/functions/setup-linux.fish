@@ -2,6 +2,7 @@ function setup-linux --description "Setup script for Ubuntu Linux"
 
   # Installs linuxbrew.
   function _setup_homebrew
+    echo "Setting up linuxbrew"
     if not type brew >/dev/null
       sudo apt-get install build-essential curl git m4 ruby texinfo libbz2-dev libcurl4-openssl-dev libexpat-dev libncurses-dev zlib1g-dev
       curl https://raw.githubusercontent.com/Homebrew/linuxbrew/go/install --location --show-error --output /tmp/install-linuxbrew
@@ -12,13 +13,13 @@ function setup-linux --description "Setup script for Ubuntu Linux"
       brew doctor
       brew update
     end
-    echo "linuxbrew installed"
   end
 
   # Installs rbenv and friends.
   # Note: Anything RVM related should be fully removed for rbenv to work.
   # Note: rbenv and friends can also be installed via linuxbrew.
   function _setup_rbenv
+    echo "Setting up rbenv and friends"
     if not type rbenv >/dev/null
       git clone git://github.com/sstephenson/rbenv.git ~/.rbenv
       git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
@@ -29,13 +30,12 @@ function setup-linux --description "Setup script for Ubuntu Linux"
       rbenv rehash
       echo "To update rbenv and ruby-build, go into their repos and pull the latest changes."
     end
-    echo "rbenv installed"
   end
 
   function _setup_aliases
+    echo "Setting up Linux aliases"
     if test -f ~/.config/fish/linux-aliases.fish
       source ~/.config/fish/linux-aliases.fish
-      echo "linux aliases installed"
     end
   end
 

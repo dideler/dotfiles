@@ -32,7 +32,15 @@ function setup-linux --description "Setup script for Ubuntu Linux"
     echo "rbenv installed"
   end
 
+  function _setup_aliases
+    if test -f ~/.config/fish/linux-aliases.fish
+      source ~/.config/fish/linux-aliases.fish
+      echo "linux aliases installed"
+    end
+  end
+
   _setup_homebrew
   _setup_rbenv
+  _setup_aliases
 
 end

@@ -17,6 +17,13 @@ function setup-mac --description "Setup script for OS X"
     echo "rbenv installed"
   end
 
+  function _setup_aliases
+    if test -f ~/.config/fish/osx-aliases.fish
+      source ~/.config/fish/osx-aliases.fish
+      echo "mac aliases installed"
+    end
+  end
+
   function _run_osx_script
     if test -f ~/.osx
       source ~/.osx
@@ -27,6 +34,7 @@ function setup-mac --description "Setup script for OS X"
 
   _setup_homebrew
   _setup_rbenv
+  _setup_aliases
   _run_osx_script
 
 end

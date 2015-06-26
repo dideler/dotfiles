@@ -1,0 +1,3 @@
+# To run Brewfile:
+#   brew tap homebrew/bundle  (once)
+#   brew bundle --file=Brewfile.linux

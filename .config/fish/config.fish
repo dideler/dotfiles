@@ -55,7 +55,7 @@ alias ipconfig ifconfig
 alias kernel "uname -mrs"  # Shows the kernel version (e.g. Linux 3.2.0 x86_64)
 alias less 'less -r' # Recognize escape sequences (e.g. read --help | less).
 alias ls-size 'ls -horS'  # List directory contents sorted by increasing size.
-alias md5 md5sum  # TODO OS X Brewfile: brew install md5sha1sum
+alias md5 md5sum
 alias mp 'mplayer -really-quiet -playlist'
 alias nano 'nano --const'  # Constantly show the cursor position in nano.
 alias public-ip 'curl icanhazip.com'
@@ -65,7 +65,7 @@ alias spaces2tabs "sed -i 's/ \+ /\t/g'"  # Replaces multiple spaces with a tab 
 alias sshkey "copy ~/.ssh/id_rsa.pub; and echo 'Public key copied to clipboard'"
 alias t 'python ~/.t/t.py --task-dir ~/tasks --list tasks'
 alias textedit 'open -a TextEdit'
-alias units 'units --verbose'  # TODO: brew install --with-default-names gnu-units
+alias units 'units --verbose'
 alias vi 'vim -O'  # Vertically split windows if multiple files given.
 alias which 'which -a'  # Show all matches.
 
@@ -74,12 +74,12 @@ alias eth0ip "ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print \"e
 alias wlan0ip "ifconfig wlan0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print \"wlan: \" \$1}'"  # Wireless IP address.
 alias serve 'eth0ip; and wlan0ip; and python -m SimpleHTTPServer'  # Serves current directory on local network, port 8000.
 
-alias imagify 'jp2a --colors'  # TODO: brew install
+alias imagify 'jp2a --colors'
 # Displays a JPEG image as coloured ASCII in stdout.
 # Also check out picture-tube which is for PNGs.
 # Usage: imagify file1, file2, ...
 
-alias combineimgs 'convert +append'  # TODO: brew install imagemagick
+alias combineimgs 'convert +append'
 # Combines images horizontally (side-by-side).
 # Usage: combineimgs infile1, infile2, ..., outfile
 

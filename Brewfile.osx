@@ -2,16 +2,17 @@
 #   brew tap homebrew/bundle  (once)
 #   brew bundle --file=Brewfile.osx
 
-# GNU tools (TODO: verify option works)
-brew 'coreutils' --with-default-names
-brew 'findutils' --with-default-names
-brew 'gawk' --with-default-names
-brew 'gnutls' --with-default-names
-brew 'gnu-indent' --with-default-names
-brew 'gnu-getopt' --with-default-names
-brew 'gnu-tar' --with-default-names
-brew 'gnu-sed' --with-default-names
-brew 'gnu-units' --with-default-names
+# GNU tools
+# FIXME: pass options properly so commands won't be prepended with a 'g'
+brew 'coreutils' # --with-default-names
+brew 'findutils' # --with-default-names
+brew 'gawk' # --with-default-names
+brew 'gnutls' # --with-default-names
+brew 'gnu-indent' # --with-default-names
+brew 'gnu-getopt' # --with-default-names
+brew 'gnu-tar' # --with-default-names
+brew 'gnu-sed' # --with-default-names
+brew 'gnu-units' # --with-default-names
 
 brew 'md5sha1sum'
 brew 'imagemagick'

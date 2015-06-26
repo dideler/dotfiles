@@ -20,14 +20,7 @@ if test $FIRST_RUN = 'true'
   read --local --prompt "echo 'Run setup routine to install tools? [Y/n] '" choice
   switch $choice
     case '' 'y' 'Y' 'yes'
-      switch (uname)
-        case 'Linux'
-          setup-linux
-        case 'Darwin'
-          setup-mac
-        case '*'
-          echo "OS not recognized, aborting setup routine."
-      end
+      setup
     case '*'
       echo "Aborting setup routine..."
   end

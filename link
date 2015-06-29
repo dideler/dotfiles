@@ -165,13 +165,19 @@ link() {
 }
 
 # Symbolically links files in your dotfiles repo to your $HOME.
-# Ignores the license, readme, link script, and local git directory.
 #
 # For example, if your dotfiles repo has a file named `.foo`,
 # this will create the link: ~/.foo ➜  ~/path/to/dotfiles/.foo
 link_dotfiles() {
   print_info "Creating links in $HOME to your dotfiles..."
-  local dotfiles=$(find . -type d -name .git -prune -o -not -name 'LICENSE' -not -name 'README.md' -not -name 'link' -not -name '.gitignore' -not -name '.' -print)
+  local dotfiles=$(find . -type d -name .git -prune -o \
+    -not -name 'Brewfile*' \
+    -not -name 'LICENSE' \
+    -not -name 'README.md' \
+    -not -name 'link' \
+    -not -name '.gitignore' \
+    -not -name '.' \
+    -print)
 
   for file in $dotfiles; do  # Known issue: does not work with filenames w/ spaces.
     link $file $HOME

@@ -1,6 +1,4 @@
-" This .vimrc is inspired by others, best practices, coding styleguides, and
-" personal preference. For help, in Vim type `:help <topic>`.
-" Author: Dennis Ideler
+" For help, in Vim type `:help <topic>`.
 
 set nocompatible " Don't need to be compatible with Vi at the expense of Vim.
 set shell=sh " Vim assumes your shell is sh compatible and fish-shell isn't.
@@ -43,7 +41,7 @@ Plug 'vim-scripts/closetag.vim'  " CTRL-_ to close tags.
 
 call plug#end()
 
-" Set some global variables for plugins. Can view value with `echo g:varname`.
+" === Configure some plugins. View global values with `echo g:varname`.
 let g:dwm_master_pane_width = 84 " Set width of master pane in dwm.vim. For percentages, use quotes.
 autocmd VimResized * call DWM_ResizeMasterPaneWidth()
 
@@ -52,7 +50,18 @@ let g:rubycomplete_rails = 1
 
 set completefunc=emoji#complete " Autocomplete emoji
 
-" Run tasks from Vim without losing focus.
+let NERDTreeWinSize=35
+noremap <F4> :NERDTreeToggle<CR>  " Toggle NERDTree (open/close).
+autocmd vimenter *  " Show NERDTree on empty open.
+ \ if !argc()
+ \ | NERDTree |
+ \ endif
+autocmd bufenter *  " Autoclose NERDTree if it's the only window left.
+ \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary")
+ \ | q |
+ \ endif
+
+" Run tasks from Vim (using Dispatcher) without losing focus.
 " E.g. :Dispatch bundle install
 autocmd FileType ruby let b:dispatch = 'bundle exec rspec %'
 nnoremap <F9> :Dispatch<CR>
@@ -67,50 +76,28 @@ endif
 set modelines=0 " Prevent security exploits that use modelines.
 set backspace=indent,eol,start " Allow backspacing over everything in INS mode.
 
-
-" === UI ===
-set title " Change terminal title.
-set ruler " Show cursor position (line & column) in bottom right of statusline.
+set title  " Change terminal title.
+set ruler  " Show cursor position (line & column).
 set number " Show line numbers.
+set nostartofline " Keep the cursor in the same column when possible.
+set laststatus=2  " Always show status line.
+set statusline=%<%f\ %y[%{&ff}]%m%r%w%a\ %=%l/%L,%c%V\ %P " Better status line.
 
-" Instead of counting, use <line#>dG: deletes from the cursor to the given line.
-" A plugin of interest is numbers.vim: http://myusuf3.github.com/numbers.vim/
+" TODO: check out numbers.vim: http://myusuf3.github.com/numbers.vim/
 ""set relativenumber " Show line numbers relative to current line.
 
-""set cursorline " Highlight current line.
-set showcmd " Display an incomplete command in the lower right corner.
-""set showmode " Display current mode in the lower right corner.
-set hidden " Manage multiple buffers effectively. Hides buffers in background, not in a window.
-set nostartofline " Keep the cursor in the same column (if possible).
-""set laststatus=2 " Always show status line (default=1, show if multiple windows open).
-""set statusline=%<%f\ %y[%{&ff}]%m%r%w%a\ %=%l/%L,%c%V\ %P " Improved status line.
-
-set history=128 " Keep a history of up to 128 commands & searches.
-""set undofile " Keep a history file so you can undo even after reopening Vim. Creates annoying .un~ files.
 set undolevels=128 " Keep a history of the last 128 changes.
 set nobackup " Don't create backup~ file.
-""set nowritebackup "No backup file while editing.
 set noswapfile " Don't create swap.swp file.
-""set nowb " Prevents automatic write backup before overwriting file.
-""set nobk " Prevents keeping of backup after overwriting the file.
-""set autowrite " Auto-write if modified, on certain commands.
-au FocusLost * :wa " Write all changes when window loses focus, and keep working.
+au FocusLost * :wa " Write all changes when window loses focus.
 
 command! W write " :W will write the file instead of complaining.
 nnoremap Q <nop> " No more annoying command menu by accident.
 
-" === Mouse ===
 set ttymouse=xterm2 " Recognize mouse codes for xterm2 terminal type (default).
 set mouse=a " Enable mouse for all modes.
-set ttyfast " Send more characters for redraws (helps when using mouse for copy/paste).
+set ttyfast " Send more characters for redraws.
 
-" === Bells ===
-""set errorbells " (off by default)
-set noerrorbells " Shhh...
-""set visualbell " Flash the screen instead. (off by default)
-""set novisualbell
-
-" === Search ====
 set ignorecase " Ignore case when searching. Prefix search with \c to match case.
 set smartcase " Become case sensitive when search contains a capital letter.
 set showmatch " Show matching parenthesis.
@@ -119,28 +106,22 @@ set hlsearch " Highlight search terms.
 set gdefault " Global substitutions (:%s/foo/bar/ replaces :%s/foo/bar/g).
 set wildmenu " Lets you see possible commands during auto-completion.
 set wildmode=list:longest " Auto-complete to the point of ambiguity.
-""set wildmode=longest,full " First longest match, then full match.
 set wildignore=.git,*.jpg,*.png,*.o,*.obj " Ignore files matched with these patterns.
-""nnoremap / /\v " Use normal regexes search.
-""vnoremap / /\v
 
 autocmd BufRead,BufNewFile *.md setlocal spell textwidth=80 " Enable spell check for Markdown files and wrap at 80 chars.
-setlocal spelllang=en_ca  " There's also en_gb and en_us, but I prefer Canadian spelling.
+setlocal spelllang=en_ca  " Use Canadian spelling.
 set complete+=kspell  " Autocomplete dictionary words with C-x + s when spell check is on. Add words to dictionary with 'zg'.
 
-" Add spell checking and automatic wrapping at the recommended 72 columns to commit messages.
-" Note that the summary line is recommended to be 50 chars max, though the GH limit is 69.
+" Spell checking and wrapping at the recommended 72 columns for commit messages.
+" Note: summary line is recommended to be 50 chars max, but the GH limit is 69.
 autocmd Filetype gitcommit setlocal spell textwidth=72
 
 " === Indentation and formatting ===
-set tabstop=2 " Tabs count as 2 spaces.
+set tabstop=2    " Tabs count as 2 spaces.
 set shiftwidth=2 " Auto-indent uses 2 spaces.
-set shiftround " Improved indentation when using >> and <<.
-set expandtab " Expand tabs to spaces.
+set shiftround   " Improved indentation when using >> and <<.
+set expandtab    " Expand tabs to spaces.
 
-set wrap " Wrap lines on load (on by default) -- turn off with nowrap.
-""set fo-=t " Don't automatically wrap when typing.
-""set showbreak=--->  " Emphasize when a wrap occurs.
 set textwidth=80 " Wrap after 80 characters.
 set formatoptions=qrn1
 "set colorcolumn=81 " Colour the column after exceeding the wrap by too far.
@@ -163,7 +144,9 @@ func! ToggleColorColumn()
     endif
 endfunc
 
-set fileformat=unix
+" Use UNIX fileformat when possible.
+au BufRead,BufNewFile * if &l:modifiable | setlocal fileformat=unix | endif
+
 set encoding=utf-8 " The encoding displayed.
 set fileencodings=utf8 " The encoding written to file.
 
@@ -191,15 +174,10 @@ autocmd filetype javascript setlocal shiftwidth=2
 autocmd filetype python setlocal expandtab tabstop=4 shiftwidth=4 softtabstop=4
 autocmd filetype scala setlocal foldmethod=indent
 
-" === Folds ===
-" http://vim.wikia.com/wiki/Use_folds_in_your_program
-set foldmethod=indent " Groups of lines with same indent form a fold.
 set foldnestmax=3 " Deepest fold is 3 levels.
-set nofoldenable " Dont fold by default.
-""set foldmethod=syntax " Folds defined by syntax highlighting.
-""set foldlevelstart=99 " Start with all (99 levels of) folds open.
+set nofoldenable  " Don't fold by default.
 
-let mapleader = "," " Change start symbol of aliases/mappings.
+let mapleader = ","  " Change start symbol of aliases/mappings.
 
 " === Mappings ===
 " Recursive/Non-recursive
@@ -308,7 +286,7 @@ map <C-v> "+gP
 
 " === Abbreviations ===
 " abbreviate == ab
-" cabbrev == ca
+" cabbrev == ca  Command mode only
 " iabbrev == ia  Insert mode only
 " List all abbreviations with :ab
 
@@ -320,7 +298,7 @@ abbreviate #b /********************************************************
 abbreviate #e *********************************************************/
 abbreviate #l /*------------------------------------------------------*/
 
-" C/C++ style function header. Note: ia[bbrev] is same as ab[breviate] but for Insert mode only.
+" C/C++ style function header.
 iabbrev funcom /**<CR>*<CR>*/<Up>
 abbreviate forl for (int i = 0; i < ; ++i)<esc>6hi
 abbreviate cmain  int main(int argc, char** argv)<CR>{<CR>return 0;<CR>}
@@ -331,44 +309,18 @@ autocmd FileType python abbreviate def def():<Left><Left><Left>
 " Quick Ruby method definition.
 autocmd FileType ruby abbreviate def def <CR>end<Up>
 
-" Color scheme
-" colorscheme github
-" highlight NonText guibg=#060606
-" highlight Folded  guibg=#0A0A0A guifg=#9090D0
-
-" Let's try base16 colours.
-" set background=dark
-" colorscheme base16-default
-
 " Change color scheme when viewing Ruby files (torte is also pretty good).
 autocmd FileType ruby colorscheme slate
-
-" " Change color scheme when viewing HAML files.
-" autocmd FileType haml colorscheme pablo
 
 " Change color scheme when viewing Markdown files.
 autocmd FileType markdown colorscheme torte
 
 " Do a sudo write with w!!
-" (note that `cabbrev` can be abbreviated to `ca`).
-" abbreviate
 cabbrev w!! w !sudo tee >/dev/null "%"
 
-" An easier way to show the value of a setting (using `set` for a get is bad).
+" Turn the more intuitive `get` into `set?`.
 cabbrev get set?<Left>
 
-" === NERDTree ===
-
-let NERDTreeWinSize=35
-
-" Toggle NERDTree (open/close).
-noremap <F4> :NERDTreeToggle<CR>
-
-" Open NERDTree if vim was opened with no arguments.
-autocmd vimenter * if !argc() | NERDTree | endif
-
-" Autoclose NERDTree if it's the only window left open.
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " Local config to override values in ~/.vimrc (useful if vimrc is shared).
 if filereadable($HOME . "/.vimrc.local")

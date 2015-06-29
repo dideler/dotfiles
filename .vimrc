@@ -4,52 +4,44 @@
 
 set nocompatible " Don't need to be compatible with Vi at the expense of Vim.
 set shell=sh " Vim assumes your shell is sh compatible and fish-shell isn't.
-filetype off " Required for Vundle.
-filetype plugin indent on " Required for Vundle and Pathogen.
 
-" Download Vundle if you don't have it yet.
-if !isdirectory(expand("~/.vim/bundle/vundle"))
-  !mkdir -p ~/.vim/bundle
-  !git clone git://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+" Download vim-plug if missing.
+if !filereadable(expand("~/.vim/autoload/plug.vim"))
+  silent !echo 'Installing vim-plug...'
+  !curl -fLo ~/.vim/autoload/plug.vim --progress-bar --create-dirs
+     \  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   let s:bootstrap=1
 endif
 
-" Set up Vundle.
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+" vim-plug usage
+" :PlugInstall                 - install plugins
+" :PlugUpdate                  - install or update plugins
+" :PlugDiff                    - see updated changes from last PlugUpdate
+" :PlugUpgrade                 - upgrade vim-plug itself
+" :PlugStatus                  - check the status of plugins
+" :PlugSnapshot [output path]  - generate script to restore current snapshot
+" :PlugClean(!)                - (force) remove unused plugins
 
-" Vundle-compatible plugins go here (typically listed by GitHub repo):
-" TODO: Switch to vim-plug since Vundle isn't actively developed?
-" Plugin 'croaky/vim-colors-github'
-" Plugin 'endel/vim-github-colorscheme'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'chriskempson/base16-vim'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'gmarik/vundle'
-Plugin 'junegunn/vim-emoji'  " CTRL-X CTRL-U to autocomplete.
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'scrooloose/nerdtree'
-Plugin 'spolu/dwm.vim'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-dispatch'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-git'
-Plugin 'tpope/vim-haml'
-Plugin 'tpope/vim-markdown'
-Plugin 'tpope/vim-rails'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'vim-scripts/closetag.vim'  " CTRL-_ to close tags.
+call plug#begin()
 
-" Vundle brief help
- " :Plugin
- " :PluginList          - list configured plugins
- " :PluginInstall(!)    - install (or update) plugins
- " :PluginUpdate        - update plugins
- " :PluginSearch(!) foo - search (or refresh cache first) for foo
- " :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
- "
- " see :h vundle for more details or wiki for FAQ
- " NOTE: comments after Plugin command are not allowed.
+Plug 'Lokaltog/vim-easymotion'
+Plug 'chriskempson/base16-vim'
+Plug 'davidhalter/jedi-vim'
+Plug 'junegunn/vim-emoji'  " CTRL-X CTRL-U to autocomplete.
+Plug 'kchmck/vim-coffee-script'
+Plug 'scrooloose/nerdtree'
+Plug 'spolu/dwm.vim'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-git'
+Plug 'tpope/vim-haml'
+Plug 'tpope/vim-markdown'
+Plug 'tpope/vim-rails'
+Plug 'vim-ruby/vim-ruby'
+Plug 'vim-scripts/closetag.vim'  " CTRL-_ to close tags.
+
+call plug#end()
 
 " Set some global variables for plugins. Can view value with `echo g:varname`.
 let g:dwm_master_pane_width = 84 " Set width of master pane in dwm.vim. For percentages, use quotes.
@@ -65,11 +57,10 @@ set completefunc=emoji#complete " Autocomplete emoji
 autocmd FileType ruby let b:dispatch = 'bundle exec rspec %'
 nnoremap <F9> :Dispatch<CR>
 
-
 " Install plugins if Vundle was just downloaded.
 if exists("s:bootstrap") && s:bootstrap
   unlet s:bootstrap
-  PluginInstall
+  PlugInstall
 endif
 
 

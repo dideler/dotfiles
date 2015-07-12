@@ -12,6 +12,8 @@
   default = simple
 [fetch]
   prune = true
+[rebase]
+  autosquash = true
 [credential]
   helper = cache --timeout=3600  ; Cache credentials for 1 hour when using HTTPS.
 [help]

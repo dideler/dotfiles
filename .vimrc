@@ -80,8 +80,10 @@ set title  " Change terminal title.
 set ruler  " Show cursor position (line & column).
 set number " Show line numbers.
 set nostartofline " Keep the cursor in the same column when possible.
+set backspace=2   " Backspace deletes like most programs in insert mode
 set laststatus=2  " Always show status line.
 set statusline=%<%f\ %y[%{&ff}]%m%r%w%a\ %=%l/%L,%c%V\ %P " Better status line.
+set autowrite  " Automatically :write before running commands
 
 " TODO: check out numbers.vim: http://myusuf3.github.com/numbers.vim/
 ""set relativenumber " Show line numbers relative to current line.
@@ -98,7 +100,7 @@ set ttymouse=xterm2 " Recognize mouse codes for xterm2 terminal type (default).
 set mouse=a " Enable mouse for all modes.
 set ttyfast " Send more characters for redraws.
 
-set ignorecase " Ignore case when searching. Prefix search with \c to match case.
+set ignorecase " Ignore case when searching...
 set smartcase " Become case sensitive when search contains a capital letter.
 set showmatch " Show matching parenthesis.
 set incsearch " Show search matches as you type.
@@ -108,12 +110,14 @@ set wildmenu " Lets you see possible commands during auto-completion.
 set wildmode=list:longest " Auto-complete to the point of ambiguity.
 set wildignore=.git,*.jpg,*.png,*.o,*.obj " Ignore files matched with these patterns.
 
-autocmd BufRead,BufNewFile *.md setlocal spell textwidth=80 " Enable spell check for Markdown files and wrap at 80 chars.
 setlocal spelllang=en_ca  " Use Canadian spelling.
 set complete+=kspell  " Autocomplete dictionary words with C-x + s when spell check is on. Add words to dictionary with 'zg'.
 
-" Spell checking and wrapping at the recommended 72 columns for commit messages.
-" Note: summary line is recommended to be 50 chars max, but the GH limit is 69.
+" Spell check Markdown and wrap at 80 chars.
+autocmd BufRead,BufNewFile *.md setlocal spell textwidth=80
+
+" Spell check commit messages and wrap at 72 chars.
+" Note: Do not go over 69 chars for the summary line (GitHub will cut it).
 autocmd Filetype gitcommit setlocal spell textwidth=72
 
 " === Indentation and formatting ===
@@ -122,13 +126,14 @@ set shiftwidth=2 " Auto-indent uses 2 spaces.
 set shiftround   " Improved indentation when using >> and <<.
 set expandtab    " Expand tabs to spaces.
 
-set textwidth=80 " Wrap after 80 characters.
-set formatoptions=qrn1
-"set colorcolumn=81 " Colour the column after exceeding the wrap by too far.
 
 " Remove trailing whitespace for everything but markdown (via @gmurphey).
 let whitespace_blacklist = ['markdown']
 autocmd BufWritePre * if index(whitespace_blacklist, &ft) < 0 | :%s/\s\+$//e
+
+set textwidth=80   " Wrap after 80 characters.
+set colorcolumn=+1 " Show column limit.
+set formatoptions=qrn1
 
 " Toggle 80 column marker
 nnoremap <F5> :call ToggleColorColumn()<CR>
@@ -155,15 +160,8 @@ filetype off " Don't try to autodetect file type.
 ""syntax on " Let Vim overrule my syntax highlighting settings with the defaults.
 syntax enable " Keep my current colour settings.
 
-" For all files, set the format options, turn off C indentation, and set the comments option to the default.
-"autocmd FileType * set formatoptions=tcql
-"      \nocindent comments&
-" For all C and C++ files, set the formatoptions, turn on C indentation, and set the comments option.
-"autocmd FileType c,cpp set formatoptions=croql
-"      \cindent comments=sr:/*,mb:*,ex:*/,://
-
 " Languages with other settings.
-" shiftwidth == sw, tabstop == ts, softtabstop == sts
+" shiftwidth = sw, tabstop = ts, softtabstop = sts
 " expandtab changes new tabs to spaces.
 " shiftwidth controls how many columns is indented with << and >>.
 autocmd filetype html setlocal shiftwidth=2 tabstop=2
@@ -192,11 +190,8 @@ let mapleader = ","  " Change start symbol of aliases/mappings.
 vnoremap Q gq
 nnoremap Q gqap
 
-" ,/ disables search highlighting.
-nnoremap <silent> <leader>/ :nohlsearch<CR>
-
 " Unhighlight search.
-nnoremap <leader><space> :noh<cr>
+nnoremap <leader><space> :nohlsearch<CR>
 
 " F3 fixes whitespace: turns tabs to spaces and kills trailing whitespace.
 noremap <F3> m`:retab<CR>:%s/\s\+$//eg<CR>``
@@ -289,14 +284,6 @@ map <C-v> "+gP
 " cabbrev == ca  Command mode only
 " iabbrev == ia  Insert mode only
 " List all abbreviations with :ab
-
-" Abbreviating the escape character, see above link for explanation.
-" ab esc 
-abbreviate #d #define
-abbreviate #i #include
-abbreviate #b /********************************************************
-abbreviate #e *********************************************************/
-abbreviate #l /*------------------------------------------------------*/
 
 " C/C++ style function header.
 iabbrev funcom /**<CR>*<CR>*/<Up>

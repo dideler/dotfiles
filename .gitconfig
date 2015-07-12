@@ -106,8 +106,8 @@
 
   ### Commits
 
-  # Amends a commit. Adds staged changes to the last commit and rewrites commit msg.
-  amend = commit --amend
+  # Amends unstaged changes to the last commit.
+  amend = commit --all --amend --reuse-message=HEAD
 
   # Recommits files that were uncommited.
   recommit = commit --reedit-message ORIG_HEAD

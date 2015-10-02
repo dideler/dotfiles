@@ -4,6 +4,7 @@
 
 brew 'fish'
 brew 'git'
+brew 'git-lfs'
 brew 'go'
 brew 'hub'
 brew 'jp2a'

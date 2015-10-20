@@ -171,7 +171,6 @@ link() {
 link_dotfiles() {
   print_info "Creating links in $HOME to your dotfiles..."
   local dotfiles=$(find . -type d -name .git -prune -o \
-    -not -name 'Brewfile*' \
     -not -name 'LICENSE' \
     -not -name 'README.md' \
     -not -name 'link' \

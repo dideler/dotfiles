@@ -53,10 +53,3 @@ So the `.config` directory in your dotfiles repo would look something like:
 
 My bash files are no longer being maintained,
 I've switched to the [fish shell](http://www.fishshell.com).
-
-Some terminal tools I like but aren't dotfiles:
-- https://github.com/uams/geturl
-- https://github.com/jkbr/httpie
-- https://github.com/github/hub
-- https://github.com/substack/picture-tube
-- https://github.com/rg3/youtube-dl

@@ -1,0 +1,16 @@
+authors:
+  di: Dennis Ideler
+  as: Andi Studer
+  tc: Theo Cushion
+  gc: Giuseppe Capizzi
+  ib: Iain Beeston
+  na: Neil Atkinson
+  ms: Matt Southerden
+  ok: Oleksandr Kruk
+email_template:
+  '{{with replace .Name " " "." -1}}{{toLower .}}{{end}}@fundingcircle.com'
+email:
+  domain: fundingcircle.com  # Used when a username is provided after name.
+email_addresses:
+  gc: gcapizzi@pivotal.io
+  tc: tcushion@pivotal.io

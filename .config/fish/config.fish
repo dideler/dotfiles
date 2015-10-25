@@ -21,16 +21,14 @@ status --is-interactive; and source (rbenv init -|psub)
 
 ### Aliases
 
-alias grep 'grep --color=auto'
-alias rgrep 'grep --recursive'
-
 alias ... 'cd ../..'
 alias be 'bundle exec'
 alias cman 'man 3' # Manual pages from the library section.
 alias distro 'if test (uname) = "Linux"; cat /etc/os-release | head --lines=2; else; echo "Linux-only command"; end'
 alias ext extract
+alias grep 'grep --color=auto'
 alias ipconfig ifconfig
-alias kernel "uname -mrs"  # Shows the kernel version (e.g. Linux 3.2.0 x86_64)
+alias kernel 'uname -mrs'  # Shows the kernel version (e.g. Linux 3.2.0 x86_64)
 alias less 'less -r' # Recognize escape sequences (e.g. read --help | less).
 alias ls-size 'ls -horS'  # List directory contents sorted by increasing size.
 alias md5 md5sum
@@ -39,6 +37,7 @@ alias nano 'nano --const'  # Constantly show the cursor position in nano.
 alias public-ip 'curl icanhazip.com'
 alias rcp 'rsync --archive --perms --compress'  # Faster (remote and local) transfers than scp. Eg: rcp file.txt aws:~/
 alias reconfig 'source ~/.config/fish/config.fish'
+alias rgrep 'grep --recursive'
 alias spaces2tabs "sed -i 's/ \+ /\t/g'"  # Replaces multiple spaces with a tab in the given file.
 alias sshkey "copy ~/.ssh/id_rsa.pub; and echo 'Public key copied to clipboard'"
 alias t 'python ~/.t/t.py --task-dir ~/tasks --list tasks'

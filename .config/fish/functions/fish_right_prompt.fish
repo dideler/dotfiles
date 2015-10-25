@@ -6,10 +6,10 @@ function fish_right_prompt -d "Displays git branch and dirty state on the right"
   set -l git_branch (git_branch_name)
 
   if test $git_branch
-    if test git_is_dirty
-      echo -n -s $cyan '‹' $yellow $git_branch $red '*' $cyan '›' $normal
-    else
-      echo -n -s $cyan '‹' $yellow $git_branch $cyan '›' $normal
+    git_is_dirty; and begin
+      echo -ns $cyan '‹' $yellow $git_branch $red '*' $cyan '›' $normal
+    end; or begin
+      echo -ns $cyan '‹' $yellow $git_branch $cyan '›' $normal
     end
   end
 end

@@ -21,9 +21,6 @@ status --is-interactive; and source (rbenv init -|psub)
 
 ### Aliases
 
-# Temporary deprecation fix until fish 2.2 is released.
-# https://github.com/fish-shell/fish-shell/commit/efc3846fcfa6f0bae8312645c41b132c6156b3d1
-set --erase GREP_OPTIONS  # GREP_OPTIONS is deprecated since GNU grep 2.21
 alias grep 'grep --color=auto'
 alias rgrep 'rgrep --colour'
 

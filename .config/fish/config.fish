@@ -22,7 +22,7 @@ status --is-interactive; and source (rbenv init -|psub)
 ### Aliases
 
 alias grep 'grep --color=auto'
-alias rgrep 'rgrep --colour'
+alias rgrep 'grep --recursive'
 
 alias ... 'cd ../..'
 alias be 'bundle exec'

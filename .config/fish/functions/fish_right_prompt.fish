@@ -1,4 +1,4 @@
-# Display git branch and dirty bit and current time on the right 
+# Display git branch and dirty bit and current time on the right
 
 function _git_branch_name
   echo (command git symbolic-ref HEAD ^/dev/null | sed -e 's|^refs/heads/||')
@@ -17,7 +17,7 @@ function fish_right_prompt
   set -l green (set_color 80ff00)
   set -l pink (set_color ff99ff)
   set -l dark_pink (set_color cc99ff)
-  
+
   # Show git branch and dirty state
   if [ (_git_branch_name) ]
     set -l git_branch (_git_branch_name)
@@ -28,7 +28,7 @@ function fish_right_prompt
     echo -n -s $cyan '‹' $yellow $git_branch $cyan '›' $normal
     end
   end
-  
+
   # Show time
   # echo -n -s $pink ' [' $dark_pink (date +%H:%M:%S) $pink '] '
 end

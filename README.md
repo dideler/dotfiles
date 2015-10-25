@@ -1,5 +1,5 @@
-dotfiles etc. of @dideler
-=========================
+dideler dotfiles
+================
 
 The [link](link) script will symlink all the files in the repository to your
 $HOME (except the ones that are specified to be excluded--see the script).

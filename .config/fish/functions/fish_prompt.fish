@@ -1,12 +1,12 @@
 function fish_prompt
-  # Override builtin prompt_pwd to avoid excessive shortening of cwd.
-  function prompt_pwd
+  # Built-in prompt_pwd shortens cwd too much for my liking.
+  function _prompt_pwd
     echo $PWD | sed -e "s|^$HOME|~|"
   end
 
   # Line 1
   set_color $fish_color_cwd
-  printf '%s' (prompt_pwd)
+  printf '%s' (_prompt_pwd)
   set_color normal
 
   # Line 2

@@ -11,7 +11,7 @@ set -x LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
 set -x LESS_TERMCAP_ue \e'[0m'           # end underline
 
 if not set --query FIRST_RUN  # Note: can reset later with `set --erase`.
-  set --universal --export FIRST_RUN false
+  set --universal --export FIRST_RUN (date)
   set --universal --export EDITOR vim
   set --universal --export GIT_EDITOR vim
 end

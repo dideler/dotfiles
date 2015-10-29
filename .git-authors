@@ -3,5 +3,7 @@ authors:
   as: Andi Studer
   ms: Matt Southerden
   ok: Oleksandr Kruk
+  aa: Artem Avetisyan
+  lj: Loga Jegede
 email_template:
   '{{with replace .Name " " "." -1}}{{toLower .}}{{end}}@fundingcircle.com'

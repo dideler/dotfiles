@@ -4,6 +4,7 @@
 set -e
 
 # Globals.
+script_name=$(basename $0)
 force_flag=""
 interactive=false
 dry_run=false
@@ -28,7 +29,7 @@ print_pass()   { echo -e " $(print_bright $GREEN ✔)  $@"; }
 print_fail()   { echo -e " $(print_bright $RED ✗)  $@"; }
 print_link()   { echo -e "Linked $(print_path $1) $(print_bright $YELLOW ➜)  $(print_path $2)"; }
 print_move()   { echo -e "Moved $(print_path $1) $(print_bright $YELLOW ➜)  $(print_path $2)"; }
-print_usage()  { echo "Usage: $(basename $0) [-h help] [-f force] [-n dry run] [-i interactive]"; }
+print_usage()  { echo "Usage: $script_name [-h help] [-f force] [-n dry run] [-i interactive]"; }
 print_help()   {
 cat <<HELP
 $(print_usage)
@@ -171,9 +172,9 @@ link() {
 link_dotfiles() {
   print_info "Creating links in $HOME to your dotfiles..."
   local dotfiles=$(find . -type d -name .git -prune -o \
+    -not -name $script_name \
     -not -name 'LICENSE' \
     -not -name 'README.md' \
-    -not -name 'link' \
     -not -name '.gitignore' \
     -not -name '.' \
     -print)

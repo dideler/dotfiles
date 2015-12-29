@@ -1,0 +1,35 @@
+-- Configuration for PostgreSQL’s shell, psql
+-- Official docs: http://www.postgresql.org/docs/9.3/static/app-psql.html
+
+-- \pset is for changing the output format — HTML, pager, field separator, etc
+-— \set is for everything else
+
+-- Don't display the "helpful" message on startup.
+\set QUIET 1
+
+-- Verbose output.
+\set VERBOSITY verbose
+
+-- By default, NULL and empty strings show as blank spaces. Make NULL stand out.
+\pset null '[NULL]'
+
+-- Use UPPERCASE when tab-completing (preserve-upper will preserve case typed).
+\set COMP_KEYWORD_CASE upper
+
+-- Different histories for each database. Ignore duplicate entries.
+\set HISTFILE ~/.psql_history- :DBNAME
+\set HISTCONTROL ignoredups
+
+-- Customize prompts. PROMPT2 is printed when the prompt expects more input.
+-- http://www.postgresql.org/docs/9.3/static/app-psql.html#APP-PSQL-PROMPTING
+-- \set PROMPT1 '%[%033[1m%]%M %n@%/%R%[%033[0m%]%# '
+\set PROMPT1 '%[%033[1m%][%/] # '
+\set PROMPT2 '... %R # '
+
+-- Show how long each query takes to execute.
+\timing
+
+-- Use extended display when output wraps screen size.
+\x auto
+
+\unset QUIET

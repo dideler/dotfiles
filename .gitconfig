@@ -60,6 +60,15 @@
   standup = !fish -ic 'git log --since "(yesterworkday)" --author "(git config user.name)"'
 
 
+  ### Clone
+
+  ; Recursively clones repo, initializing any submodules.
+  cloner = clone --recursive
+
+  ; Clones the repo with a shallow history (only the last commit).
+  shallow-clone = clone --depth 1
+
+
   ### Pull / Fetch / Merge
 
   ; Reapplies new commits from origin so history stays linear during updates.
@@ -227,9 +236,6 @@
   ; Is GitHub asking for your username and password on a push? Use SSH instead of HTTPS.
   ; E.g. use-ssh dideler/dotiles
   use-ssh = !sh -c 'git remote set-url origin git@github.com:"$1".git' -
-
-  ; Clones the repo with a shallow history (only the last commit).
-  shallow-clone = clone --depth 1
 
   ; Restores stashed modifications (potentially on top a different commit).
   ; Note: Discards state of the stash list, unlike `stash apply`.

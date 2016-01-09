@@ -5,6 +5,9 @@ if not set --query FIRST_RUN  # Note: can reset later with `set --erase`.
   set --universal --export EDITOR vim
   set --universal --export GIT_EDITOR vim
 
+  # Friendly colours for `ls` output.
+  set -Ux LSCOLORS ExfxcxdxBxegedabagacad
+
   # Show ANSI colour sequences in less when viewing man pages.
   # http://en.wikipedia.org/wiki/ANSI_escape_code#CSI_codes
   set -Ux LESS_TERMCAP_mb \e'[01;31m'       # begin blinking

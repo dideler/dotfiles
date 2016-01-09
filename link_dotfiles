@@ -73,12 +73,6 @@ pretty_path() {
   echo "$pathname"
 }
 
-# Remove the leading dot from all hidden files and dirs, except '.git' and '.gitignore'.
-# TODO: Not useful here, but could be a useful stand-alone script. Extract and remove?
-unhide() {
-  find . \( -iname ".*" ! -iname ".git" ! -iname ".gitignore" \) -print0 | xargs -r0 rename -v 's|/\.+([^/]+)$|/$1|'
-}
-
 # Creates a symbolic link to a file.
 link() {
   # All variables declared inside a function will be shared with the calling

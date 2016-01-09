@@ -29,7 +29,7 @@ print_pass()   { echo -e " $(print_bright $GREEN ✔)  $@"; }
 print_fail()   { echo -e " $(print_bright $RED ✗)  $@"; }
 print_link()   { echo -e "Linked $(print_path $1) $(print_bright $YELLOW ➜)  $(print_path $2)"; }
 print_move()   { echo -e "Moved $(print_path $1) $(print_bright $YELLOW ➜)  $(print_path $2)"; }
-print_usage()  { echo "Usage: $script_name [-h help] [-f force] [-n dry run] [-i interactive]"; }
+print_usage()  { echo "Usage: $script_name [-h help] [-f force] [-s skip] [-n dry run] [-i interactive]"; }
 print_help()   {
 cat <<HELP
 $(print_usage)
@@ -55,6 +55,7 @@ run the link script.
 Flags:
   -h (help)       Prints this help message then exits.
   -f (force)      Forces links by removing existing files with the same link name.
+  -s (skip)       Skips files that are already linked.
   -n (dry run)    Prints what would happen without actually performing the actions.
   -i (interactve) Prompts before linking each dotfile.
 
@@ -179,7 +180,7 @@ link_dotfiles() {
 }
 
 parse_args() {
-  while getopts 'hfni' flag; do
+  while getopts 'hfsni' flag; do
     case "${flag}" in
       h)
         print_help
@@ -187,6 +188,9 @@ parse_args() {
         ;;
       f)
         force_flag="-f"
+        ;;
+      s)
+        skip_all=true
         ;;
       n)
         print_info "Running in dry (aka pretend) mode. No changes will be made."

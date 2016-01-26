@@ -35,8 +35,8 @@
   ; Shows the commit message of HEAD.
   last = log -1
 
-  ; Shows the commit of HEAD.
-  show-last = !git last -p
+  ; Shows the last n commits.
+  see = !sh -c 'git log -p -$1' -
 
   ; Shows new commits since last command (e.g. after a `git pull`).
   new-commits = !sh -c 'git log $1@{1}..$1@{0} "$@"'

@@ -1,4 +1,4 @@
--- Configuration for PostgreSQL’s shell, psql
+-- Configuration for PostgreSQL's shell, psql
 -- Official docs: http://www.postgresql.org/docs/9.3/static/app-psql.html
 
 -- \pset is for changing the output format — HTML, pager, field separator, etc

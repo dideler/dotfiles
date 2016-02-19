@@ -25,6 +25,7 @@ status --is-interactive; and source (rbenv init -|psub)
 ### Aliases
 
 alias ... 'cd ../..'
+alias l 'ls -t'
 alias be 'bundle exec'
 alias cman 'man 3' # Manual pages from the library section.
 alias distro 'if test (uname) = "Linux"; cat /etc/os-release | head --lines=2; else; echo "Linux-only command"; end'

@@ -15,7 +15,7 @@
 [credential]
   helper = cache --timeout=3600  ; Cache credentials for 1 hour when using HTTPS.
 [help]
-  autocorrect = 35  ; Autocorrect typos in 3.5 seconds.
+  autocorrect = 33  ; Autocorrect typos in 3.3 seconds.
 [alias]  ; Note: Git ignores aliases that hide existing git commands.
 
   ### Basics

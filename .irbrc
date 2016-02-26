@@ -2,6 +2,10 @@
 
 # Note: not necessary to load 'rubygems' explicitly since Ruby 1.9.
 
+require 'irb/ext/save-history'
+IRB.conf[:SAVE_HISTORY] = 200
+IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb-history"
+
 STDOUT.sync = true  # Do not buffer output.
 
 class String
@@ -42,7 +46,7 @@ class Object
   #
   # Example:  Time.now.local_methods
   #
-  # Note: also useful are Object.methods and Object.instance_methods
+  # Note: also useful are #methods, #public_methods, #instance_methods
   def local_methods
    y (methods - Object.instance_methods).sort
   end

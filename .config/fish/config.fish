@@ -92,7 +92,7 @@ alias gu 'git add -u'
 alias grm "gs | grep ' D ' | sed 's/^ D //' | xargs git rm"
 alias git hub
 alias ggrep 'git grep --line-number --heading --break --show-function'
-alias gup 'git fetch; and git rebase --preserve-merges origin/(git_branch_name)'
+alias gup 'git fetch --all; and git rebase --preserve-merges origin/(git_branch_name)'
 
 # Anything you don't want to share? Put it in here!
 if test -f ~/.config/fish/local.config.fish

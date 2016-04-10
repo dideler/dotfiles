@@ -98,3 +98,5 @@ alias gup 'git fetch --all; and git rebase --preserve-merges origin/(git_branch_
 if test -f ~/.config/fish/local.config.fish
   source ~/.config/fish/local.config.fish
 end
+
+test -e {$HOME}/.iterm2_shell_integration.fish; and source {$HOME}/.iterm2_shell_integration.fish

@@ -210,7 +210,7 @@
   diffs = diff HEAD
 
   ; Shows trailing whitespace and spaces before tabs in (un)staged changes.
-  space = diff --check head
+  diff-space = diff --check head
 
 
   ### Misc.

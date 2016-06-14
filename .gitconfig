@@ -271,3 +271,5 @@
 	gpgsign = false
 [submodule]
 	fetchJobs = 4
+[diff]
+	compactionHeuristic = true

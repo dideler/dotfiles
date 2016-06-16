@@ -269,6 +269,7 @@
 	show = diff-so-fancy | less --tabs=1,5 -RFX
 [commit]
 	gpgsign = false
+	verbose = true
 [submodule]
 	fetchJobs = 4
 [diff]

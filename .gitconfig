@@ -16,6 +16,24 @@
   helper = cache --timeout=3600  ; Cache credentials for 1 hour when using HTTPS.
 [help]
   autocorrect = 33  ; Autocorrect typos in 3.3 seconds.
+[filter "hawser"]  ; Added by GitHub for Mac, which uses git-hawser.
+	clean = git hawser clean %f
+	smudge = git hawser smudge %f
+	required = true
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
+[pager]
+	diff = diff-so-fancy | less --tabs=1,5 -RFX
+	show = diff-so-fancy | less --tabs=1,5 -RFX
+[commit]
+	gpgsign = false
+	verbose = true
+[submodule]
+	fetchJobs = 4
+[diff]
+	compactionHeuristic = true
 [alias]  ; Note: Git ignores aliases that hide existing git commands.
 
   ### Basics
@@ -256,21 +274,3 @@
   ; Tracks a versioned file that was previously ignored.
   unignore-versioned-file = !git update-index --no-assume-unchanged
 
-[filter "hawser"]  ; Added by GitHub for Mac, which uses git-hawser.
-	clean = git hawser clean %f
-	smudge = git hawser smudge %f
-	required = true
-[filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
-	required = true
-[pager]
-	diff = diff-so-fancy | less --tabs=1,5 -RFX
-	show = diff-so-fancy | less --tabs=1,5 -RFX
-[commit]
-	gpgsign = false
-	verbose = true
-[submodule]
-	fetchJobs = 4
-[diff]
-	compactionHeuristic = true

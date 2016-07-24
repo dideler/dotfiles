@@ -22,11 +22,30 @@ end
 # Load rbenv automatically.
 status --is-interactive; and source (rbenv init -|psub)
 
-### Aliases
+### Abbreviations (expanded aliases)
+
+abbr be 'bundle exec'
+abbr l 'ls -t'
+abbr t 'todo'
+
+abbr gd 'git diff'
+abbr gc 'git commit --verbose'
+abbr gcm 'git commit --message'
+abbr gca 'git commit --all'
+abbr gcam 'git commit -am'
+abbr gl 'git log --oneline --decorate'
+abbr gg 'git log --graph --date=relative'
+abbr ga 'git add'
+abbr gu 'git add --update'
+abbr gco 'git checkout'
+abbr gb 'git branch'
+abbr gp 'git push origin HEAD'
+abbr gs 'git status --short --branch'
+abbr gsi 'git status --short --branch --ignored'
+
+### Aliases (shorthand functions)
 
 alias ... 'cd ../..'
-alias l 'ls -t'
-alias be 'bundle exec'
 alias cman 'man 3' # Manual pages from the library section.
 alias distro 'if test (uname) = "Linux"; cat /etc/os-release | head --lines=2; else; echo "Linux-only command"; end'
 alias ext extract
@@ -44,8 +63,8 @@ alias reconfig 'source ~/.config/fish/config.fish'
 alias rgrep 'grep --recursive'
 alias spaces2tabs "sed -i 's/ \+ /\t/g'"  # Replaces multiple spaces with a tab in the given file.
 alias sshkey "copy ~/.ssh/id_rsa.pub; and echo 'Public key copied to clipboard'"
-alias t 'python ~/.t/t.py --task-dir ~/tasks --list tasks'
 alias textedit 'open -a TextEdit'
+alias todo 'todolist'
 alias units 'units --verbose'
 alias vi 'vim -O'  # Vertically split windows if multiple files given.
 alias which 'which -a'  # Show all matches.
@@ -69,26 +88,11 @@ alias combinepdfs 'convert -density 200'
 # Usage: combinepdfs infile1, infile2, ..., outfile
 # Alternatives: pdfunite, pdftk
 
-
 ### Git aliases
-alias gl 'git log --oneline --decorate' # Also shows tags!
-alias gg 'git log --graph --date=relative'
 alias glog "git log --graph \
             --abbrev-commit \
             --date=relative \
             --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset'"
-alias gp 'git push origin HEAD'
-alias gd 'git diff'
-alias gc 'git commit --verbose'
-alias gcm 'git commit -m'
-alias gca 'git commit -a'
-alias gcam 'git commit -am'
-alias gco 'git checkout'
-alias gb 'git branch'
-alias gs 'git status -sb' # Upgrade your git if -sb breaks for you.
-alias gsi 'gs --ignored' # Also shows ignored files.
-alias ga 'git add'
-alias gu 'git add -u'
 alias grm "gs | grep ' D ' | sed 's/^ D //' | xargs git rm"
 alias git hub
 alias ggrep 'git grep --line-number --heading --break --show-function'

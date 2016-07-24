@@ -29,7 +29,7 @@ abbr l 'ls -t'
 abbr t 'todo'
 
 abbr gd 'git diff'
-abbr gc 'git commit --verbose'
+abbr gc 'git commit'
 abbr gcm 'git commit --message'
 abbr gca 'git commit --all'
 abbr gcam 'git commit -am'

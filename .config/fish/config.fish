@@ -44,6 +44,7 @@ abbr gan 'git add --intent-to-add'
 abbr gco 'git checkout'
 abbr gb 'git branch'
 abbr gp 'git push origin HEAD'
+abbr gpf 'git push origin HEAD --force'
 abbr gs 'git status --short --branch'
 abbr gsi 'git status --short --branch --ignored'
 

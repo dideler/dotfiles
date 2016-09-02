@@ -1,3 +1,5 @@
+# Based on https://gist.github.com/paulirish/78d6c1406c901be02c2d
+
 function chrome-dl --description "Download Chrome extensions, given their IDs"
   for extension_id in $argv
     curl --output "$extension_id.zip" \

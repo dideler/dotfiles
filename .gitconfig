@@ -230,6 +230,9 @@
   ; Shows trailing whitespace and spaces before tabs in (un)staged changes.
   diff-space = diff --check head
 
+  ; Shows master diff for a given file
+  file-diff = diff master -- $1
+
 
   ### Misc.
 

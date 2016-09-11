@@ -157,8 +157,11 @@
   unstage = reset
   unadd = reset HEAD  ; Alias for unstage.
 
-  ; Undo a commit.
+  ; Undo last commit (keeps staged changes).
   uncommit = reset --soft HEAD^
+
+  ; Remove last commit.
+  rm-commit = reset --hard HEAD^
 
   ; Undo a commit amend (with the help of reflog).
   unamend = reset --soft 'HEAD@{1}'

@@ -5,5 +5,15 @@ authors:
   ok: Oleksandr Kruk
   aa: Artem Avetisyan
   lj: Loga Jegede
+  jk: Joanna Kostaki
+  ls: Lee Smith
+  sw: Steve Weet
+  lg: Lisimba Gilkes
+  mb: Manuel Bordes
+  ms: Marc Sardon
+  ab: Anuj Biyani
+  dd: Davide D'Ippolito; davide.dippolito
+email_addresses:
+  dd: davide.dippolito@fundingcircle.com
 email_template:
   '{{with replace .Name " " "." -1}}{{toLower .}}{{end}}@fundingcircle.com'

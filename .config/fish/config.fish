@@ -24,6 +24,7 @@ status --is-interactive; and source (rbenv init -|psub)
 
 ### Abbreviations (expanded aliases)
 
+abbr a 'atom .'
 abbr be 'bundle exec'
 abbr l 'ls -t'
 abbr t 'todo'

@@ -308,6 +308,9 @@ cabbrev w!! w !sudo tee >/dev/null "%"
 " Turn the more intuitive `get` into `set?`.
 cabbrev get set?<Left>
 
+" Source config for fish shell after modifying it.
+autocmd BufWritePost config.fish silent !fish -ic "source %"
+
 
 " Local config to override values in ~/.vimrc (useful if vimrc is shared).
 if filereadable($HOME . "/.vimrc.local")

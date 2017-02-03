@@ -150,7 +150,7 @@ link() {
 
     if [ "$skip" = true -o "$skip_all" = true ]; then
       print_pass "Skipped $(print_path $target)"
-      continue  # A return should be here, but continue strangely works!
+      return
     fi
 
   else # Don't worry about conflicts, link away!

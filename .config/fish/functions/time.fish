@@ -1,3 +1,3 @@
-function time --description 'Wrapper for time, can use with fish functions'
-	/usr/bin/time -p /usr/bin/fish -c "$argv"
+function time --description 'Portable wrapper for BSD time'
+	/usr/bin/time -p $argv
 end

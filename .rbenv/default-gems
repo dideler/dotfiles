@@ -2,3 +2,4 @@
 # new version of Ruby is installed with `rbenv install`.
 
 bundler
+benchmark-ips

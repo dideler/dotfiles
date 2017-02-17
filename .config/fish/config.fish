@@ -27,7 +27,7 @@ if not set --query FIRST_RUN  # Note: can reset later with `set --erase`.
 end
 
 # Load rbenv automatically.
-status --is-interactive; and test -e $HOME/.rbenv/rbenv; and source (rbenv init -|psub)
+status --is-interactive; and command -v rbenv >/dev/null; and source (rbenv init -|psub)
 
 ### Abbreviations (expanded aliases)
 

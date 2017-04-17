@@ -37,6 +37,7 @@ Plug 'tpope/vim-haml'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-rails'
 Plug 'vim-ruby/vim-ruby'
+Plug 'elixir-lang/vim-elixir'
 Plug 'vim-scripts/closetag.vim'  " CTRL-_ to close tags.
 
 call plug#end()

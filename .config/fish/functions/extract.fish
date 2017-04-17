@@ -9,7 +9,7 @@ function extract --description "Expand or extract bundled & compressed files"
           tar -jxvf $file
         case "*.tar.gz" "*.tgz"
           tar -zxvf $file
-        case "*.bz2"
+        case "*.bz" "*.bz2"
           bunzip2 $file
         case "*.gz"
           gunzip $file

@@ -45,6 +45,17 @@
   st = status
 
 
+  ### Git-Duet (requires https://github.com/git-duet/git-duet)
+
+  ; Paired commit.
+  dci = duet-commit --verbose
+  ci = dci
+  dc = dci
+
+  ; Paired rebase.
+  drb = rebase -i --exec 'git duet-commit --amend --reset-author'
+
+
   ### Logging
 
   ; Shows history of an existing or deleted file given its path.
@@ -130,9 +141,6 @@
 
 
   ### Commits
-
-  ; Paired commit. Requires https://github.com/git-duet/git-duet.
-  ci = duet-commit --verbose
 
   ; Amends a commit. Adds staged changes to the last commit and rewrites commit msg.
   amend = commit --amend

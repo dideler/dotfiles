@@ -108,7 +108,7 @@ alias glog "git log --graph \
             --abbrev-commit \
             --date=relative \
             --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset'"
-alias grm "gs | grep ' D ' | sed 's/^ D //' | xargs git rm"
+alias grm "git status -sb | grep ' D ' | sed 's/^ D //' | xargs git rm"
 alias git hub
 alias ggrep 'git grep --line-number --heading --break --show-function'
 alias gup 'git fetch --all; and git rebase --preserve-merges origin/(git_branch_name)'

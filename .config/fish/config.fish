@@ -8,22 +8,22 @@ if not test -f $HOME/.config/fish/functions/fisher.fish
 end
 
 if not set --query FIRST_RUN  # Note: can reset later with `set --erase`.
-  set --universal --export FIRST_RUN (date)
+  set --universal FIRST_RUN (date)
   set --universal --export EDITOR vim
   set --universal --export GIT_EDITOR vim
 
   # Friendly colours for `ls` output.
-  set -Ux LSCOLORS ExfxcxdxBxegedabagacad
+  set --universal LSCOLORS ExfxcxdxBxegedabagacad
 
   # Show ANSI colour sequences in less when viewing man pages.
   # http://en.wikipedia.org/wiki/ANSI_escape_code#CSI_codes
-  set -Ux LESS_TERMCAP_mb \e'[01;31m'       # begin blinking
-  set -Ux LESS_TERMCAP_md \e'[01;38;5;74m'  # begin bold
-  set -Ux LESS_TERMCAP_me \e'[0m'           # end mode
-  set -Ux LESS_TERMCAP_so \e'[33;5;246m'    # begin standout-mode - e.g. search result
-  set -Ux LESS_TERMCAP_se \e'[0m'           # end standout-mode
-  set -Ux LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
-  set -Ux LESS_TERMCAP_ue \e'[0m'           # end underline
+  set --universal LESS_TERMCAP_mb \e'[01;31m'       # begin blinking
+  set --universal LESS_TERMCAP_md \e'[01;38;5;74m'  # begin bold
+  set --universal LESS_TERMCAP_me \e'[0m'           # end mode
+  set --universal LESS_TERMCAP_so \e'[33;5;246m'    # begin standout-mode - e.g. search result
+  set --universal LESS_TERMCAP_se \e'[0m'           # end standout-mode
+  set --universal LESS_TERMCAP_us \e'[04;38;5;146m' # begin underline
+  set --universal LESS_TERMCAP_ue \e'[0m'           # end underline
 end
 
 # Load rbenv automatically.

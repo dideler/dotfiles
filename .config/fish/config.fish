@@ -7,10 +7,11 @@ if not test -f $HOME/.config/fish/functions/fisher.fish
   fisher
 end
 
-if not set --query FIRST_RUN  # Note: can reset later with `set --erase`.
+set --export EDITOR vim
+set --export GIT_EDITOR vim
+
+if not set --query FIRST_RUN
   set --universal FIRST_RUN (date)
-  set --universal --export EDITOR vim
-  set --universal --export GIT_EDITOR vim
 
   # Friendly colours for `ls` output.
   set --universal LSCOLORS ExfxcxdxBxegedabagacad

@@ -104,6 +104,10 @@ alias combinepdfs 'convert -density 200'
 # Usage: combinepdfs infile1, infile2, ..., outfile
 # Alternatives: pdfunite, pdftk
 
+alias hilite-stdout 'pcregrep --colour --multiline ".|\n"'
+# Highlights STDOUT in red so you can differentiate between STDOUT and STDERR.
+# Usage: my_prog | hilite-stdout
+
 ### Git aliases
 alias glog "git log --graph \
             --abbrev-commit \

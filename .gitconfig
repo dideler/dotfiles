@@ -288,3 +288,6 @@
   ; Tracks a versioned file that was previously ignored.
   unignore-versioned-file = !git update-index --no-assume-unchanged
 
+  ; Pops the stash.
+  pop = stash pop
+

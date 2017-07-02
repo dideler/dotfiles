@@ -97,7 +97,10 @@ au FocusLost * :wa " Write all changes when window loses focus.
 command! W write " :W will write the file instead of complaining.
 nnoremap Q <nop> " No more annoying command menu by accident.
 
-set ttymouse=xterm2 " Recognize mouse codes for xterm2 terminal type (default).
+if !has('nvim')
+  set ttymouse=xterm2 " Recognize mouse codes for xterm2 terminal type (default).
+endif
+
 set mouse=a " Enable mouse for all modes.
 set ttyfast " Send more characters for redraws.
 

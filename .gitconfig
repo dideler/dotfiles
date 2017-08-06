@@ -88,6 +88,8 @@
   ; Commit history of last workday; use for daily standup. Uses yesterworkday fish function.
   standup = !fish -ic 'git log --since "(yesterworkday)" --author "(git config user.name)"'
 
+  ; Search commits by their changes.
+  search-changes = !sh -c 'git log -S "$1"' -
 
   ### Clone
 

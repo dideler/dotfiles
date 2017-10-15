@@ -1,0 +1,2 @@
+# Output filename excludes ID
+-o '%(title)s.%(ext)s'

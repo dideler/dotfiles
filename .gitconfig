@@ -179,6 +179,9 @@
   ; Resets current branch to the state of the remote master.
   overwrite = !sh -c 'git fetch --all && git reset --hard origin/master'
 
+  ; Reset unmerged conflicts after a git stash pop.
+  unpop = checkout --force
+
 
   ### Branches
 

@@ -296,3 +296,7 @@
   ; Pops the stash.
   pop = stash pop
 
+  ; TODO: bundling a repo for sharing it
+  ; git bundle create <repo>.bundle --all
+  ; git clone <repo>.bundle
+

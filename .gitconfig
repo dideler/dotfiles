@@ -55,6 +55,9 @@
   ; Paired rebase.
   drb = rebase -i --exec 'git duet-commit --amend --reset-author'
 
+  ; Duet Double
+  dd = log --committer=ideler --author=ideler
+
 
   ### Logging
 

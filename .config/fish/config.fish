@@ -33,6 +33,7 @@ status --is-interactive; and command -v rbenv >/dev/null; and source (rbenv init
 ### Abbreviations (expanded aliases)
 
 abbr a 'atom .'
+abbr c 'code .'
 abbr be 'bundle exec'
 abbr l 'ls -t'
 abbr t 'todo'

@@ -73,8 +73,8 @@
   ; Shows new commits since last command (e.g. after a `git pull`).
   new-commits = !sh -c 'git log $1@{1}..$1@{0} "$@"'
 
-  ; Logs commits in a concise graph.
-  lg = !git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative
+  ; Logs commits with author and committer metadata.
+  lg = log --format=full
 
   ; Hides merges (shows a linear graph).
   linear-log = !git lg --no-merges

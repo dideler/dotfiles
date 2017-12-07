@@ -252,6 +252,9 @@
   ; Shows master diff for a given file
   file-diff = diff master -- $1
 
+  ; By-pass diff-so-fancy for a vanilla git diff
+  dif = --no-pager diff
+
 
   ### Misc.
 

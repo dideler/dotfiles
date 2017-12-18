@@ -92,7 +92,13 @@
   standup = !fish -ic 'git log --since "(yesterworkday)" --author "(git config user.name)"'
 
   ; Search commits by their changes.
-  search-changes = !sh -c 'git log -S "$1"' -
+  search-diff = !sh -c 'git log -S "$1"' -
+
+  ; Search commit diffs on a specific file (accounts for renames).
+  search-file-diff = !sh -c 'git log -S "$1" --follow "$2"' -
+
+  ; Search commit messages on a specific file (accounts for renames).
+  search-file-log = !sh -c 'git log --grep "$1" --follow "$2"' -
 
   ### Clone
 

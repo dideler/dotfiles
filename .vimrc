@@ -315,6 +315,9 @@ cabbrev get set?<Left>
 " Source config for fish shell after modifying it.
 autocmd BufWritePost config.fish silent !fish -ic "source %"
 
+" Change syntax highlighting for unrecognised words.
+hi clear SpellBad
+hi SpellBad cterm=underline ctermfg=red
 
 " Local config to override values in ~/.vimrc (useful if vimrc is shared).
 if filereadable($HOME . "/.vimrc.local")

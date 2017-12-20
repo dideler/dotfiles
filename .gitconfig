@@ -195,7 +195,7 @@
   ### Branches
 
   ; Lists all remote branches, sorted by most recent commit date.
-  branches = for-each-ref --sort=-committerdate --format=\"%(refname:short)\t%(color:green)%(committerdate:relative)\t%(color:reset)%(subject) (%(authorname))\" refs/remotes
+  remote-branches = for-each-ref --sort=-committerdate --format=\"%(refname:short)\t%(color:green)%(committerdate:relative)\t%(color:reset)%(subject) (%(authorname))\" refs/remotes
 
   ; Lists up to 5 local branches sorted by recent commit activity.
   recent = for-each-ref --count=5 --sort=-committerdate --format='%(refname:short)' refs/heads

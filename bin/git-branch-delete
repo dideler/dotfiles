@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Delete local branches that have been "merged" into master.
+
+git branch --merged master | egrep -v "^\*|master|dev" | xargs --no-run-if-empty git branch --delete

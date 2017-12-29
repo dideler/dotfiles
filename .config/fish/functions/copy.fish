@@ -8,13 +8,13 @@ function copy --description "Copy the contents of a text file or variable to you
         if test -e $argv[1]
           xclip -selection clip < $argv[1]
         else
-          echo $argv[1] | xclip -selection clip
+          printf $argv[1] | xclip -selection clip
         end
       case 'Darwin'
         if test -e $argv[1]
           pbcopy < $argv[1]
         else
-          echo $argv[1] | pbcopy
+          printf $argv[1] | pbcopy
         end
     end
   else

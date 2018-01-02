@@ -237,6 +237,12 @@
   ; Nukes a branch locally and on the origin remote.
   delete-branch = !sh -c 'git branch -D "$1" && git push origin --delete "$1"' -
 
+  ; Delete a local tag
+  delete-tag = tag --delete # tagname
+
+  ; Delete a remote tag
+  delete-remote-tag = push --delete origin # tagname
+
   ; Cleans up unnecessary files and optimizes the local repository.
   housekeeping = gc --aggressive
 

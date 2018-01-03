@@ -60,6 +60,7 @@ abbr gpl 'git pull'
 abbr gsl 'git stash list'
 abbr gs 'git status --short --branch'
 abbr gsi 'git status --short --branch --ignored'
+abbr gsw 'git show'
 
 ### Aliases (shorthand functions)
 

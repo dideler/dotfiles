@@ -163,6 +163,19 @@
   commit-count = rev-list --count HEAD
 
 
+  ### Stash
+
+  ; Restores stashed modifications (potentially on top a different commit).
+  ; Note: Discards state of the stash list, unlike `stash apply`.
+  unstash = stash pop
+
+  ; Pops the stash.
+  pop = stash pop
+
+  ; Reset unmerged conflicts after a git stash pop.
+  unpop = checkout --force
+
+
   ### Reset
 
   ; CAUTION: Discards all changes (staged and unstaged) since the last commit.
@@ -187,9 +200,6 @@
 
   ; Resets current branch to the state of the remote master.
   overwrite = !sh -c 'git fetch --all && git reset --hard origin/master'
-
-  ; Reset unmerged conflicts after a git stash pop.
-  unpop = checkout --force
 
 
   ### Branches
@@ -292,10 +302,6 @@
   ; E.g. use-ssh dideler/dotiles
   use-ssh = !sh -c 'git remote set-url origin git@github.com:"$1".git' -
 
-  ; Restores stashed modifications (potentially on top a different commit).
-  ; Note: Discards state of the stash list, unlike `stash apply`.
-  unstash = stash pop
-
   ; Shows SHA1 of last commit on origin.
   last-sha-origin = !git ls-remote origin --heads refs/heads/master | cut -f1
 
@@ -310,9 +316,6 @@
 
   ; Tracks a versioned file that was previously ignored.
   unignore-versioned-file = !git update-index --no-assume-unchanged
-
-  ; Pops the stash.
-  pop = stash pop
 
   ; TODO: bundling a repo for sharing it
   ; git bundle create <repo>.bundle --all

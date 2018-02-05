@@ -169,6 +169,9 @@
   ; To peek the top of the stack: `git stash show -p` or `git show stash`
   show-stash = !sh -c 'git stash show --patch stash@{"$1"}' -
 
+  ; Shows files changed in the most recent stash.
+  show-stash-files = stash show --name-only
+
   ; Restores stashed modifications (potentially on top a different commit).
   ; Note: Discards state of the stash list, unlike `stash apply`.
   unstash = stash pop

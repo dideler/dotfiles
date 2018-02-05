@@ -165,6 +165,10 @@
 
   ### Stash
 
+  ; Shows changes of a specific stash (see stash stack with `stash list`).
+  ; To peek the top of the stack: `git stash show -p` or `git show stash`
+  show-stash = !sh -c 'git stash show --patch stash@{"$1"}' -
+
   ; Restores stashed modifications (potentially on top a different commit).
   ; Note: Discards state of the stash list, unlike `stash apply`.
   unstash = stash pop

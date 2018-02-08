@@ -316,7 +316,7 @@
   info = show --no-patch
 
   ; Shows directory tree in the state when version was made.
-  tree = !bash -c 'object=${1:-head} && git show "$object":' -
+  tree = !bash -c 'object=${1:-HEAD} && git show "$object":' -
 
   ; Ignores local changes to a versioned file.
   ignore-versioned-file = update-index --assume-unchanged ; <filename>

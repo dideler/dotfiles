@@ -266,6 +266,9 @@
   ; Untracks the given file/directory (does not delete file).
   untrack = rm --cached
 
+  ; Deletes local tags that are not on the origin remote.
+  prune-local-tags = fetch --prune origin "+refs/tags/*:refs/tags/*"
+
 
   ### Diffs
 

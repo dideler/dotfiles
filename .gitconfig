@@ -324,6 +324,9 @@
   ; Tracks a versioned file that was previously ignored.
   unignore-versioned-file = !git update-index --no-assume-unchanged
 
+  ; Shows name and email address of all contributors.
+  contributors = !git log --format='%aN <%aE>' | sort -f | uniq
+
   ; TODO: bundling a repo for sharing it
   ; git bundle create <repo>.bundle --all
   ; git clone <repo>.bundle

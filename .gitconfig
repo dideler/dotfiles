@@ -34,6 +34,8 @@
 	fetchJobs = 4
 [diff]
 	compactionHeuristic = true
+[interactive]
+  singlekey = true
 [alias]  ; Note: Git ignores aliases that hide existing git commands.
 
   ### Basics

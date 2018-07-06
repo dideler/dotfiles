@@ -5,7 +5,6 @@ fisherman/done
 fisherman/fishkit
 fisherman/fishtape
 fisherman/get
-fisherman/getopts
 fisherman/humanize_duration
 fisherman/menu
 fisherman/mock

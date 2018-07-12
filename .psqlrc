@@ -2,7 +2,7 @@
 -- Official docs: http://www.postgresql.org/docs/9.3/static/app-psql.html
 
 -- \pset is for changing the output format — HTML, pager, field separator, etc
--— \set is for everything else
+-- \set is for everything else
 
 -- Don't display the "helpful" message on startup.
 \set QUIET 1

@@ -16,8 +16,10 @@
 -- Use UPPERCASE when tab-completing (preserve-upper will preserve case typed).
 \set COMP_KEYWORD_CASE upper
 
--- Different histories for each database. Ignore duplicate entries.
+-- Different histories for each database.
 \set HISTFILE ~/.psql_history- :DBNAME
+
+-- Ignore duplicate entries.
 \set HISTCONTROL ignoredups
 
 -- Customize prompts. PROMPT2 is printed when the prompt expects more input.

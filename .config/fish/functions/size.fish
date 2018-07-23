@@ -1,5 +1,6 @@
 function size --description "Human readable size of the given file/dir"
-  ls -gh $argv[1] | awk '{ print $4 }'
+  ls -gh $argv[1] | awk '{ printf("%-15s %5s\n", $8, $4) }'
+
   # du -chd 1 $argv[1] | grep total | cut -f 1
   #
   # BSD tools don't have long options --total --human-readable --max-depth=1

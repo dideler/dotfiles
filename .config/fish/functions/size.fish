@@ -1,5 +1,5 @@
 function size --description "Human readable size of the given file/dir"
-  ls -gh $argv[1] | awk '{ printf("%-20s %5s\n", $8, $4) }'
+  ls -ghS $argv[1] | awk '{ printf("%-20s %5s\n", $8, $4) }'
 
   # du -chd 1 $argv[1] | grep total | cut -f 1
   #

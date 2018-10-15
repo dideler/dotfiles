@@ -78,6 +78,7 @@ alias md5 md5sum
 alias mp 'mplayer -really-quiet -playlist'
 alias nano 'nano --const'  # Constantly show the cursor position in nano.
 alias public-ip 'curl icanhazip.com'
+alias file1mb 'head -c 1M /dev/urandom' # E.g. file1mb > foo.bin
 alias rcp 'rsync --archive --perms --compress'  # Faster (remote and local) transfers than scp. Eg: rcp file.txt aws:~/
 alias reconfig 'source ~/.config/fish/config.fish'
 alias rgrep 'grep --recursive'

@@ -120,7 +120,7 @@
   merge-commit = merge --no-ff
 
   ; Fetches all remotes and updates master with origin/master by fast-forwarding
-  ff = !git fetch --all && git checkout master && git merge --ff-only origin/master
+  ff = !git fetch --all && git checkout master && git merge --ff-only origin/master && git checkout -
 
   ### Push
 

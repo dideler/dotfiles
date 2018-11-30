@@ -45,7 +45,7 @@
   co = checkout
   df = diff
   st = status
-
+  cp = cherry-pick
 
   ### Git-Duet (requires https://github.com/git-duet/git-duet)
 

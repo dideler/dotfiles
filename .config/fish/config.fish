@@ -67,7 +67,7 @@ abbr gsw 'git show'
 
 alias ... 'cd ../..'
 alias cman 'man 3' # Manual pages from the library section.
-alias distro 'if test (uname) = "Linux"; cat /etc/os-release | head --lines=2; else; echo "Linux-only command"; end'
+alias distro 'if test (uname) = "Linux"; cat /etc/os-release | head --lines=2; else; echo "Linux-only command"; end;'
 alias ext extract
 alias grep 'grep --color=auto'
 alias ipconfig ifconfig

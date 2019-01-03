@@ -224,12 +224,9 @@ nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
 " Press space to clear search highlighting and any message already displayed.
 nnoremap <silent> <Space> :silent noh<Bar>echo<CR>
 
-" Press jj (in insert mode) to go to command/normal mode.
-inoremap jj <ESC>
-
-" Press kk (in insert or visual mode) to save the file and go to normal mode.
-inoremap kk <ESC> :write<CR>
-vnoremap kk <ESC> :write<CR>
+" Press jj (in insert or visual mode) to save the file and go to normal mode.
+inoremap jj <ESC> :write<CR>
+vnoremap jj <ESC> :write<CR>
 
 " Press qq to quickly quit while in normal mode.
 noremap qq :quit<CR>

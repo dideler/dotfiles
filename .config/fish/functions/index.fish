@@ -1,5 +1,8 @@
 function index --description "Shows character indexes of a string"
-  argparse 'h/help' -- $argv
+  argparse --name=Error 'h/help' -- $argv
+
+  set --local parse_status $status
+  test $parse_status -ne 0 && return $parse_status
 
   if set --query _flag_help
     echo "Usage: index [OPTION] [STRINGS]"

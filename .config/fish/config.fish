@@ -9,7 +9,6 @@ end
 
 set --export EDITOR vim
 set --export GIT_EDITOR vim
-set --export GIT_DUET_ROTATE_AUTHOR false
 
 if not set --query FIRST_RUN
   set --universal FIRST_RUN (date)

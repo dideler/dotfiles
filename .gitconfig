@@ -212,6 +212,8 @@
   ; Resets current branch to the state of the remote master.
   overwrite = !sh -c 'git fetch --all && git reset --hard origin/master'
 
+  ; Reverts a merge commit and all its related changes
+  revert-merge = !sh -c 'git revert --mainline 1 "$1"' -
 
   ### Branches
 

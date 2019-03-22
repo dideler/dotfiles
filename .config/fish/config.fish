@@ -94,7 +94,7 @@ alias otp_version 'erl -eval \'{ok, Version} = file:read_file(filename:join([cod
 alias mac 'ifconfig | grep HWaddr | awk \'{print $1 " " $5}\''  # MAC address of your network devices.
 alias eth0ip "ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print \"eth: \" \$1}'"  # Wired IP address.
 alias wlan0ip "ifconfig wlan0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print \"wlan: \" \$1}'"  # Wireless IP address.
-alias serve 'eth0ip; and wlan0ip; and python -m SimpleHTTPServer'  # Serves current directory on local network, port 8000.
+alias serve 'eth0ip; and wlan0ip; and python -m SimpleHTTPServer; or python -m http.server'  # Serves current directory on local network, port 8000.
 
 alias imagify 'jp2a --colors'
 # Displays a JPEG image as coloured ASCII in stdout.

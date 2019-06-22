@@ -50,11 +50,11 @@ function index --description "Shows character indexes of a string"
 
     if test -z "$indexes"
       for i in (seq (count $chars))
-        echo $i: $chars[$i]
+        printf '%2d: %s\n' $i $chars[$i]
       end
     else
       for i in $indexes
-        echo $i: $chars[$i]
+        printf '%2d: %s\n' $i $chars[$i]
       end
     end
   else

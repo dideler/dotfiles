@@ -42,9 +42,10 @@ function index --description "Shows character indexes of a string"
   set --local argc (count $argv)
 
   if test $argc -eq 0
-    read --silent --prompt-str="Secret ▶ " --local secret
+    read_silent --prompt="Secret ▶ " secret
     test -z "$secret" && return 1
     set --local chars (string split '' $secret)
+    set --erase secret
 
     read --delimiter=' ' --array --prompt-str="Chars  ▶ " --local indexes
 

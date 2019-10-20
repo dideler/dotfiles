@@ -128,6 +128,11 @@ alias git hub
 alias ggrep 'git grep --line-number --heading --break --show-function'
 alias gup 'git fetch --all; and git rebase --preserve-merges origin/(git_branch_name)'
 
+function gr -d "Checkout a recent git branch"
+  set -l branch (git recent | fzf --header="SELECT BRANCH TO CHECKOUT")
+  command git checkout $branch
+end
+
 # Anything you don't want to share? Put it in here!
 if test -f ~/.config/fish/local.config.fish
   source ~/.config/fish/local.config.fish

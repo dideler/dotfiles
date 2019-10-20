@@ -35,6 +35,7 @@ status --is-interactive; and command -v rbenv >/dev/null; and source (rbenv init
 abbr a 'atom .'
 abbr c 'code .'
 abbr e 'exa'
+abbr g 'git'
 abbr be 'bundle exec'
 abbr combinepdfs 'pdfunite' # vertical
 abbr combineimgs 'convert +append' # horizontal

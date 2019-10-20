@@ -40,6 +40,7 @@ abbr be 'bundle exec'
 abbr combinepdfs 'pdfunite' # vertical
 abbr combineimgs 'convert +append' # horizontal
 abbr rg 'rg --follow' # Follow symbolic links (disable with --no-follow)
+abbr k 'kubectl'
 
 abbr gd 'git diff'
 abbr gds 'git diff --staged'

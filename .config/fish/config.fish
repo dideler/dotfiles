@@ -42,6 +42,8 @@ abbr combineimgs 'convert +append' # horizontal
 abbr rg 'rg --follow' # Follow symbolic links (disable with --no-follow)
 abbr rgs 'rg --fixed-strings' # Exact match, no regex interpretation
 abbr k 'kubectl'
+abbr mt 'mtest'
+abbr mx 'mtest --trace --only x'
 
 abbr gd 'git diff'
 abbr gds 'git diff --staged'
@@ -127,6 +129,25 @@ alias grm "git status -sb | grep ' D ' | sed 's/^ D //' | xargs git rm"
 alias git hub
 alias ggrep 'git grep --line-number --heading --break --show-function'
 alias gup 'git fetch --all; and git rebase --preserve-merges origin/(git_branch_name)'
+
+function wip-tests
+  git status --short --branch | grep 'M ' | sed 's/M//' | grep '_test.exs$'
+end
+
+function normalise_test_path
+  string replace -r 'apps/(chat|auth|carrier)/' '' "$argv[1]" | string trim
+end
+
+# TODO: Show staged diff if no normal diff
+function mtest
+  set -l opts $argv
+  set -l preview_cmd 'command git diff (string trim {}) | diff-so-fancy'
+  set -l wip_test (wip-tests | fzf --header="SELECT TEST TO RUN" --preview=$preview_cmd)
+  set -l test_path (normalise_test_path $wip_test)
+  set -l cmd "mix test $test_path $opts"
+  echo $cmd
+  eval $cmd
+end
 
 function gr -d "Checkout a recent git branch"
   set -l preview_cmd 'command git show --name-only -n 5 {}'

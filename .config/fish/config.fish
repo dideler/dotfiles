@@ -129,7 +129,8 @@ alias ggrep 'git grep --line-number --heading --break --show-function'
 alias gup 'git fetch --all; and git rebase --preserve-merges origin/(git_branch_name)'
 
 function gr -d "Checkout a recent git branch"
-  set -l branch (git recent | fzf --header="SELECT BRANCH TO CHECKOUT")
+  set -l preview_cmd 'command git show --name-only -n 5 {}'
+  set -l branch (git recent | fzf --header="SELECT BRANCH TO CHECKOUT" --preview=$preview_cmd)
   command git checkout $branch
 end
 

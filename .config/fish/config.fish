@@ -135,7 +135,7 @@ function wip-tests
 end
 
 function normalise_test_path
-  string replace -r 'apps/(chat|auth|carrier)/' '' "$argv[1]" | string trim
+  string replace -r 'apps/\w+/' '' "$argv[1]" | string trim
 end
 
 # TODO: Show staged diff if no normal diff

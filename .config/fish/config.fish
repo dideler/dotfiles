@@ -140,10 +140,9 @@ function normalise_test_path
   string replace -r 'apps/\w+/' '' "$argv[1]" | string trim
 end
 
-# TODO: Show staged diff if no normal diff
 function mtest
   set -l opts $argv
-  set -l preview_cmd 'command git diff (string trim {}) | diff-so-fancy'
+  set -l preview_cmd 'command git diff HEAD (string trim {}) | diff-so-fancy'
   set -l wip_test (wip-tests | fzf --header="SELECT TEST TO RUN" --preview=$preview_cmd)
   set -l test_path (normalise_test_path "$wip_test $opts")
   set -l cmd "mix test $test_path"

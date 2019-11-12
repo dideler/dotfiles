@@ -132,7 +132,7 @@ alias gup 'git fetch --all; and git rebase --preserve-merges origin/(git_branch_
 
 # Returns paths for Elixir test files with staged and unstaged modifications.
 function wip-tests
-  command git status | grep modified | sed 's/\tmodified:   //' | grep '_test.exs' | uniq
+  command git status | grep 'modified' | sed 's/\tboth modified:   //' | sed 's/\tmodified:   //' | grep '_test.exs' | uniq
 end
 
 function normalise_test_path

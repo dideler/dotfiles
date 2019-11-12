@@ -43,6 +43,7 @@ abbr rg 'rg --follow' # Follow symbolic links (disable with --no-follow)
 abbr rgs 'rg --fixed-strings' # Exact match, no regex interpretation
 abbr k 'kubectl'
 abbr mt 'mtest'
+abbr mtt 'mtest --trace'
 abbr mx 'mtest --trace --only x'
 
 abbr gd 'git diff'

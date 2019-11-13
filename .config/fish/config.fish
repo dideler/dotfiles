@@ -137,13 +137,15 @@ function wip-tests
 end
 
 function normalise_test_path
-  string replace -r 'apps/\w+/' '' "$argv[1]" | string trim
+  string replace --all --regex 'apps/\w+/' '' "$argv[1]" | string trim
 end
 
+# Select WIP Elixir tests files to run. Previews diffs.
+# Can select multiple tests to run with TAB or SHIFT+TAB.
 function mtest
   set -l opts $argv
   set -l preview_cmd 'command git diff HEAD (string trim {}) | diff-so-fancy'
-  set -l wip_test (wip-tests | fzf --header="SELECT TEST TO RUN" --preview=$preview_cmd)
+  set -l wip_test (wip-tests | fzf --multi --header="SELECT TEST TO RUN" --preview=$preview_cmd)
   set -l test_path (normalise_test_path "$wip_test $opts")
   set -l cmd "mix test $test_path"
   echo $cmd

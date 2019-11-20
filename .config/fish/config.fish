@@ -131,9 +131,10 @@ alias git hub
 alias ggrep 'git grep --line-number --heading --break --show-function'
 alias gup 'git fetch --all; and git rebase --preserve-merges origin/(git_branch_name)'
 
-# Returns paths for Elixir test files with staged and unstaged modifications.
+# Returns paths for Elixir test files with staged and unstaged modifications,
+# and updated but unmerged modifications (e.g. when resolving merge conflicts).
 function wip-tests
-  command git status | grep 'modified' | sed 's/\tboth modified:   //' | sed 's/\tmodified:   //' | grep '_test.exs' | uniq
+  command git status | grep 'modified' | sed 's/\tboth modified:   //' | sed 's/\tmodified:   //' | grep '_test.exs' | sort | uniq
 end
 
 function normalise_test_path

@@ -10,5 +10,8 @@ function failing-tests -d "Run ExUnit tests then show all failing tests"
 
   rm $temp_file
 
-  printf "\nFailing tests:\n\n$failing_tests"
+  printf "\nFailing tests:\n\n"
+  for failed_test in $failing_tests
+    echo $failed_test
+  end
 end

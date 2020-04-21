@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Applies a git patch given a GitHub patch URL.
+
+set -o nounset
+
+PATCH_URL="$1"
+
+curl -sL $PATCH_URL | git am

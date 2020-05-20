@@ -1,5 +1,5 @@
 {
-    "theme": "light",
+    "theme": "dark",
     "snippet": {
         "expanded": true,
         "newSnippetPrivate": false,
@@ -10,10 +10,10 @@
         "tabSize": 4
     },
     "userPanel": {
-        "hideProfilePhoto": false
+        "hideProfilePhoto": true
     },
     "logger": {
-        "level": "debug"
+        "level": "info"
     },
     "proxy": {
         "enable": false,

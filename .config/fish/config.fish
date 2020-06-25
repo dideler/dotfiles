@@ -144,9 +144,11 @@ function gr -d "Checkout a recent git branch"
   command git checkout $branch
 end
 
+### Elixir
+
 # Returns paths for Elixir test files with staged and unstaged modifications,
 # and updated but unmerged modifications (e.g. when resolving merge conflicts).
-function wip-tests
+function wip-elixir-tests
   command git status | \
   egrep 'modified|new file' | \
   sed 's/\tboth modified:   //' | \
@@ -156,7 +158,7 @@ function wip-tests
   sort | uniq
 end
 
-function normalise_test_path
+function normalise_elixir_test_path
   string replace --all --regex 'apps/\w+/' '' "$argv[1]" | string trim
 end
 
@@ -165,18 +167,45 @@ end
 function mtest
   set -l opts $argv
   set -l preview_cmd 'command git diff HEAD (string trim {}) | diff-so-fancy'
-  set -l wip_test (wip-tests | fzf --multi --header="SELECT TEST TO RUN" --preview=$preview_cmd)
-  set -l test_path (normalise_test_path "$wip_test $opts")
+  set -l wip_test (wip-elixir-tests | fzf --multi --header="SELECT TEST TO RUN" --preview=$preview_cmd)
+  set -l test_path (normalise_elixir_test_path "$wip_test $opts")
   set -l cmd "mix test $test_path"
   echo $cmd
   eval $cmd
 end
 
-function gr -d "Checkout a recent git branch"
-  set -l preview_cmd 'command git show --name-only -n 5 {}'
-  set -l branch (git recent | fzf --header="SELECT BRANCH TO CHECKOUT" --preview=$preview_cmd)
-  command git checkout $branch
+### Ruby
+
+# Returns paths for Ruby spec files with staged and unstaged modifications,
+# and updated but unmerged modifications (e.g. when resolving merge conflicts).
+function wip_ruby_tests
+  command git status | \
+  egrep 'modified|new file' | \
+  sed 's/both modified://' | \
+  sed 's/modified://' | \
+  sed 's/new file://' | \
+  string trim | \
+  grep '_spec.rb' | \
+  sort | uniq
 end
+
+function normalise_ruby_test_path
+  string replace --all --regex 'spec/\w+/' '' "$argv[1]" | string trim
+end
+
+# Select WIP Ruby tests files to run. Previews diffs.
+# Can select multiple tests to run with TAB or SHIFT+TAB.
+function rtest
+  set -l opts $argv
+  set -l preview_cmd 'command git diff HEAD (string trim {}) | diff-so-fancy'
+  set -l wip_test (wip_ruby_tests | fzf --multi --header="SELECT TEST TO RUN" --preview=$preview_cmd)
+  set -l test_path "$wip_test $opts"
+  set -l cmd "bundle exec rspec $test_path"
+  echo $cmd
+  eval $cmd
+end
+
+###
 
 # Anything you don't want to share? Put it in here!
 if test -f ~/.config/fish/local.config.fish

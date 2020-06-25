@@ -27,8 +27,14 @@ if not set --query FIRST_RUN
   set --universal LESS_TERMCAP_ue \e'[0m'           # end underline
 end
 
-# Load rbenv automatically.
+# Load rbenv
 status --is-interactive; and command -v rbenv >/dev/null; and source (rbenv init -|psub)
+
+# Load asdf
+status --is-interactive; and source ~/.asdf/asdf.fish
+
+# Load direnv
+status --is-interactive; and command -v direnv >/dev/null; and eval (direnv hook fish)
 
 ### Abbreviations (expanded aliases)
 

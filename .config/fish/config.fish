@@ -127,7 +127,8 @@ alias hilite-stdout 'pcregrep --colour --multiline ".|\n"'
 # Highlights STDOUT in red so you can differentiate between STDOUT and STDERR.
 # Usage: my_prog | hilite-stdout
 
-### Git aliases
+### Git
+
 alias glog "git log --graph \
             --abbrev-commit \
             --date=relative \
@@ -136,6 +137,12 @@ alias grm "git status -sb | grep ' D ' | sed 's/^ D //' | xargs git rm"
 alias git hub
 alias ggrep 'git grep --line-number --heading --break --show-function'
 alias gup 'git fetch --all; and git rebase --preserve-merges origin/(git_branch_name)'
+
+function gr -d "Checkout a recent git branch"
+  set -l preview_cmd 'command git show --name-only -n 5 {}'
+  set -l branch (git recent | fzf --header="SELECT BRANCH TO CHECKOUT" --preview=$preview_cmd)
+  command git checkout $branch
+end
 
 # Returns paths for Elixir test files with staged and unstaged modifications,
 # and updated but unmerged modifications (e.g. when resolving merge conflicts).

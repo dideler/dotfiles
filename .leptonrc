@@ -19,6 +19,10 @@
         "enable": false,
         "address": "socks://localhost:1080"
     },
+    "notifications": {
+        "success": false,
+        "failure": true
+    },
     "shortcuts": {
         "keyShortcutForSearch": "CMD+F",
         "keyNewGist": "CommandOrControl+N",

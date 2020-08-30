@@ -195,12 +195,13 @@ end
 
 # Select WIP Ruby tests files to run. Previews diffs.
 # Can select multiple tests to run with TAB or SHIFT+TAB.
+abbr rt rtest
 function rtest
   set -l opts $argv
   set -l preview_cmd 'command git diff HEAD (string trim {}) | diff-so-fancy'
   set -l wip_test (wip_ruby_tests | fzf --multi --header="SELECT TEST TO RUN" --preview=$preview_cmd)
   set -l test_path "$wip_test $opts"
-  set -l cmd "bundle exec rspec $test_path"
+  set -l cmd "bin/rspec $test_path"
   echo $cmd
   eval $cmd
 end

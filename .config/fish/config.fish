@@ -1,7 +1,7 @@
 set fish_greeting  # Clear greeting
 
 # Ensure fisherman and plugins are installed.
-if not test -f $HOME/.config/fish/functions/fisher.fish
+if status --is-interactive; and not test -f $HOME/.config/fish/functions/fisher.fish
   echo "==> Installing Fisherman..."
   curl -sLo ~/.config/fish/functions/fisher.fish --create-dirs git.io/fisher
   fisher

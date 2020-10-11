@@ -4,10 +4,9 @@ dideler/fish-cd-git
 dideler/fish-dl
 edc/bass
 fisherman/done
-fisherman/fishkit
 fisherman/fishtape
-fisherman/get
-fisherman/humanize_duration
-fisherman/menu
 fisherman/mock
 fisherman/spin
+fishpkg/fish-humanize-duration
+fishpkg/fish-menu
+fishpkg/fish-get

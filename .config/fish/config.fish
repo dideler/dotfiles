@@ -9,6 +9,7 @@ end
 
 set --export EDITOR vim
 set --export GIT_EDITOR vim
+set --export ERL_AFLAGS "-kernel shell_history enabled" # iex history
 
 if not set --query FIRST_RUN
   set --universal FIRST_RUN (date)

@@ -200,6 +200,7 @@ end
 # Select WIP Ruby tests files to run. Previews diffs.
 # Can select multiple tests to run with TAB or SHIFT+TAB.
 abbr rt rtest
+abbr rtt 'rtest --format documentation'
 function rtest
   set -l opts $argv
   set -l preview_cmd 'command git diff HEAD (string trim {}) | diff-so-fancy'

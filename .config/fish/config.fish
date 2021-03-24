@@ -76,7 +76,7 @@ abbr gsl 'git stash list'
 abbr gs 'git status --short --branch'
 abbr gsi 'git status --short --branch --ignored'
 abbr gsw 'git show'
-abbr space 'sudo ncdu /' # Interactive breakdown of disk space
+abbr space 'sudo ncdu --exclude-firmlinks /' # Interactive breakdown of disk space
 
 ### Aliases (shorthand functions)
 

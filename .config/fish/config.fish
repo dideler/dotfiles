@@ -104,6 +104,7 @@ alias units 'units --verbose'
 alias vi 'vim -O'  # Vertically split windows if multiple files given.
 alias which 'which -a'  # Show all matches.
 alias otp_version 'erl -eval \'{ok, Version} = file:read_file(filename:join([code:root_dir(), "releases", erlang:system_info(otp_release), "OTP_VERSION"])), io:fwrite(Version), halt().\' -noshell'
+alias heic2jpg 'magick mogrify -monitor -format jpg *.HEIC' # Create JPGs from HEIC images in the current directory
 alias utc 'date -u'
 
 alias mac 'ifconfig | grep HWaddr | awk \'{print $1 " " $5}\''  # MAC address of your network devices.

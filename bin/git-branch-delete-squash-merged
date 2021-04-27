@@ -14,8 +14,6 @@ DRY_RUN="false"
 
 [[ "$1" == "-n" || "$1" == "--dry-run" ]] && DRY_RUN="true"
 
-branch_detected="false"
-
 command git checkout -q master
 
 command git for-each-ref refs/heads/ "--format=%(refname:short)" | while read branch; do
@@ -26,14 +24,10 @@ command git for-each-ref refs/heads/ "--format=%(refname:short)" | while read br
     branch_detected="true"
 
     if [[ "$DRY_RUN" == "true" ]]; then
-      echo "$branch is merged into master and can be deleted"
+      echo "$branch"
     else
       command git branch -D $branch
     fi
   fi
 done
-
-if [[ "$branch_detected" == "false" ]]; then
-  echo "No squash-merged branches detected for deletion"
-fi
 

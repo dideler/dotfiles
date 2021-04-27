@@ -1,0 +1,39 @@
+#!/usr/bin/env bash -e
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+  echo 'Deletes local branches that have been "squash merged" into master'
+  echo
+  echo 'Options:'
+  echo '  -h/--help      Show this help and exit'
+  echo '  -n/--dry-run   Show branches that would be deleted'
+
+  exit 0
+fi
+
+DRY_RUN="false"
+
+[[ "$1" == "-n" || "$1" == "--dry-run" ]] && DRY_RUN="true"
+
+branch_detected="false"
+
+command git checkout -q master
+
+command git for-each-ref refs/heads/ "--format=%(refname:short)" | while read branch; do
+  merge_base=$(command git merge-base master $branch)
+  comparison_commit=$(git commit-tree $(git rev-parse $branch^{tree}) -p $merge_base -m _)
+
+  if [[ $(command git cherry master $comparison_commit) == "-"* ]]; then
+    branch_detected="true"
+
+    if [[ "$DRY_RUN" == "true" ]]; then
+      echo "$branch is merged into master and can be deleted"
+    else
+      command git branch -D $branch
+    fi
+  fi
+done
+
+if [[ "$branch_detected" == "false" ]]; then
+  echo "No squash-merged branches detected for deletion"
+fi
+

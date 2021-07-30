@@ -10,3 +10,4 @@ fisherman/spin
 fishpkg/fish-humanize-duration
 fishpkg/fish-menu
 fishpkg/fish-get
+tomoemon/fish-command-timer@patch-1

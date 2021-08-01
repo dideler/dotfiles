@@ -1,13 +1,12 @@
-dideler/fish-index
-dideler/fish-read-silent
+jorgebucaran/fisher
+americanhanko/fish-spin
 dideler/fish-cd-git
 dideler/fish-dl
+dideler/fish-index
+dideler/fish-read-silent
 edc/bass
 fisherman/done
 fisherman/fishtape
 fisherman/mock
-fisherman/spin
 fishpkg/fish-humanize-duration
-fishpkg/fish-menu
-fishpkg/fish-get
 tomoemon/fish-command-timer@patch-1

@@ -14,6 +14,13 @@ set --export ERL_AFLAGS "-kernel shell_history enabled" # iex history
 if not set --query FIRST_RUN
   set --universal FIRST_RUN (date)
 
+  # Define XDG base directories.
+  set --universal XDG_CACHE_HOME $HOME/.cache
+  set --universal XDG_CONFIG_HOME $HOME/.config
+  set --universal XDG_DATA_HOME $HOME/.local/share
+  set --universal XDG_STATE_HOME $HOME/.local/state
+  mkdir -p $XDG_CACHE_HOME $XDG_CONFIG_HOME $XDG_DATA_HOME $XDG_STATE_HOME
+
   # Friendly colours for `ls` output.
   set --universal LSCOLORS ExfxcxdxBxegedabagacad
 

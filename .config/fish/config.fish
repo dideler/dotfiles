@@ -61,6 +61,11 @@ if not set --query FIRST_RUN
   set -U fish_pager_color_description B3A06D yellow
   set -U fish_pager_color_prefix normal --bold --underline
   set -U fish_pager_color_progress brwhite --background=cyan
+
+  # Opt out of homebrew analytics and enable secure options.
+  set -Ux HOMEBREW_NO_ANALYTICS 1
+  set -Ux HOMEBREW_NO_INSECURE_REDIRECT 1
+  set -Ux HOMEBREW_CASK_OPTS '--require-sha'
 end
 
 # Load rbenv

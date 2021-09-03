@@ -19,7 +19,7 @@ strikeline() {
 # Loop through list, removing checked item
 i="$(printlist | wc -l)"
 while [ $i != -1 ]; do
-  line="$(printlist | fzf --layout=reverse)"
+  line="$(printlist | fzf --layout=reverse)" || exit
   list="$(strikeline)"
   i=$((i-1))
 done

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Source: https://twitter.com/kevinbaker/status/1433459763510120456/photo/1
+
+# Get list from file or STDIN
+[ -f "$1" ] && list="$(cat "$1")" || list="$(cat)"
+
+printlist() {
+  printf "%s" "$list"
+}
+
+# Returns the list with the checked line striked
+strikeline() {
+  printlist \
+    | grep -v "^$line$" \
+    | sed '$ s/\n$//'
+}
+
+# Loop through list, removing checked item
+i="$(printlist | wc -l)"
+while [ $i != -1 ]; do
+  line="$(printlist | fzf --layout=reverse)"
+  list="$(strikeline)"
+  i=$((i-1))
+done

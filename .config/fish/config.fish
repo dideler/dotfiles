@@ -139,7 +139,6 @@ alias rgrep 'grep --recursive'
 alias spaces2tabs "sed -i 's/ \+ /\t/g'"  # Replaces multiple spaces with a tab in the given file.
 alias sshkey "copy ~/.ssh/id_rsa.pub; and echo 'Public key copied to clipboard'"
 alias textedit 'open -a TextEdit'
-alias todo 'todolist'
 alias units 'units --verbose'
 alias vi 'vim -O'  # Vertically split windows if multiple files given.
 alias which 'which -a'  # Show all matches.

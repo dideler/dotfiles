@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-# Delete local branches that have been "merged" into master.
+# Delete local branches that have been "merged" into the main branch.
 
-# BSD xargs does not support -r option, but GNU does
-# git branch --merged master | egrep -v "^\*|master|dev" | xargs --no-run-if-empty git branch --delete
-git branch --merged master | egrep -v "^\*|master|dev" | xargs git branch --delete
+main_branch=$(git branch --list master main | sed 's/^* //')
+
+git branch --merged $main_branch |
+  egrep -v "^\*|$main_branch|dev" |
+  xargs git branch --delete # BSD xargs does not support --no-run-if-empty/-r

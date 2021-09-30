@@ -1,7 +1,7 @@
 #!/usr/bin/env bash -e
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
-  echo 'Deletes local branches that have been "squash merged" into master'
+  echo 'Deletes local branches that have been "squash merged" into main branch'
   echo
   echo 'Options:'
   echo '  -h/--help      Show this help and exit'
@@ -14,13 +14,15 @@ DRY_RUN="false"
 
 [[ "$1" == "-n" || "$1" == "--dry-run" ]] && DRY_RUN="true"
 
-command git checkout -q master
+main_branch=$(command git branch --list master main | sed 's/^* //')
+
+command git checkout -q $main_branch
 
 command git for-each-ref refs/heads/ "--format=%(refname:short)" | while read branch; do
-  merge_base=$(command git merge-base master $branch)
+  merge_base=$(command git merge-base $main_branch $branch)
   comparison_commit=$(git commit-tree $(git rev-parse $branch^{tree}) -p $merge_base -m _)
 
-  if [[ $(command git cherry master $comparison_commit) == "-"* ]]; then
+  if [[ $(command git cherry $main_branch $comparison_commit) == "-"* ]]; then
     branch_detected="true"
 
     if [[ "$DRY_RUN" == "true" ]]; then

@@ -1,5 +1,4 @@
 jorgebucaran/fisher
-americanhanko/fish-spin
 dideler/fish-cd-git
 dideler/fish-dl
 dideler/fish-index
@@ -10,3 +9,5 @@ fisherman/fishtape
 fisherman/mock
 fishpkg/fish-humanize-duration
 tomoemon/fish-command-timer@patch-1
+americanhanko/fish-spin
+jorgebucaran/getopts.fish

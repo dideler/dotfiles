@@ -234,14 +234,6 @@
 
   ### Pull Requests
 
-  ; Opens a PR via hub, after you give a PR title & description.
-  ; Accepts args for explicit title, pull base, head, and more.
-  ; E.g.  git pr -m "Fix gh-123" -b dev -h 123-bug-fix
-  pr = !hub pull-request
-
-  ; Immediately opens a PR with the title and body from the last commit message.
-  pr-msg = !git log -n 1 --pretty=format:'%s%n%n%b' | hub pull-request -F -
-
   ; Checkout a remote branch by its PR number.
   ; E.g. git co-pr 123; <review>; git merge pr/123 --ff-only
   co-pr = !sh -c 'git fetch origin pull/$1/head:pr/$1 && git checkout pr/$1' -

@@ -160,7 +160,6 @@ alias gs='git status -sb' # Upgrade your git if -sb breaks for you.
 alias ga='git add'
 #alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 alias grm="gs | grep ' D ' | sed 's/^ D //' | xargs git rm" # Holman's version doesn't handle whitespaces.
-alias git='hub' # See http://defunkt.io/hub/
 alias ggrep='git grep --line-number --heading --break --show-function' # greps files tracked with git.
 alias gcb="gb | grep \* | sed 's/^* //'" # Show git's current branch.
 alias gup='git fetch && git rebase -p origin/$(gcb)' # A friendlier git pull --rebase.
@@ -219,7 +218,7 @@ function git_current_branch()
 }
 
 #function gacm {
-#  
+#
 #} # git add & git commit -m
 
 # Temporary function, ignore for now. FIXME
@@ -239,4 +238,4 @@ function e {
 #  else
 #    echo 'Please specify the files you want to stage and the commit message.'
 #  fi
-} 
+}

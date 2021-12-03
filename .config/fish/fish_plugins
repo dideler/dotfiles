@@ -11,3 +11,4 @@ fishpkg/fish-humanize-duration
 tomoemon/fish-command-timer@patch-1
 americanhanko/fish-spin
 jorgebucaran/getopts.fish
+jethrokuan/z

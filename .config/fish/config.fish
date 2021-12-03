@@ -62,6 +62,9 @@ if not set --query FIRST_RUN
   set -U fish_pager_color_prefix normal --bold --underline
   set -U fish_pager_color_progress brwhite --background=cyan
 
+  # Change ls output colour to be easier to read on dark themes.
+  set -Ux LSCOLORS gxfxbEaEBxxEhEhBaDaCaD
+
   # Opt out of homebrew analytics and enable secure options.
   set -Ux HOMEBREW_NO_ANALYTICS 1
   set -Ux HOMEBREW_NO_INSECURE_REDIRECT 1

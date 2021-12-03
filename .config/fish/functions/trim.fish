@@ -11,7 +11,7 @@ function trim -a file start stop -d "Trims an audio/video file given start and s
       echo "    $_ video.mp3 00:00:10.000 00:01:05.000"
       return 0
     case -\*
-      echo "Error: '$argv[1]' not a valid option"
+      echo "Error: '$argv[1]' not a valid option" >&2
       return 1
   end
   # TODO: add guard clauses; valid file, valid time format, etc.

@@ -12,11 +12,18 @@ end
 function combineimgs --description "Combine images"
   set --local options 'h/help' 'horizontal' 'vertical'
 
-  argparse --exclusive="horizontal,vertical" --min-args=3 $options -- $argv
+  argparse --exclusive="horizontal,vertical" $options -- $argv
 
   if set --query _flag_help
     __combineimgs_help
     return 0
+  end
+
+  set --local argc (count $argv)
+
+  if test $argc -lt 3
+    echo "Error: Expected at least 3 args, got $argc" >&2
+    return 1
   end
 
   set --local input $argv[1..-2]

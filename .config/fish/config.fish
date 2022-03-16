@@ -147,7 +147,8 @@ alias vi 'vim -O'  # Vertically split windows if multiple files given.
 alias which 'which -a'  # Show all matches.
 alias otp_version 'erl -eval \'{ok, Version} = file:read_file(filename:join([code:root_dir(), "releases", erlang:system_info(otp_release), "OTP_VERSION"])), io:fwrite(Version), halt().\' -noshell'
 alias heic2jpg 'magick mogrify -monitor -format jpg *.HEIC' # Create JPGs from HEIC images in the current directory
-alias utc 'date -u'
+alias date-utc 'date -u'
+alias date-iso 'date -u +"%Y-%m-%dT%H:%M:%SZ"'
 
 alias mac 'ifconfig | grep HWaddr | awk \'{print $1 " " $5}\''  # MAC address of your network devices.
 alias eth0ip "ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print \"eth: \" \$1}'"  # Wired IP address.

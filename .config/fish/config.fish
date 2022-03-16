@@ -159,10 +159,6 @@ alias imagify 'jp2a --colors'
 # Also check out picture-tube which is for PNGs.
 # Usage: imagify file1, file2, ...
 
-# alias combineimgs 'convert +append'
-# Combines images horizontally (side-by-side).
-# Usage: combineimgs infile1, infile2, ..., outfile
-
 # alias combinepdfs 'convert -density 200'
 # Combines PDFs vertically.
 # Usage: combinepdfs infile1, infile2, ..., outfile

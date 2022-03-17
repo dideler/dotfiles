@@ -23,6 +23,7 @@ function combineimgs --description "Combine images"
 
   if test $argc -lt 3
     echo "Error: Expected at least 3 args, got $argc" >&2
+    __combineimgs_help
     return 1
   end
 

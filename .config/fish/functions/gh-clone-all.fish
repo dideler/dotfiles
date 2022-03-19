@@ -1,8 +1,8 @@
 function gh-clone-all --description "Clone all GH repos of the user and their orgs"
-  gh auth status >/dev/null || {
+  gh auth status >/dev/null || begin
     echo "Must authenticate via GitHub CLI: gh auth login" 1>&2
-    exit 1
-  }
+    return 1
+  end
 
   set -l orgs (gh api user/orgs -q '.[].login')
   set -l owners dideler $orgs

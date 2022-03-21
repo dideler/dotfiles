@@ -335,3 +335,5 @@
 
 [pull]
 	rebase = false
+[protocol "keybase"]
+	allow = always

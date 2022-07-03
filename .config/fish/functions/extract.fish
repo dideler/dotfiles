@@ -21,6 +21,8 @@ function extract --description "Expand or extract bundled & compressed files"
           uncompress $file
         case "*.pax"
           pax -r < $file
+        case "*.7z"
+          7z x $file -o(basename $file .7z)
         case '*'
           echo "Extension not recognized, cannot extract $file"
       end

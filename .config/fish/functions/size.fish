@@ -1,12 +1,17 @@
 function size --description "Human readable size of the given file/dir"
-  ls -ghS $argv[1] | awk '{ printf("%-20s %5s\n", $8, $4) }'
-
-  # du -chd 1 $argv[1] | grep total | cut -f 1
+  for file in $argv
+    # TODO: Handle files with whitespace by not breaking them apart
+    if test -e $file
+      ls -ghS $file | awk '{ printf("%-10s %5s\n", $4, $8) }'
+    else
+      echo "Error: Not a valid file" >&2
+    end
+  end
+  # Or: ncdu -o-
+  # Note: Accurate and handles whitespace but need to parse JSON and convert bytes to human readable (with numfmt for example)
   #
-  # BSD tools don't have long options --total --human-readable --max-depth=1
-  #
-  # du doesn't give the size of the file, it gives an indication of how much
-  # space the file uses, which is subtly different (usually the size reported by
-  # du is the size of the file rounded up to the nearest number of blocks, where
-  # a block is typically 512B or 1kB or 4kB)
+  # Or: du -chd 1 $argv[1]
+  # Note: Doesn't give the actual size of the file, it gives an indication
+  #       of how much space the file uses, rounded up to the nearest block,
+  #       where a block is typically 512B or 1kB or 4kB.
 end

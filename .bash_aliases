@@ -162,7 +162,7 @@ alias ga='git add'
 alias grm="gs | grep ' D ' | sed 's/^ D //' | xargs git rm" # Holman's version doesn't handle whitespaces.
 alias ggrep='git grep --line-number --heading --break --show-function' # greps files tracked with git.
 alias gcb="gb | grep \* | sed 's/^* //'" # Show git's current branch.
-alias gup='git fetch && git rebase -p origin/$(gcb)' # A friendlier git pull --rebase.
+alias gup='git fetch --all && git rebase --rebase-merges origin/$(gcb)' # A friendlier git pull --rebase.
 
 ################################################################################
 # Functions

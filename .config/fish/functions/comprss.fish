@@ -48,7 +48,7 @@ end
 
 function pngcompress -d "Reduce PNG file size"
   function __help
-    echo "Usage: pngcompress [file ...] [options]"
+    echo "Usage: "(status current-command)" [file ...] [options]"
     echo "Options:"
     echo "  -h, --help    Show this help message and exit"
     echo "  -o, --output  Output to given path (instead of overwriting existing file). Limits input to single file"
@@ -89,7 +89,7 @@ end
 
 function comprss --description "Compress a variety of file types" # The name 'compress' is taken by a BSD tool.
   function __help
-    echo "Usage: comprss [file ...] [options]"
+    echo "Usage: "(status current-command)" [file ...] [options]"
     echo "Options:"
     echo "  -h, --help    Show this help message and exit"
     echo "  -o, --output  Output to given path (instead of overwriting existing file). Limits input to single file"

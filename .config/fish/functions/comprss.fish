@@ -32,11 +32,11 @@ function pngcompress -d "Reduce PNG file size"
     end
 
     __validate! $argv[1] or return
-    pngquant --skip-if-larger --speed=1 --output $_flag_output $argv[1]
+    pngquant --speed=1 --output $_flag_output $argv[1]
   else
     for file in $argv
       __validate! $file or continue
-      pngquant --skip-if-larger --speed=1 --ext ".png" --force $file
+      pngquant --speed=1 --ext ".png" --force $file
     end
   end
 end

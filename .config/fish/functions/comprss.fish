@@ -58,7 +58,10 @@ function pngcompress -d "Reduce PNG file size"
   argparse --max-args=2 $options -- $argv
   or return
 
+  set --local argc (count $argv)
+
   if set --query _flag_help
+  or test $argc -eq 0
     __help
     return 0
   end
@@ -72,7 +75,7 @@ function pngcompress -d "Reduce PNG file size"
   end
 
   if set --query _flag_output
-    if test (count $argv) -gt 1
+    if test $argc -gt 1
       echo "Error: Only one input file is allowed when using the -o/--output option" >&2
       return 1
     end
@@ -100,13 +103,16 @@ function comprss --description "Compress a variety of file types" # The name 'co
   argparse --max-args=2 $options -- $argv
   or return
 
+  set --local argc (count $argv)
+
   if set --query _flag_help
+  or test $argc -eq 0
     __help
     return 0
   end
 
   if set --query _flag_output
-    if test (count $argv) -gt 1
+    if test $argc -gt 1
       echo "Error: Only one input file is allowed when using the -o/--output option" >&2
       return 1
     end

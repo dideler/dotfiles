@@ -70,7 +70,7 @@ function pngcompress -d "Reduce PNG file size"
     test -f $argv[1] && \
     string match -q '*.png' (string lower $argv[1]) && \
     string match -rq "^$argv[1]: PNG image data" (file $argv[1])
-    or echo "Error: File '$argv[1]' does not exist or is not a PNG file" >&2
+    or echo "Error: '$argv[1]' is not a valid PNG file" >&2
     and return 1
   end
 

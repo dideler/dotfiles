@@ -337,3 +337,5 @@
 	rebase = false
 [protocol "keybase"]
 	allow = always
+[init]
+	defaultBranch = main

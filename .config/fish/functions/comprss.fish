@@ -117,7 +117,7 @@ function comprss --description "Compress a variety of file types" # The name 'co
       return 1
     end
 
-    switch (string lower (extension $argv[1]))
+    switch (extension --lower $argv[1])
       case 'pdf'
         pdfcompress $args
       case 'png'
@@ -128,7 +128,7 @@ function comprss --description "Compress a variety of file types" # The name 'co
     end
   else
     for file in $argv
-      switch (string lower (extension $file))
+      switch (extension --lower $file)
         case 'pdf'
           pdfcompress $file
         case 'png'

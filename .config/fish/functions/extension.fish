@@ -1,46 +1,38 @@
-# The reason we make the user pass an option when there are multiple extensions
-# instead of auto-detecting it, is because it's less error prone.
-# E.g. foo.bar.jpg has one extension, not two. Easier for user to say so.
-
 function extension -d "Returns the extension given a file"
 
-  function _print_usage
-    echo -e "Usage:\n  extension foo.bar  # => bar\n  extension --multiple foo.bar.baz  # => bar.baz"
+  function __help
+    echo "Returns the probable extension from a given filepath, e.g. 'file.txt' => 'txt'
+
+Usage: "(status current-command)" [options] [file]
+
+Options:
+  -h, --help    Show this help message and exit
+  -m, --multi   Extract multiple extensions, e.g. 'file.tar.gz' => 'tar.gz'
   end
 
-  switch (count $argv)
-    case 0
-      _print_usage
-      return 1
+  set --local options 'h/help' 'm/multi'
+  argparse --max-args=1 $options -- $argv
+  or return
 
-    case 1
-      switch $argv
-        case '-*'  # Invalid option.
-          _print_usage
-          return 1
+  set --local argc (count $argv)
 
-        case '.*' '*.'  # E.g. '.foo' or 'foo.'
-          printf "'%s' does not have an extension\n" $argv[1]
+  if set --query _flag_help
+  or test $argc -eq 0
+    __help
+    return 0
+  end
 
-        case '*.*'  # Filename has a visible extension.
-          echo $argv[1] | awk -F. '{print $NF}'
+  if set --query _flag_multi
+    string split '.' $argv[1] --no-empty --max 1 --fields 2
+    and return 0
 
-        case '*'
-          printf "'%s' does not have an extension\n" $argv[1]
-      end
+    printf "Error: '%s' is not valid\n" $argv[1] >&2
+    return 1
+  else
+    string match --regex --groups-only '^\.?[\w,\s-]+(\.[A-Za-z]+)+$' $argv[1] | string split '.' --fields 2
+    and return 0
 
-    case 2
-      # Not as robust as case 1. Good enough since case 2 is less likely.
-      switch (echo $argv)
-        case '* -m' '* --multiple'  # Filename before option
-          echo $argv[1] | cut -d "." -f 2-
-
-        case '-m *' '--multiple *'  # Filename after option
-          echo $argv[2] | cut -d "." -f 2-
-
-        case '*'
-          _print_usage
-          return 1
-      end
+    printf "Error: '%s' is not valid\n" $argv[1] >&2
+    return 1
   end
 end

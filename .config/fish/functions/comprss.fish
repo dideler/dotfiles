@@ -137,7 +137,10 @@ end
 
 function comprss --description "Compress a variety of file types" # The name 'compress' is taken by a BSD tool.
   function __help
+    echo "Reduces the size of the given files if possible. Currently supports JPG, PNG, and PDF."
+    echo ""
     echo "Usage: "(status current-command)" [file ...] [options]"
+    echo ""
     echo "Options:"
     echo "  -h, --help    Show this help message and exit"
     echo "  -o, --output  Output to given path (instead of overwriting existing file). Limits input to single file"

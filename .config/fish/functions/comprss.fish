@@ -9,7 +9,7 @@ function pdfcompress -d "Reduce PDF file size"
   end
 
   set --local options 'h/help' 'o/output='
-  argparse --max-args=2 $options -- $argv
+  argparse $options -- $argv
   or return
 
   set --local argc (count $argv)
@@ -55,7 +55,7 @@ function jpgcompress -d "Reduce JPG file size"
   end
 
   set --local options 'h/help' 'o/output='
-  argparse --max-args=2 $options -- $argv
+  argparse $options -- $argv
   or return
 
   set --local argc (count $argv)
@@ -100,7 +100,7 @@ function pngcompress -d "Reduce PNG file size"
   end
 
   set --local options 'h/help' 'o/output='
-  argparse --max-args=2 $options -- $argv
+  argparse $options -- $argv
   or return
 
   set --local argc (count $argv)
@@ -145,7 +145,7 @@ function comprss --description "Compress a variety of file types" # The name 'co
 
   set --local args $argv # Because argparse mutates $argv
   set --local options 'h/help' 'o/output='
-  argparse --max-args=2 $options -- $argv
+  argparse $options -- $argv
   or return
 
   set --local argc (count $argv)

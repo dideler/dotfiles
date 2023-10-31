@@ -1,7 +1,7 @@
 lilyball/nix-env.fish
 americanhanko/fish-spin
 dideler/fish-cd-git
-dideler/fish-dl
+dideler/dl.fish
 dideler/fish-index
 dideler/fish-read-silent
 edc/bass

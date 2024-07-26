@@ -9,7 +9,7 @@
   'use strict';
 
   function currentPage() {
-    const page = document.querySelector('.selected button').textContent.trim();
+    const page = document.querySelector('.selected button')?.textContent.trim();
     switch (page) {
       case "Home":
       case "Finances":

@@ -24,6 +24,32 @@
     }
   }
 
+  function sortTable(table) {
+    // Create a sortable data structure for the table, array of objects.
+    let tableData = [];
+    const [headerRow, ...dataRows] = Array.from(table.rows);
+    const colHeaders = [...headerRow.cells].map(th => th.innerText.trim()).filter(str => str !== "");
+    const colTypes = colHeaders.reduce((obj, key) => ({...obj, [key]: 'type'}), {});
+
+    dataRows.forEach((row) => {
+      console.log(row)
+      if (row.hasAttribute('mat-row')) {
+        const rowData = {};
+        Array.from(row.cells).forEach((cell, i) => {
+          if (cell.hasAttribute('crtdatatablecell')) {
+            const colName = colHeaders[i];
+            const colVal = cell.innerText.trim();
+            rowData[colName] = colVal;
+          }
+        })
+        tableData.push(rowData);
+      }
+    })
+
+    const pptable = JSON.stringify(tableData, null, 2);
+    console.log(pptable);
+  }
+
   const actionItems = [
     {
       id: 1,
@@ -90,20 +116,21 @@
         return false;
       },
     },
+    // TODO: Increase height of table to fill page vertically
     {
-      id: 5,
-      desc: "Cases page: Resize Category column",
+      id: 6,
+      desc: "Documents page: Sortable table columns",
       status: "pending",
-      selector: '[data-item-marker="Category column"]',
+      selector: 'crt-data-table table',
       modifier: (element) => {
-        if (currentPage() === "Cases") {
-          element.style.width = '400px';
+        if (currentPage() === "Documents") {
+          sortTable(element);
           return true;
         }
         return false;
       },
     },
-    // TODO: Sortable table columns
+    // TODO: Repeat for other tables
   ];
 
   const isItemPending = (item) => item.status === "pending";

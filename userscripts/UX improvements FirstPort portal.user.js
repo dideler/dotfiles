@@ -66,6 +66,19 @@
     },
     {
       id: 4,
+      desc: "Cases page: Resize Category column",
+      status: "pending",
+      selector: '[data-item-marker="Category column"]',
+      modifier: (element) => {
+        if (currentPage() === "Cases") {
+          element.style.width = '400px';
+          return true;
+        }
+        return false;
+      },
+    },
+    {
+      id: 5,
       desc: "Documents page: Resize Title column",
       status: "pending",
       selector: '[data-item-marker="Title column"]',

@@ -1,0 +1,47 @@
+#!/bin/bash -eu
+
+# Use this script for help connecting to public WiFi's where the captive portal doesn't appear.
+
+WIFI_SERVICE=$(networksetup -listallnetworkservices | grep -i "Wi-Fi")
+
+if [ -z "$WIFI_SERVICE" ]; then
+    echo "Wi-Fi service not found. Exiting."
+    exit 1
+fi
+
+CURRENT_DNS=$(networksetup -getdnsservers "$WIFI_SERVICE")
+
+if [[ "$CURRENT_DNS" == "There aren't any DNS Servers set on $WIFI_SERVICE." ]]; then
+    CLOUDFLARE_DNS="8.8.8.8 8.8.4.4"
+    GOOGLE_DNS="1.1.1.1 1.0.0.1"
+    CURRENT_DNS="$CLOUDFLARE_DNS $GOOGLE_DNS"
+
+    echo "No custom DNS servers set. Setting Cloudflare and Google DNS."
+    networksetup -setdnsservers "$WIFI_SERVICE" $CURRENT_DNS
+
+    CURRENT_DNS=$(networksetup -getdnsservers "$WIFI_SERVICE")
+    echo -e "Current DNS entries:\n$CURRENT_DNS"
+
+    exit 0
+fi
+
+echo -e "Removing DNS entries:\n$CURRENT_DNS\n"
+networksetup -setdnsservers "$WIFI_SERVICE" Empty
+
+if command -v warp-cli &> /dev/null; then
+    echo -e "Disabling Cloudflare WARP...\n"
+    warp-cli disconnect > /dev/null 2>&1
+fi
+
+echo -e "Sleeping for 30 seconds...\n"
+sleep 30
+
+echo -e "Restoring DNS entries:\n$CURRENT_DNS\n"
+networksetup -setdnsservers "$WIFI_SERVICE" $CURRENT_DNS
+
+if command -v warp-cli &> /dev/null; then
+    echo -e "Re-enabling Cloudflare WARP...\n"
+    warp-cli connect > /dev/null 2>&1
+fi
+
+echo "Done!"

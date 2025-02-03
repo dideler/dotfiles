@@ -4,7 +4,7 @@
 set -e
 
 # Globals.
-script_name=$(basename $0)
+script_name=$(basename "$0")
 force_flag=""
 interactive=false
 dry_run=false
@@ -18,17 +18,17 @@ UNDERLINE=$(tput smul)
 REVERSE=$(tput rev)
 NORMAL=$(tput sgr0)
 BLACK=0 RED=1 GREEN=2 YELLOW=3 BLUE=4 MAGENTA=5 CYAN=6 WHITE=7 # For light colours, use with bold.
-background_colour() { tput setab $1; }
-font_colour() { tput setaf $1; }
+background_colour() { tput setab "$1"; }
+font_colour() { tput setaf "$1"; }
 
-print_bright() { echo -e "${BOLD}$(font_colour $1)${@:2}${NORMAL}"; }
-print_path()   { echo "$(font_colour $WHITE)$(pretty_path $1)${NORMAL}"; }
+print_bright() { echo -e "${BOLD}$(font_colour "$1")${@:2}${NORMAL}"; }
+print_path()   { echo "$(font_colour $WHITE)$(pretty_path "$1")${NORMAL}"; }
 print_info()   { echo -e "\n $(print_bright $YELLOW $@)"; }
 print_prompt() { echo -e "\n $(print_bright $BLUE ?)  $@"; }
 print_pass()   { echo -e " $(print_bright $GREEN ✔)  $@"; }
 print_fail()   { echo -e " $(print_bright $RED ✗)  $@"; }
-print_link()   { echo -e "Linked $(print_path $1) $(print_bright $YELLOW ➜)  $(print_path $2)"; }
-print_move()   { echo -e "Moved $(print_path $1) $(print_bright $YELLOW ➜)  $(print_path $2)"; }
+print_link()   { echo -e "Linked $(print_path "$1") $(print_bright $YELLOW ➜)  $(print_path "$2")"; }
+print_move()   { echo -e "Moved $(print_path "$1") $(print_bright $YELLOW ➜)  $(print_path "$2")"; }
 print_usage()  { echo "Usage: $script_name [-h help] [-f force] [-s skip] [-n dry run] [-i interactive]"; }
 print_help()   {
 cat <<HELP
@@ -87,32 +87,32 @@ link() {
     # A directory and file cannot exist at the same level with the same name.
     # Proceeds if any file with that name doesn't exist, instead of a directory.
     if [[ ! -e $link_name ]]; then
-      [ "$dry_run" = false ] && mkdir -p $link_name
-      print_pass "Created directory $(print_path $link_name)"
+      [ "$dry_run" = false ] && mkdir -p "$link_name"
+      print_pass "Created directory $(print_path "$link_name")"
     fi
     return  # Directory (or file) now exists in $HOME, move onto the next file.
   fi
 
   # Before we try to link a file, we should prompt if we're in interactive mode.
   if [ "$interactive" = true ]; then
-    print_prompt "Link $(print_path $relative_filepath)? [Y/n]"
+    print_prompt "Link $(print_path "$relative_filepath")? [Y/n]"
     read -n 1 reply
     if [[ "$reply" =~ ^[Nn]$ ]]; then
       echo
-      print_fail "Skipping $(print_path $target)"
+      print_fail "Skipping $(print_path "$target")"
       return
     fi
   fi
 
   # Enters conflict resolution if force flag not set and link already exists.
-  if [ -z $force_flag ] && [ -f $link_name -o -d $link_name ]; then
+  if [ -z $force_flag ] && [ -f "$link_name" -o -d "$link_name" ]; then
     local overwrite=false
     local backup=false
     local skip=false
 
     # Prompts for current action if no global action is set.
     if [ "$overwrite_all" = false -a "$backup_all" = false -a "$skip_all" = false ]; then
-      print_prompt "Destination file already exists for $(print_path $(basename $target))
+      print_prompt "Destination file already exists for $(print_path $(basename "$target"))
       Do you want to [${BOLD}${UNDERLINE}s${NORMAL}]kip, [${BOLD}S${NORMAL}]kip all, [${BOLD}o${NORMAL}]verwrite, [${BOLD}O${NORMAL}]verwrite all, [${BOLD}b${NORMAL}]ackup, [${BOLD}B${NORMAL}]ackup all?"
       read -n 1 action && echo
       case "$action" in
@@ -129,32 +129,32 @@ link() {
         S )
           skip_all=true ;;
         * )
-          print_fail "Unrecognized option, skipping $(print_path $target)"
+          print_fail "Unrecognized option, skipping $(print_path "$target")"
           skip=true ;;
       esac
     fi
 
     if [ "$overwrite" = true -o "$overwrite_all" = true ]; then
-      [ "$dry_run" = false ] && ln -s -f $target $link_name
-      print_pass "Removed existing destination file $(print_path $link_name)"
+      [ "$dry_run" = false ] && ln -s -f "$target" "$link_name"
+      print_pass "Removed existing destination file $(print_path "$link_name")"
     fi
 
     if [ "$backup" = true -o "$backup_all" = true ]; then
-      [ "$dry_run" = false ] && mv $link_name $link_name\.backup
-      print_pass $(print_move $link_name $link_name.backup)
-      [ "$dry_run" = false ] && ln -s $target $link_name
+      [ "$dry_run" = false ] && mv "$link_name" "$link_name"\.backup
+      print_pass $(print_move "$link_name" "$link_name".backup)
+      [ "$dry_run" = false ] && ln -s "$target" "$link_name"
     fi
 
     if [ "$skip" = true -o "$skip_all" = true ]; then
-      print_pass "Skipped $(print_path $target)"
+      print_pass "Skipped $(print_path "$target")"
       return
     fi
 
   else # Don't worry about conflicts, link away!
-    [ "$dry_run" = false ] && ln -s $force_flag $target $link_name
+    [ "$dry_run" = false ] && ln -s $force_flag "$target" "$link_name"
   fi
 
-  print_pass $(print_link $link_name $target)
+  print_pass $(print_link "$link_name" "$target")
 }
 
 # Symbolically links files in your dotfiles repo to your $HOME.
@@ -164,15 +164,15 @@ link() {
 link_dotfiles() {
   print_info "Creating links in $HOME to your dotfiles..."
   local dotfiles=$(find . -type d -name .git -prune -o \
-    -not -name $script_name \
+    -not -name "$script_name" \
     -not -name 'LICENSE' \
     -not -name 'README.md' \
     -not -name '.gitignore' \
     -not -name '.' \
     -print)
 
-  for file in $dotfiles; do  # Known issue: does not work with filenames w/ spaces.
-    link $file $HOME
+  for file in $dotfiles; do  # FIXME: does not work with filenames w/ spaces. Incorrectly links userscripts directory.
+    link "$file" "$HOME"
   done
 }
 

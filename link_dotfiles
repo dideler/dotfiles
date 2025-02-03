@@ -105,13 +105,13 @@ link() {
   fi
 
   # Enters conflict resolution if force flag not set and link already exists.
-  if [ -z $force_flag ] && [ -f "$link_name" -o -d "$link_name" ]; then
+  if [[ -z $force_flag && ( -f "$link_name" || -d "$link_name" ) ]]; then
     local overwrite=false
     local backup=false
     local skip=false
 
     # Prompts for current action if no global action is set.
-    if [ "$overwrite_all" = false -a "$backup_all" = false -a "$skip_all" = false ]; then
+    if [[ "$overwrite_all" = false && "$backup_all" = false && "$skip_all" = false ]]; then
       print_prompt "Destination file already exists for $(print_path $(basename "$target"))
       Do you want to [${BOLD}${UNDERLINE}s${NORMAL}]kip, [${BOLD}S${NORMAL}]kip all, [${BOLD}o${NORMAL}]verwrite, [${BOLD}O${NORMAL}]verwrite all, [${BOLD}b${NORMAL}]ackup, [${BOLD}B${NORMAL}]ackup all?"
       read -n 1 action && echo
@@ -134,18 +134,18 @@ link() {
       esac
     fi
 
-    if [ "$overwrite" = true -o "$overwrite_all" = true ]; then
+    if [[ "$overwrite" = true || "$overwrite_all" = true ]]; then
       [ "$dry_run" = false ] && ln -s -f "$target" "$link_name"
       print_pass "Removed existing destination file $(print_path "$link_name")"
     fi
 
-    if [ "$backup" = true -o "$backup_all" = true ]; then
+    if [[ "$backup" = true || "$backup_all" = true ]]; then
       [ "$dry_run" = false ] && mv "$link_name" "$link_name"\.backup
       print_pass $(print_move "$link_name" "$link_name".backup)
       [ "$dry_run" = false ] && ln -s "$target" "$link_name"
     fi
 
-    if [ "$skip" = true -o "$skip_all" = true ]; then
+    if [[ "$skip" = true || "$skip_all" = true ]]; then
       print_pass "Skipped $(print_path "$target")"
       return
     fi

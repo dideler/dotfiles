@@ -33,8 +33,28 @@ if command -v warp-cli &> /dev/null; then
     warp-cli disconnect > /dev/null 2>&1
 fi
 
-echo -e "Sleeping for 30 seconds...\n"
-sleep 30
+echo -e "Turning off Wi-Fi power...\n"
+networksetup -setairportpower en0 off
+
+echo -e "Sleeping for 10 seconds...\n"
+sleep 10
+
+echo -e "Restoring Wi-Fi power...\n"
+networksetup -setairportpower en0 on
+
+echo -n "Connecting to a Wi-Fi network."
+while true; do
+    networksetup -getairportnetwork "en0" | grep "Current Wi-Fi Network" && echo && break
+    echo -n "."
+    sleep 1.5
+done
+
+echo -e "Paused to handle Wi-Fi's captive portal. Hit any key to continue or ESC to exit..."
+read -s -n 1 reply
+if [[ "$reply" == $'\e' ]]; then
+    echo "Goodbye!"
+    exit
+fi
 
 echo -e "Restoring DNS entries:\n$CURRENT_DNS\n"
 networksetup -setdnsservers "$WIFI_SERVICE" $CURRENT_DNS

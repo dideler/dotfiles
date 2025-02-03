@@ -163,15 +163,21 @@ link() {
 # this will create the link: ~/.foo ➜  ~/path/to/dotfiles/.foo
 link_dotfiles() {
   print_info "Creating links in $HOME to your dotfiles..."
-  local dotfiles=$(find . -type d -name .git -prune -o \
-    -not -name "$script_name" \
-    -not -name 'LICENSE' \
-    -not -name 'README.md' \
-    -not -name '.gitignore' \
-    -not -name '.' \
-    -print)
 
-  for file in $dotfiles; do  # FIXME: does not work with filenames w/ spaces. Incorrectly links userscripts directory.
+  local dotfiles=()
+  while IFS= read -r -d '' file; do
+    dotfiles+=("$file")
+  done < <(
+    find . -type d -name .git -prune -o \
+      -not -name "$script_name" \
+      -not -name 'LICENSE' \
+      -not -name 'README.md' \
+      -not -name '.gitignore' \
+      -not -name '.' \
+      -print0
+  )
+
+  for file in "${dotfiles[@]}"; do
     link "$file" "$HOME"
   done
 }

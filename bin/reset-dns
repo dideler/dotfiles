@@ -49,11 +49,15 @@ while true; do
     sleep 1.5
 done
 
-echo -e "Paused to handle Wi-Fi's captive portal. Hit any key to continue or ESC to exit..."
-read -s -n 1 reply
-if [[ "$reply" == $'\e' ]]; then
-    echo "Goodbye!"
-    exit
+if curl --max-time 5 --silent https://captive.apple.com | grep --silent "Success"; then
+    echo "Success"
+else
+    echo -e "Paused to handle Wi-Fi's captive portal. Hit any key to continue or ESC to exit..."
+    read -s -n 1 reply
+    if [[ "$reply" == $'\e' ]]; then
+        echo "Goodbye!"
+        exit
+    fi
 fi
 
 echo -e "Restoring DNS entries:\n$CURRENT_DNS\n"

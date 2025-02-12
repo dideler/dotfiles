@@ -52,7 +52,7 @@ done
 if curl --max-time 5 --silent https://captive.apple.com | grep --silent "Success"; then
     echo "Success"
 else
-    echo -e "Paused to handle Wi-Fi's captive portal. Hit any key to continue or ESC to exit..."
+    echo -e "Paused to handle Wi-Fi's captive portal. Hit any key to continue or ESC to exit...\n"
     read -s -n 1 reply
     if [[ "$reply" == $'\e' ]]; then
         echo "Goodbye!"

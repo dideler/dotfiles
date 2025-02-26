@@ -77,6 +77,9 @@ status --is-interactive; and command -v rbenv >/dev/null; and source (rbenv init
 # Load direnv
 status --is-interactive; and command -v direnv >/dev/null; and eval (direnv hook fish)
 
+# Load asdf
+status --is-interactive; and set --export ASDF_DATA_DIR ~/.asdf; and fish_add_path $ASDF_DATA_DIR/shims
+
 ### Abbreviations (expanded aliases)
 
 abbr a 'atom .'

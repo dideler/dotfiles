@@ -74,9 +74,6 @@ end
 # Load rbenv
 status --is-interactive; and command -v rbenv >/dev/null; and source (rbenv init -|psub)
 
-# Load asdf
-status --is-interactive; and source ~/.asdf/asdf.fish
-
 # Load direnv
 status --is-interactive; and command -v direnv >/dev/null; and eval (direnv hook fish)
 

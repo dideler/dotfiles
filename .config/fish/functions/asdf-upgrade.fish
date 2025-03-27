@@ -25,7 +25,8 @@ function install_shell_completions -d "Install fish shell completions for asdf"
     # Install completions
     echo "Installing shell completions..."
     if command -v asdf >/dev/null
-        asdf completion fish > $COMPLETIONS_DIR/asdf.fish
+        rm ~/.config/fish/completions/asdf.fish # Older asdf installations made this file a symlink to ~/.asdf/completions/asdf.fish, and the follow-up redirect fails if not removed.
+        ~/bin/asdf completion fish > $COMPLETIONS_DIR/asdf.fish
         if test $status -eq 0
             echo "Shell completions installed successfully"
             return 0

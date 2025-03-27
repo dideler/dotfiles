@@ -187,6 +187,10 @@ end
 
 ### Elixir
 
+function iex-help -d "Elixir module/function documentation, e.g. 'iex-help round'"
+  elixir -e "require IEx.Helpers; IEx.Helpers.h($argv[1])"
+end
+
 # Returns paths for Elixir test files with staged and unstaged modifications,
 # and updated but unmerged modifications (e.g. when resolving merge conflicts).
 function wip-elixir-tests

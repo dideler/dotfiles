@@ -67,7 +67,7 @@ function asdf-install
 
     # Download the new version
     echo "Downloading $DOWNLOAD_URL..."
-    curl -L -o "$TEMP_FILE" "$DOWNLOAD_URL"
+    curl --silent --location --output "$TEMP_FILE" "$DOWNLOAD_URL"
     if test $status -ne 0
         echo "Error: Download failed" >&2
         rm -f "$TEMP_FILE"

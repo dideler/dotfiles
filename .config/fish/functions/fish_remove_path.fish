@@ -6,9 +6,10 @@ function fish_remove_path --description "Removes the given path from \$fish_user
     echo "Options:"
     echo "  -h, --help      Show this help message and exit"
     echo "  -v, --verbose   Verbose output"
+    echo "  -n, --dry-run   Print the would-be actions without running them"
   end
 
-  argparse h/help v/verbose -- $argv
+  argparse h/help v/verbose n/dry-run -- $argv
   or return
 
   set --local argc (count $argv)
@@ -20,14 +21,24 @@ function fish_remove_path --description "Removes the given path from \$fish_user
   end
 
   for path in $argv
-    set --local index (contains --index -- $path $fish_user_paths)
-    and set --erase fish_user_paths[$index]
-    and set --query _flag_verbose
-    and echo "Removed $path from \$fish_user_paths at index $index"
+    if set --local index (contains --index -- $path $fish_user_paths)
+      if set --query _flag_dry_run
+        echo "Would remove $path from \$fish_user_paths at index $index"
+      else
+        set --erase fish_user_paths[$index]
+        and set --query _flag_verbose
+        and echo "Removed $path from \$fish_user_paths at index $index"
+      end
+    end
 
-    set --local index (contains --index -- $path $PATH)
-    and set --erase PATH[$index]
-    and set --query _flag_verbose
-    and echo "Removed $path from \$PATH at index $index"
+    if set --local index (contains --index -- $path $PATH)
+      if set --query _flag_dry_run
+        echo "Would remove $path from \$PATH at index $index"
+      else
+        set --erase PATH[$index]
+        and set --query _flag_verbose
+        and echo "Removed $path from \$PATH at index $index"
+      end
+    end
   end
 end

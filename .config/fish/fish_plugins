@@ -1,7 +1,6 @@
 lilyball/nix-env.fish
 americanhanko/fish-spin
 dideler/fish-cd-git
-dideler/dl.fish
 dideler/fish-index
 dideler/fish-read-silent
 edc/bass
@@ -12,3 +11,5 @@ fishpkg/fish-humanize-duration
 jethrokuan/z
 jorgebucaran/getopts.fish
 tomoemon/fish-command-timer@patch-1
+dideler/dl.fish
+jorgebucaran/fisher

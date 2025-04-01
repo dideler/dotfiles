@@ -14,6 +14,9 @@ set --export ERL_AFLAGS "-kernel shell_history enabled" # iex history
 if not set --query FIRST_RUN
   set --universal FIRST_RUN (date)
 
+  # Add ~/bin to the PATH if it exists, symlinked from dideler/dotfiles/bin.
+  fish_add_path ~/bin
+
   # Define XDG base directories.
   set --universal XDG_CACHE_HOME $HOME/.cache
   set --universal XDG_CONFIG_HOME $HOME/.config

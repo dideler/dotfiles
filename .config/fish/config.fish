@@ -88,7 +88,6 @@ status --is-interactive; and set --export ASDF_DATA_DIR ~/.asdf; and fish_add_pa
 abbr a 'atom .'
 abbr c 'code .'
 abbr e 'exa'
-abbr g 'git'
 abbr be 'bundle exec'
 abbr combinepdfs 'pdfunite' # vertical
 abbr rg 'rg --follow' # Follow symbolic links (disable with --no-follow)
@@ -97,30 +96,6 @@ abbr k 'kubectl'
 abbr mt 'mtest'
 abbr mtt 'mtest --trace'
 abbr mx 'mtest --trace --only x'
-
-abbr gd 'git diff'
-abbr gds 'git diff --staged'
-abbr gc 'git commit'
-abbr gcm 'git commit --message'
-abbr gca 'git commit --all'
-abbr gcam 'git commit -am'
-abbr gcp 'git cherry-pick'
-abbr gl 'git log --oneline --decorate'
-abbr gg 'git log --graph --date=relative'
-abbr ggg 'git show --name-only'
-abbr ga 'git add'
-abbr gap 'git add --patch'
-abbr gu 'git add --update'
-abbr gan 'git add --intent-to-add'
-abbr gco 'git checkout'
-abbr gb 'git branch'
-abbr gp 'git push origin HEAD'
-abbr gpf 'git push origin HEAD --force-with-lease'
-abbr gpl 'git pull'
-abbr gsl 'git stash list'
-abbr gs 'git status --short --branch'
-abbr gsi 'git status --short --branch --ignored'
-abbr gsw 'git show'
 abbr space 'sudo ncdu --exclude-firmlinks /' # Interactive breakdown of disk space
 
 ### Aliases (shorthand functions)
@@ -172,7 +147,37 @@ alias hilite-stdout 'pcregrep --colour --multiline ".|\n"'
 # Highlights STDOUT in red so you can differentiate between STDOUT and STDERR.
 # Usage: my_prog | hilite-stdout
 
-### Git
+### Git (also see ~/.gitconfig, ~/bin/git-*, ~/.config/fish/functions/git_*)
+
+abbr g 'git'
+abbr gd 'git diff'
+abbr gds 'git diff --staged'
+abbr gc 'git commit'
+abbr gcm 'git commit --message'
+abbr gca 'git commit --all'
+abbr gcam 'git commit -am'
+abbr gcp 'git cherry-pick'
+abbr gl 'git log --oneline --decorate'
+abbr gg 'git log --graph --date=relative'
+abbr ggg 'git show --name-only'
+abbr ga 'git add'
+abbr gap 'git add --patch'
+abbr gu 'git add --update'
+abbr gan 'git add --intent-to-add'
+abbr gco 'git checkout'
+abbr gb 'git branch'
+abbr gp 'git push origin HEAD'
+abbr gpf 'git push origin HEAD --force-with-lease'
+abbr gpl 'git pull'
+abbr gsl 'git stash list'
+abbr gs 'git status --short --branch'
+abbr gsi 'git status --short --branch --ignored'
+abbr gsw 'git show'
+abbr gf 'git fetch origin (git_branch_name)' # Can `git fetch origin` if branch is tracking
+abbr git-fetch-all-rebase-preserve-merge-commits 'git fetch --all && git rebase --rebase-merges origin/(git_branch_name)'
+abbr git-fetch-rebase 'git fetch origin (git_branch_name) && git rebase origin/(git_branch_name)'
+abbr git-pull-rebase 'git pull --rebase origin (git_branch_name)'
+abbr git-branch-track 'git branch --set-upstream-to=origin/(git_branch_name)'
 
 alias glog "git log --graph \
             --abbrev-commit \
@@ -180,7 +185,6 @@ alias glog "git log --graph \
             --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset'"
 alias grm "git status -sb | grep ' D ' | sed 's/^ D //' | xargs git rm"
 alias ggrep 'git grep --line-number --heading --break --show-function'
-alias gup 'git fetch --all && git rebase --rebase-merges origin/(git_branch_name)'
 
 function gr -d "Checkout a recent git branch"
   set -l preview_cmd 'command git show --name-only -n 5 {}'

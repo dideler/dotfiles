@@ -1,0 +1,173 @@
+#!/usr/bin/env bash
+
+set -o errexit
+
+# Check if fzf is installed
+if ! command -v fzf &> /dev/null; then
+  echo "Error: fzf is not installed. Please install it before using this script."
+  echo "You can install it using your package manager or visit https://github.com/junegunn/fzf"
+  exit 1
+fi
+
+# Function to display help message
+show_help() {
+  echo "Usage: $(basename "$0") [OPTIONS] [SEARCH_TERM]"
+  echo
+  echo "Find and kill processes interactively using fzf."
+  echo
+  echo "Options:"
+  echo "  -h, --help    Show this help message and exit"
+  echo "  -f, --force   Use SIGKILL (-9) instead of SIGTERM"
+  echo "  -v, --verbose Show more detailed process information"
+  echo
+  echo "If SEARCH_TERM is provided, only processes matching the term (case insensitive) will be shown."
+  echo "Otherwise, all user processes will be displayed."
+  echo
+  echo "Use TAB or Shift+TAB to select multiple processes in fzf."
+  exit 0
+}
+
+# Initialize variables
+force=0
+verbose=0
+search_term=""
+
+# Parse command line arguments
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h|--help)
+      show_help
+      ;;
+    -f|--force)
+      force=1
+      shift
+      ;;
+    -v|--verbose)
+      verbose=1
+      shift
+      ;;
+    *)
+      if [[ -z "$search_term" ]]; then
+        search_term="$1"
+      else
+        search_term="$search_term $1"
+      fi
+      shift
+      ;;
+  esac
+done
+
+# Set signal based on force flag
+signal="TERM"
+if [[ $force -eq 1 ]]; then
+  signal="KILL"
+fi
+
+# Prepare the ps command based on verbosity
+if [[ $verbose -eq 1 ]]; then
+  ps_cmd="ps aux"
+  header=$(ps aux | head -1)
+else
+  ps_cmd="ps -eo pid,user,%cpu,%mem,command"
+  header=$(ps -eo pid,user,%cpu,%mem,command | head -1)
+fi
+
+# Get process list, filter by search term if provided
+if [[ -n "$search_term" ]]; then
+  # Case insensitive search and filter out both this script and the grep for the search term
+  process_list=$(eval "$ps_cmd" | tail -n +2 | grep -v "$(basename "$0")" | grep -i "$search_term" | grep -v "grep -i $search_term")
+else
+  process_list=$(eval "$ps_cmd" | tail -n +2 | grep -v "$(basename "$0")")
+fi
+
+# Check if any processes were found
+if [[ -z "$process_list" ]]; then
+  echo "No processes found matching: $search_term"
+  exit 1
+fi
+
+preview_script=$(mktemp)
+trap 'rm -f "$preview_script"' EXIT
+chmod +x "$preview_script"
+cat > "$preview_script" <<'EOF'
+#!/usr/bin/env bash
+pid=$(echo "$1" | awk '{print $1}')
+
+echo -e '\033[1;34mDetailed Process Info:\033[0m'
+ps -p "$pid" -o pid,ppid,user,%cpu,%mem,start,time=CPU_TIME,command | \
+  sed $'1s/^/\033[1;36m/' | sed $'1s/$/\033[0m/'
+
+echo -e '\n\033[1;34mOpen Files:\033[0m'
+lsof -p "$pid" | awk '{print $1, $2, $3, $9}' | column -t | head -n 6 || \
+  echo 'No open files info available'
+
+if [[ "$(uname)" == "Linux" ]]; then
+  echo -e '\n\033[1;34mProcess Hierarchy:\033[0m'
+  pstree "$pid" 2>/dev/null || \
+    ps -f --forest -g "$(ps -o sid= -p "$pid")" 2>/dev/null || \
+    echo 'Process tree not available'
+fi
+
+if [[ "$(uname)" == "Linux" ]]; then
+  echo -e '\n\033[1;34mEnvironment:\033[0m'
+  (ps eww -p "$pid" 2>/dev/null || ps -E -p "$pid" 2>/dev/null) | \
+    grep -v 'COMMAND' | head -3 || \
+    echo 'No environment info available'
+fi
+EOF
+
+# Display header and use fzf to select processes
+selected=$(echo -e "$header\n$process_list" | fzf \
+--header-lines=1 \
+--multi \
+--reverse \
+--cycle \
+--preview="bash $preview_script {}")
+
+# Check if any processes were selected
+if [[ -z "$selected" ]]; then
+echo "No processes selected for termination."
+exit 0
+fi
+
+# Extract PIDs from selected processes
+pids=$(echo "$selected" | awk '{print $1}')
+
+# Prepare summary of processes to kill
+echo "The following processes will be terminated with SIG$signal:"
+for pid in $pids; do
+# Skip header if it was accidentally selected
+if [[ "$pid" == "PID" ]]; then
+  continue
+fi
+
+# Show information about the process
+ps -p "$pid" -o pid,user,command | tail -n +2
+done
+
+# Ask for confirmation
+read -p "Proceed with termination? (y/N): " confirm
+if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+echo "Operation cancelled."
+exit 0
+fi
+
+# Kill selected processes
+for pid in $pids; do
+# Skip header if it was accidentally selected
+if [[ "$pid" == "PID" ]]; then
+  continue
+fi
+
+echo "Sending SIG$signal to PID $pid..."
+kill -s "$signal" "$pid" 2>/dev/null
+
+# Check if kill was successful
+if kill -0 "$pid" 2>/dev/null; then
+  echo "Failed to terminate PID $pid"
+else
+  echo "Successfully terminated PID $pid"
+fi
+done
+
+exit 0

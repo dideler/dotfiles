@@ -160,7 +160,7 @@ if [[ "$pid" == "PID" ]]; then
 fi
 
 echo "Sending SIG$signal to PID $pid..."
-kill -s "$signal" "$pid" 2>/dev/null
+kill -s "$signal" "$pid" 2>/dev/null && sleep 1.0
 
 # Check if kill was successful
 if kill -0 "$pid" 2>/dev/null; then

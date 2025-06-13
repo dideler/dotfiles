@@ -126,8 +126,8 @@ selected=$(echo -e "$header\n$process_list" | fzf \
 
 # Check if any processes were selected
 if [[ -z "$selected" ]]; then
-echo "No processes selected for termination."
-exit 0
+  echo "No processes selected for termination."
+  exit 0
 fi
 
 # Extract PIDs from selected processes
@@ -136,38 +136,38 @@ pids=$(echo "$selected" | awk '{print $1}')
 # Prepare summary of processes to kill
 echo "The following processes will be terminated with SIG$signal:"
 for pid in $pids; do
-# Skip header if it was accidentally selected
-if [[ "$pid" == "PID" ]]; then
-  continue
-fi
+  # Skip header if it was accidentally selected
+  if [[ "$pid" == "PID" ]]; then
+    continue
+  fi
 
-# Show information about the process
-ps -p "$pid" -o pid,user,command | tail -n +2
+  # Show information about the process
+  ps -p "$pid" -o pid,user,command | tail -n +2
 done
 
 # Ask for confirmation
 read -p "Proceed with termination? (y/N): " confirm
 if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
-echo "Operation cancelled."
-exit 0
+  echo "Operation cancelled."
+  exit 0
 fi
 
 # Kill selected processes
 for pid in $pids; do
-# Skip header if it was accidentally selected
-if [[ "$pid" == "PID" ]]; then
-  continue
-fi
+  # Skip header if it was accidentally selected
+  if [[ "$pid" == "PID" ]]; then
+    continue
+  fi
 
-echo "Sending SIG$signal to PID $pid..."
-kill -s "$signal" "$pid" 2>/dev/null && sleep 1.0
+  echo "Sending SIG$signal to PID $pid..."
+  kill -s "$signal" "$pid" 2>/dev/null && sleep 1.0
 
-# Check if kill was successful
-if kill -0 "$pid" 2>/dev/null; then
-  echo "Failed to terminate PID $pid"
-else
-  echo "Successfully terminated PID $pid"
-fi
+  # Check if kill was successful
+  if kill -0 "$pid" 2>/dev/null; then
+    echo "Failed to terminate PID $pid"
+  else
+    echo "Successfully terminated PID $pid"
+  fi
 done
 
 exit 0

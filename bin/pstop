@@ -146,8 +146,8 @@ for pid in $pids; do
 done
 
 # Ask for confirmation
-read -p "Proceed with termination? (y/N): " confirm
-if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+read -rp "Proceed with termination? (Y/n): " confirm
+if [[ "$confirm" =~ ^[Nn]$ ]]; then
   echo "Operation cancelled."
   exit 0
 fi

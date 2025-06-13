@@ -188,7 +188,7 @@ alias ggrep 'git grep --line-number --heading --break --show-function'
 
 function gr -d "Checkout a recent git branch"
   set -l preview_cmd 'command git show --name-only -n 5 {}'
-  set -l branch (git recent | fzf --header="SELECT BRANCH TO CHECKOUT" --preview=$preview_cmd)
+  set -l branch (git recent 20 | fzf --header="SELECT BRANCH TO CHECKOUT" --preview=$preview_cmd)
   command git checkout $branch
 end
 

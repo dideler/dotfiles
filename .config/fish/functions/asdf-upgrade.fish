@@ -99,7 +99,7 @@ function asdf-install
     # Verify installation
     echo "Verifying installation..."
     set -l NEW_VERSION (~/bin/asdf version 2>/dev/null)
-    if test $status -ne 0; or test "$NEW_VERSION" != "$VERSION"
+    if test $status -ne 0; or not string match -q -r "^$VERSION" "$NEW_VERSION"
         echo "Error: Installation of version $VERSION failed" >&2
         return 1
     end
@@ -113,9 +113,9 @@ end
 
 # Helper function to compare semantic versions
 function version_compare
-    # Remove 'v' prefix if present
-    set ver1 (string replace -r '^v' '' $argv[1])
-    set ver2 (string replace -r '^v' '' $argv[2])
+    # Remove 'v' prefix if present and split by space to remove revision info
+    set ver1 (string split ' ' (string replace -r '^v' '' $argv[1]))[1]
+    set ver2 (string split ' ' (string replace -r '^v' '' $argv[2]))[1]
 
     # Split into arrays by '.'
     set v1 (string split '.' $ver1)

@@ -228,6 +228,9 @@ end
 
 ### Ruby
 
+# Interactive routes with highlight and filter
+abbr routes 'bin/rails routes | fzf -e'
+
 # Returns paths for Ruby spec files with staged and unstaged modifications,
 # and updated but unmerged modifications (e.g. when resolving merge conflicts).
 function wip_ruby_tests

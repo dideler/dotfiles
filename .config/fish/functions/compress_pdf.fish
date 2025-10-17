@@ -19,11 +19,15 @@ function compress_pdf -d "Reduce PDF file size"
   end
 
   function __validate! -d "Validate file existence, extension, and type"
-    test -f $argv[1] && \
-    string match -q -- '*.pdf' (string lower (basename $argv[1])) && \
-    string match -q -- 'application/pdf' (file --mime-type --brief $argv[1])
-    or echo "Error: '$argv[1]' is not a valid PDF file" >&2
-    and return 1
+    set -l file $argv[1]
+
+    test -f $file \
+      && string match -q -- '*.pdf' -- (string lower (basename -- $file)) \
+      && string match -q -- 'application/pdf' -- (file --mime-type --brief -- $file) \
+      && return 0
+
+    echo "Error: '$file' is not a valid PDF file" >&2
+    return 1
   end
 
   if set --query _flag_output

@@ -89,7 +89,7 @@ abbr a 'atom .'
 abbr c 'code .'
 abbr e 'exa'
 abbr be 'bundle exec'
-abbr combinepdfs 'pdfunite' # vertical
+abbr combinepdfs 'pdfunite' # Combines vertically; can also use pdftk or magick convert
 abbr rg 'rg --follow' # Follow symbolic links (disable with --no-follow)
 abbr rgs 'rg --fixed-strings' # Exact match, no regex interpretation
 abbr k 'kubectl'
@@ -137,11 +137,6 @@ alias imagify 'jp2a --colors'
 # Displays a JPEG image as coloured ASCII in stdout.
 # Also check out picture-tube which is for PNGs.
 # Usage: imagify file1, file2, ...
-
-# alias combinepdfs 'convert -density 200'
-# Combines PDFs vertically.
-# Usage: combinepdfs infile1, infile2, ..., outfile
-# Alternatives: pdfunite, pdftk
 
 alias hilite-stdout 'pcregrep --colour --multiline ".|\n"'
 # Highlights STDOUT in red so you can differentiate between STDOUT and STDERR.

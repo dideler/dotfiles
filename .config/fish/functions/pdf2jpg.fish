@@ -53,5 +53,5 @@ function pdf2jpg --description "Convert a (scanned) PDF to a JPG"
     set jpg (filename $pdf).jpg  # Use the filename of the PDF for the JPG.
   end
 
-  convert -quiet -density 150 -trim $pdf -quality 100 -sharpen 0x1.0 $jpg
+  magick -quiet -density 150 -trim $pdf -quality 100 -sharpen 0x1.0 $jpg
 end

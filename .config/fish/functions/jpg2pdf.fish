@@ -56,7 +56,7 @@ function jpg2pdf --description "Convert JPG images to PDF using sips, ImageMagic
       sips -s format pdf $input_files[1] --out $output
 
     case "imagemagick"
-      convert $input_files $output
+      magick $input_files $output
 
     case "img2pdf"
       img2pdf $input_files -o $output

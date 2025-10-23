@@ -57,7 +57,7 @@ function compress_pdf -d "Reduce PDF file size"
       end
     end
 
-    function __try_gs -d "Try compressing with gs" -a input
+    function __try_gs -d "Try compressing with ghostscript" -a input
       set -l temp (mktemp)
       if command gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile=$temp $input >/dev/null 2>&1; and test -s $temp
         echo $temp
@@ -66,9 +66,9 @@ function compress_pdf -d "Reduce PDF file size"
       end
     end
 
-    function __try_convert -d "Try compressing with ImageMagick" -a input
+    function __try_magick -d "Try compressing with ImageMagick" -a input
       set -l temp (mktemp)
-      if command magick convert -density 300 -quality 30 $input $temp >/dev/null 2>&1; and test -s $temp
+      if command magick -density 300 -quality 30 $input $temp >/dev/null 2>&1; and test -s $temp
         echo $temp
       else
         rm -f $temp
@@ -153,7 +153,7 @@ function compress_pdf -d "Reduce PDF file size"
       set -a methods "gs"
     end
 
-    set -l temp (__try_convert $input)
+    set -l temp (__try_magick $input)
     if test -n "$temp"
       set -a temps $temp
       set -a sizes (size_bytes $temp)

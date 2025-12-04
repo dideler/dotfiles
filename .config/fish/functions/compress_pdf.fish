@@ -4,11 +4,11 @@ function compress_pdf -d "Reduce PDF file size"
     echo "Options:"
     echo "  -h, --help     Show this help message and exit"
     echo "  -o, --output   Output to given path (instead of overwriting existing file). Limits input to single file"
-    echo "  -v, --verbose  Show compression statistics"
+    echo "  -s, --silent   Suppress compression statistics (verbose by default)"
     echo "  -t, --trace    Enable fish trace mode for debugging"
   end
 
-  set --local options 'h/help' 'o/output=' 'v/verbose' 't/trace'
+  set --local options 'h/help' 'o/output=' 's/silent' 't/trace'
   argparse $options -- $argv
   or return
 
@@ -199,7 +199,7 @@ function compress_pdf -d "Reduce PDF file size"
       mv $best $_flag_output
     end
 
-    if set --query _flag_verbose
+    if not set --query _flag_silent
       __print_stats $input $orig_size $final_size $method
     end
   else
@@ -215,7 +215,7 @@ function compress_pdf -d "Reduce PDF file size"
         mv $best $file
       end
 
-      if set --query _flag_verbose
+      if not set --query _flag_silent
         __print_stats $file $orig_size $final_size $method
       end
     end

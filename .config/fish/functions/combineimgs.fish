@@ -31,8 +31,8 @@ function combineimgs --description "Combine images"
   set --local output $argv[-1]
 
   if set --query _flag_horizontal
-    magick +append $input $output
+    magick $input +append "$output"
   else
-    magick -append $input $output
+    magick $input -append "$output"
   end
 end

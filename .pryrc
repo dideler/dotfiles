@@ -1,63 +1,53 @@
-# coding:utf-8 vim:ft=ruby
+# frozen_string_literal: true
 
-# Use Syck instead of default Psych so `y` method is available in zeus console.
-require 'yaml'
-YAML::ENGINE.yamler = 'syck' if defined?(YAML::ENGINE)
+## Initialisers
 
-# Use a simple prompt.
-Pry.config.prompt = Pry::SIMPLE_PROMPT
-
-# Tell Readline when the window resizes.
-old_winch = trap 'WINCH' do
-  if `stty size` =~ /\A(\d+) (\d+)\n\z/
-    Readline.set_screen_size $1.to_i, $2.to_i
-  end
-  old_winch.call unless old_winch.nil?
-end
-
-# Use AwesomePrint for output if available.
 begin
-  require 'awesome_print'
-  Pry.config.print = proc do |output, value|
-    value = value.to_a if defined?(ActiveRecord) && value.is_a?(ActiveRecord::Relation)
-    output.puts value.ai
-  end
-rescue LoadError => err
-  Pry.config.print = Pry::DEFAULT_PRINT
+  require 'amazing_print'
+  AmazingPrint.pry!
+rescue LoadError
+  warn "amazing_print not installed. Run `gem install amazing_print`"
 end
 
-# Startup hooks
-org_logger_active_record = nil
-org_logger_rails = nil
-Pry.hooks.add_hook :before_session, :rails do |output, target, pry|
-  # Show ActiveRecord SQL queries in the console
-  if defined? ActiveRecord
-    org_logger_active_record = ActiveRecord::Base.logger
-    ActiveRecord::Base.logger = Logger.new STDOUT
+begin
+  require 'pry-doc'
+rescue LoadError
+  warn "pry-doc not installed. Run `gem install pry-doc`"
+  puts "for `show-doc` and `show-source` methods (aliased as ? and $)"
+end
+
+begin
+  require 'pry-byebug'
+rescue LoadError
+  warn "pry-byebug not installed. Run `gem install pry-byebug`"
+  puts "for `next`, `step`, and `continue` commands"
+end
+
+## Startup hooks
+
+# Automatic SQL logging during Pry sessions.
+# To turn off manually during a session, set `ActiveRecord::Base.logger = nil`.
+if defined?(ActiveRecord)
+  Pry.config.hooks.add_hook(:before_session, :enable_sql_logging) do
+    unless Thread.current[:pry_ar_logger_enabled]
+      Thread.current[:pry_old_ar_logger] = ActiveRecord::Base.logger
+      ActiveRecord::Base.logger = Logger.new(STDOUT)
+      Thread.current[:pry_ar_logger_enabled] = true
+    end
   end
 
-  if defined?(Rails) && Rails.env
-    # Output all other log info such as deprecation warnings to the console
-    if Rails.respond_to? :logger=
-      org_logger_rails = Rails.logger
-      Rails.logger = Logger.new STDOUT
-    end
-
-    # Load Rails console commands
-    if Rails::VERSION::MAJOR >= 3
-      require 'rails/console/app'
-      require 'rails/console/helpers'
-      if Rails.const_defined? :ConsoleMethods
-        extend Rails::ConsoleMethods
-      end
-    else
-      require 'console_app'
-      require 'console_with_helpers'
+  Pry.config.hooks.add_hook(:after_session, :restore_sql_logging) do
+    if Thread.current[:pry_ar_logger_enabled]
+      ActiveRecord::Base.logger = Thread.current[:pry_old_ar_logger]
+      Thread.current[:pry_ar_logger_enabled] = false
+      Thread.current[:pry_old_ar_logger] = nil
     end
   end
 end
 
-Pry.hooks.add_hook :after_session, :rails do |output, target, pry|
-  ActiveRecord::Base.logger = org_logger_active_record if org_logger_active_record
-  Rails.logger = org_logger_rails if org_logger_rails
+## Custom methods
+
+def copy(str)
+  IO.popen('pbcopy', 'w') { |f| f << str.to_s }
+  "Copied to clipboard!"
 end

@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+# pdfcat: Wrapper for imgcat to correctly display PDFs on dark terminals
+# Usage: pdfcat [-H] filename.pdf
+
+# Check dependencies
+if ! command -v magick &> /dev/null; then
+    echo "Error: ImageMagick (magick) command not found."
+    exit 1
+fi
+
+if ! command -v imgcat &> /dev/null; then
+    echo "Error: 'imgcat' script not found in PATH."
+    exit 1
+fi
+
+# Default settings
+# Standard screen DPI (72) and natural size (no width scaling)
+DENSITY=72
+IMGCAT_OPTS=""
+
+# Parse arguments
+FILES=()
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -H|--high-res)
+            # High density for sharpness, scaled to fit terminal width
+            DENSITY=150
+            IMGCAT_OPTS="-W 100%"
+            shift
+            ;;
+        *)
+            FILES+=("$1")
+            shift
+            ;;
+    esac
+done
+
+if [ ${#FILES[@]} -eq 0 ]; then
+    echo "Usage: pdfcat [-H] filename.pdf [filename2.pdf ...]"
+    echo "  -H, --high-res   Render at 150dpi and scale to fit terminal width"
+    exit 1
+fi
+
+# Process each file
+for FILE in "${FILES[@]}"; do
+    if [ ! -f "$FILE" ]; then
+        echo "Error: File '$FILE' not found."
+        continue
+    fi
+
+    # ImageMagick v7 command:
+    # -density:    Must come BEFORE the filename to affect PDF reading resolution.
+    # -background: Sets the matte color (white) for transparency replacement.
+    # -alpha remove: Replaces transparency with the background color.
+    # -append:     Stitches multiple PDF pages vertically into one long image.
+    # jpg:-:       Streams the output as JPEG (solid background) to stdout.
+
+    magick -density "$DENSITY" "$FILE" \
+           -background white \
+           -alpha remove \
+           -append \
+           jpg:- | imgcat $IMGCAT_OPTS
+done
+

@@ -29,7 +29,7 @@ function __pdf_print_stats -d "Print compression statistics" -a input_file orig_
     end
 
     printf "'%s' compressed with %s: %d%% reduction (%s → %s)\n" \
-      $input_file $method $reduction_pct $orig_size_decorated $final_size_decorated
+      (basename $input_file) $method $reduction_pct $orig_size_decorated $final_size_decorated
   end
 end
 

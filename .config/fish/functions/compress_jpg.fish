@@ -23,7 +23,7 @@ function compress_jpg --description 'Reduce JPG file size'
       echo "Error: '$argv[1]' is not a file" >&2
       return 1
     end
-    if not string match --quiet --ignore-case -- '*.jpe?g' $argv[1]
+    if not string match --quiet --ignore-case --regex -- '\.jpe?g$' $argv[1]
       echo "Error: '$argv[1]' does not have a .jpg/.jpeg extension" >&2
       return 1
     end

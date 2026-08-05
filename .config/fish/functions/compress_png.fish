@@ -41,5 +41,3 @@ function compress_png -d "Reduce PNG file size"
     end
   end
 end
-
-alias pngcompress compress_png

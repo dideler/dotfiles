@@ -47,5 +47,3 @@ function compress_pdf -d "Reduce PDF file size"
     end
   end
 end
-
-alias pdfcompress compress_pdf

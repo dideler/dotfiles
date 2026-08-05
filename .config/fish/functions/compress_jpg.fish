@@ -42,5 +42,3 @@ function compress_jpg -d "Reduce JPG file size"
     end
   end
 end
-
-alias jpgcompress compress_jpg

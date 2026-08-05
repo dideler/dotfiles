@@ -1,4 +1,4 @@
-function compress_png -d "Reduce PNG file size"
+function compress_png --description 'Reduce PNG file size'
   function __help
     echo "Usage: "(status current-command)" [file ...] [options]"
     echo "Options:"
@@ -18,12 +18,21 @@ function compress_png -d "Reduce PNG file size"
     return 0
   end
 
-  function __validate! -d "Validate file existence, extension, and type"
-    test -f $argv[1] && \
-    string match -q '*.png' (string lower $argv[1]) && \
-    string match -rq "^$argv[1]: PNG image data" (file $argv[1])
-    or echo "Error: '$argv[1]' is not a valid PNG file" >&2
-    and return 1
+  function __validate! --description "Validate file existence, extension, and type"
+    if not test -f $argv[1]
+      echo "Error: '$argv[1]' is not a file" >&2
+      return 1
+    end
+
+    if not string match --quiet --ignore-case -- '*.png' $argv[1]
+      echo "Error: '$argv[1]' does not have a .png extension" >&2
+      return 1
+    end
+
+    if not string match --quiet -- 'PNG image data*' (file --brief $argv[1])
+      echo "Error: '$argv[1]' is not a valid PNG file" >&2
+      return 1
+    end
   end
 
   if set --query _flag_output
@@ -37,7 +46,7 @@ function compress_png -d "Reduce PNG file size"
   else
     for file in $argv
       __validate! $file or continue
-      pngquant --speed=1 --ext ".png" --force $file
+      pngquant --speed=1 --ext '.png' --force $file
     end
   end
 end

@@ -40,11 +40,11 @@ function compress_jpg --description 'Reduce JPG file size'
     end
 
     __validate! $argv[1] or return
-    jpegtran -copy none -optimize -progressive -outfile $_flag_output $argv[1]
+    jpegtran --copy none --optimize --progressive --outfile $_flag_output $argv[1]
   else
     for file in $argv
       __validate! $file or continue
-      jpegtran -copy none -optimize -progressive -outfile $argv[1] $argv[1]
+      jpegtran --copy none --optimize --progressive --outfile $file $file
     end
   end
 end

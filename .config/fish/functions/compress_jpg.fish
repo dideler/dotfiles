@@ -1,4 +1,4 @@
-function compress_jpg -d "Reduce JPG file size"
+function compress_jpg --description 'Reduce JPG file size'
   function __help
     echo "Usage: "(status current-command)" [file ...] [options]"
     echo "Options:"
@@ -19,12 +19,18 @@ function compress_jpg -d "Reduce JPG file size"
   end
 
   function __validate! -d "Validate file existence, extension, and type"
-    test -f $argv[1] && \
-    string match -q '*.jpg' (string lower $argv[1]) || \
-    string match -q '*.jpeg' (string lower $argv[1]) && \
-    string match -rq "^$argv[1]: JPEG image data" (file $argv[1])
-    or echo "Error: '$argv[1]' is not a valid JPEG file" >&2
-    and return 1
+    if not test -f $argv[1]
+      echo "Error: '$argv[1]' is not a file" >&2
+      return 1
+    end
+    if not string match --quiet --ignore-case -- '*.jpe?g' $argv[1]
+      echo "Error: '$argv[1]' does not have a .jpg/.jpeg extension" >&2
+      return 1
+    end
+    if not string match --quiet -- 'JPEG image data*' (file --brief $argv[1])
+      echo "Error: '$argv[1]' is not a valid JPEG file" >&2
+      return 1
+    end
   end
 
   if set --query _flag_output

@@ -8,13 +8,15 @@ Usage: pdfcat [OPTIONS] filename.pdf [filename2.pdf ...]
 
 Display one or more PDFs in the terminal via ImageMagick + imgcat.
 
+Default rendering is a medium size (~110dpi, capped at 75% of
+terminal width) — readable without being oversized.
+
 Options:
-  -H, --high-res  Render at 150dpi and scale to fit terminal width
+  -H, --high-res  Render at 150dpi and scale to full terminal width
   -h, --help      Show this help message and exit
 EOF
 }
 
-# Check dependencies
 if ! command -v magick &> /dev/null; then
     echo "Error: ImageMagick (magick) command not found." >&2
     exit 1
@@ -25,11 +27,10 @@ if ! command -v imgcat &> /dev/null; then
     exit 1
 fi
 
-# Default settings
-DENSITY=72
-IMGCAT_OPTS=""
+# Default: medium rendering — readable but not oversized
+DENSITY=110
+IMGCAT_OPTS="-W 60%"
 
-# Parse arguments
 FILES=()
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -58,7 +59,6 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-# Any remaining args after --
 while [[ $# -gt 0 ]]; do
     FILES+=("$1")
     shift
@@ -69,11 +69,14 @@ if [ ${#FILES[@]} -eq 0 ]; then
     exit 1
 fi
 
-# Process each file
 for FILE in "${FILES[@]}"; do
     if [ ! -f "$FILE" ]; then
         echo "Error: File '$FILE' not found." >&2
         continue
+    fi
+
+    if [ ${#FILES[@]} -gt 1 ]; then
+        echo "$(basename "$FILE")" >&2
     fi
 
     # ImageMagick v7 command:

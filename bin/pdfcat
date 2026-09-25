@@ -12,8 +12,9 @@ Default rendering is a medium size (~110dpi, capped at 60% of
 terminal width) — readable without being oversized.
 
 Options:
-  -H, --high-res  Render at 150dpi and scale to full terminal width
-  -h, --help      Show this help message and exit
+  -H, --high-res    Render at 150dpi and scale to full terminal width
+  -1, --first-page  Display only the first page of each PDF
+  -h, --help        Show this help message and exit
 EOF
 }
 
@@ -30,6 +31,7 @@ fi
 # Default: medium rendering — readable but not oversized
 DENSITY=110
 IMGCAT_OPTS="-W 60%"
+PAGE_SELECTOR=""
 
 FILES=()
 while [[ $# -gt 0 ]]; do
@@ -37,6 +39,10 @@ while [[ $# -gt 0 ]]; do
         -H|--high-res)
             DENSITY=150
             IMGCAT_OPTS="-W 100%"
+            shift
+            ;;
+        -1|--first-page)
+            PAGE_SELECTOR="[0]"
             shift
             ;;
         -h|--help)
@@ -86,10 +92,9 @@ for FILE in "${FILES[@]}"; do
     # -append:       Stitches multiple PDF pages vertically into one long image.
     # jpg:-:         Streams the output as JPEG (solid background) to stdout.
 
-    magick -density "$DENSITY" "$FILE" \
+    magick -density "$DENSITY" "${FILE}${PAGE_SELECTOR}" \
            -background white \
            -alpha remove \
            -append \
            jpg:- | imgcat $IMGCAT_OPTS
 done
-

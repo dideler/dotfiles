@@ -8,7 +8,7 @@ Usage: pdfcat [OPTIONS] filename.pdf [filename2.pdf ...]
 
 Display one or more PDFs in the terminal via ImageMagick + imgcat.
 
-Default rendering is a medium size (~110dpi, capped at 75% of
+Default rendering is a medium size (~110dpi, capped at 60% of
 terminal width) — readable without being oversized.
 
 Options:

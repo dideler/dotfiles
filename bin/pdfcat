@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# pdfcat: Wrapper for imgcat to correctly display PDFs on dark terminals
+# pdfcat: Render PDFs with ImageMagick and display them using imgcat.
 
 usage() {
     cat <<'EOF'
@@ -8,41 +8,45 @@ Usage: pdfcat [OPTIONS] filename.pdf [filename2.pdf ...]
 
 Display one or more PDFs in the terminal via ImageMagick + imgcat.
 
-Default rendering is a medium size (~110dpi, capped at 60% of
-terminal width) — readable without being oversized.
+Each PDF page is displayed separately, at a readable terminal width.
 
 Options:
-  -H, --high-res    Render at 150dpi and scale to full terminal width
+  -H, --high-res    Render at 150 dpi and scale to full terminal width
   -1, --first-page  Display only the first page of each PDF
   -h, --help        Show this help message and exit
 EOF
 }
 
-if ! command -v magick &> /dev/null; then
-    echo "Error: ImageMagick (magick) command not found." >&2
-    exit 1
-fi
+for COMMAND in magick imgcat mktemp; do
+    if ! command -v "$COMMAND" >/dev/null 2>&1; then
+        echo "Error: Required command '$COMMAND' not found in PATH." >&2
+        exit 1
+    fi
+done
 
-if ! command -v imgcat &> /dev/null; then
-    echo "Error: 'imgcat' script not found in PATH." >&2
-    exit 1
-fi
-
-# Default: medium rendering — readable but not oversized
+# Default rendering.
 DENSITY=110
-IMGCAT_OPTS="-W 60%"
+IMGCAT_OPTS=(-W '60%')
 PAGE_SELECTOR=""
-
 FILES=()
-while [[ $# -gt 0 ]]; do
+TMP_DIRS=()
+
+cleanup() {
+    ((${#TMP_DIRS[@]})) && rm -rf "${TMP_DIRS[@]}"
+}
+
+trap cleanup EXIT HUP INT TERM
+
+while (($#)); do
     case "$1" in
         -H|--high-res)
             DENSITY=150
-            IMGCAT_OPTS="-W 100%"
+            IMGCAT_OPTS=(-W '100%')
             shift
             ;;
         -1|--first-page)
-            PAGE_SELECTOR="[0]"
+            # ImageMagick page indexes are zero-based: [0] means PDF page 1.
+            PAGE_SELECTOR='[0]'
             shift
             ;;
         -h|--help)
@@ -65,36 +69,47 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-while [[ $# -gt 0 ]]; do
-    FILES+=("$1")
-    shift
-done
+# Arguments after -- are always filenames, including names beginning with '-'.
+FILES+=("$@")
 
-if [ ${#FILES[@]} -eq 0 ]; then
+if ((${#FILES[@]} == 0)); then
     usage >&2
     exit 1
 fi
 
 for FILE in "${FILES[@]}"; do
-    if [ ! -f "$FILE" ]; then
+    if [[ ! -f "$FILE" ]]; then
         echo "Error: File '$FILE' not found." >&2
         continue
     fi
 
-    if [ ${#FILES[@]} -gt 1 ]; then
-        echo "$(basename "$FILE")" >&2
+    if ((${#FILES[@]} > 1)); then
+        printf '\n%s\n' "$(basename "$FILE")" >&2
     fi
 
-    # ImageMagick v7 command:
-    # -density:      Must come BEFORE the filename to affect PDF reading resolution.
-    # -background:   Sets the matte color (white) for transparency replacement.
-    # -alpha remove: Replaces transparency with the background color.
-    # -append:       Stitches multiple PDF pages vertically into one long image.
-    # jpg:-:         Streams the output as JPEG (solid background) to stdout.
+    # Render pages to separate JPEGs. Do not use -append: imgcat then scales
+    # each page independently rather than shrinking a whole PDF into one image.
+    TMP_DIR=$(mktemp -d -t pdfcat.XXXXXX)
+    TMP_DIRS+=("$TMP_DIR")
 
-    magick -density "$DENSITY" "${FILE}${PAGE_SELECTOR}" \
-           -background white \
-           -alpha remove \
-           -append \
-           jpg:- | imgcat $IMGCAT_OPTS
+    if ! magick -density "$DENSITY" "${FILE}${PAGE_SELECTOR}" \
+        -background white \
+        -alpha remove \
+        "$TMP_DIR/page-%03d.jpg"
+    then
+        echo "Error: Could not render '$FILE'." >&2
+        rm -rf "$TMP_DIR"
+        continue
+    fi
+
+    PAGE_IMAGES=("$TMP_DIR"/page-*.jpg)
+
+    if ((${#PAGE_IMAGES[@]} == 0)) || [[ ! -f "${PAGE_IMAGES[0]}" ]]; then
+        echo "Error: No pages were rendered from '$FILE'." >&2
+        continue
+    fi
+
+    for PAGE_IMAGE in "${PAGE_IMAGES[@]}"; do
+        imgcat "${IMGCAT_OPTS[@]}" "$PAGE_IMAGE"
+    done
 done

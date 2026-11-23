@@ -37,6 +37,10 @@ end
 
 function __img_get_smallest -d "Compress image and return path to smallest result" -a input img_type
   set -l orig_size (file_size_bytes $input)
+  if test -z "$orig_size"; or test "$orig_size" -le 0
+    echo $input; echo "none"; echo 0; return 0
+  end
+
   set -l temp (mktemp)
   set -l method "none"
 
@@ -57,7 +61,8 @@ function __img_get_smallest -d "Compress image and return path to smallest resul
   end
 
   set -l final_size (file_size_bytes $temp)
-  if test $final_size -ge $orig_size
+  set -l reduction_pct (math -s0 "100 - ($final_size * 100 / $orig_size)")
+  if test $final_size -ge $orig_size; or test $reduction_pct -lt 1
     rm -f -- $temp
     echo $input; echo "none"; echo $orig_size; return 0
   end

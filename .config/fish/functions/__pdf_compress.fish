@@ -3,6 +3,10 @@
 
 function __pdf_get_smallest -d "Compress PDF using different methods and return the path to the smallest file" -a input
   set -l orig_size (file_size_bytes $input)
+  if test -z "$orig_size"; or test "$orig_size" -le 0
+    echo $input; echo "none"; echo 0; return 0
+  end
+
   set -l temps
   set -l sizes
   set -l methods
@@ -53,14 +57,17 @@ function __pdf_get_smallest -d "Compress PDF using different methods and return 
 
   set -l min_size $sizes[1]
   set -l min_idx 1
-  for i in (seq 2 (count $sizes))
-    if test $sizes[$i] -lt $min_size
-      set min_size $sizes[$i]
-      set min_idx $i
+  if test (count $sizes) -gt 1
+    for i in (seq 2 (count $sizes))
+      if test $sizes[$i] -lt $min_size
+        set min_size $sizes[$i]
+        set min_idx $i
+      end
     end
   end
 
-  if test $min_size -ge $orig_size
+  set -l reduction_pct (math -s0 "100 - ($min_size * 100 / $orig_size)")
+  if test $min_size -ge $orig_size; or test $reduction_pct -lt 1
     for temp in $temps; rm -f -- $temp; end
     echo $input; echo "none"; echo $orig_size; return 0
   end

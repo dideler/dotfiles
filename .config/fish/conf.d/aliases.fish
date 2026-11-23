@@ -1,3 +1,4 @@
 alias pngcompress compress_png
 alias jpgcompress compress_jpg
 alias pdfcompress compress_pdf
+alias imgcompress compress_img

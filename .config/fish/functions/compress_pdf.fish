@@ -1,8 +1,5 @@
 # Depends on https://github.com/americanhanko/fish-spin, ps2pdf, ghostscript, and ImageMagick
-# and `.config/fish/functions/{__pdf_compress,file_size_bytes,validate_pdf}.fish`
-
-# TODO: Create a fish plugin repo for all compress functions and helper functions.
-#       It's gotten quite big. Also can specify dependencies better via a fishfile.
+# and `.config/fish/functions/{__pdf_compress,__compress_print_stats,file_size_bytes,validate_pdf}.fish`
 
 function compress_pdf -d "Reduce PDF file size"
   function __help

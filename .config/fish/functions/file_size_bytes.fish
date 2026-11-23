@@ -1,7 +1,12 @@
 function file_size_bytes -d "Get file size in bytes" -a file
+  if test -z "$file"; or not test -e "$file"
+    echo "Error: '$file' does not exist" >&2
+    return 1
+  end
+
   if test (uname) = "Darwin"
-    stat -f%z $file  # macOS
+    command stat -f%z -- $file
   else
-    stat -c%s $file  # Linux
+    command stat -c%s -- $file
   end
 end

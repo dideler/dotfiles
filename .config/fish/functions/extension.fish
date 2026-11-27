@@ -26,23 +26,22 @@ Options:
   set --local ext
 
   if set --query _flag_multi
-    set ext (string split '.' $argv[1] --no-empty --max 1 --fields 2)
-    or begin
-      printf "Error: '%s' is not valid\n" $argv[1] >&2
-      return 1
-    end
+    set --local base (path basename -- $argv[1] | string replace --regex '^\.' '')
+    set ext (string split --no-empty --max 1 --fields 2 '.' -- $base)
   else
-    set ext (string match --regex --groups-only '^\.?[\w,\s-]+(\.[A-Za-z]+)+$' $argv[1] | string split '.' --fields 2)
-    or begin
-      printf "Error: '%s' is not valid\n" $argv[1] >&2
-      return 1
-    end
+    set --local raw_ext (path extension -- $argv[1])
+    set ext (string sub --start 2 -- $raw_ext)
+  end
+
+  if test -z "$ext"
+    printf "Error: '%s' is not valid\n" $argv[1] >&2
+    return 1
   end
 
   if set --query _flag_lower
-    string lower $ext
+    string lower -- $ext
   else if set --query _flag_upper
-    string upper $ext
+    string upper -- $ext
   else
     echo $ext
   end

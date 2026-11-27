@@ -31,7 +31,7 @@ function compress_all -d "Compress a variety of file types"
       return 1
     end
 
-    switch (extension --lower $argv[1])
+    switch (extension --lower -- $argv[1] 2>/dev/null)
       case jpg jpeg
         compress_jpg $pass_flags -o $_flag_output -- $argv[1]
       case png
@@ -45,7 +45,7 @@ function compress_all -d "Compress a variety of file types"
   else
     set -l had_error 0
     for file in $argv
-      switch (extension --lower $file)
+      switch (extension --lower -- $file 2>/dev/null)
         case jpg jpeg
           compress_jpg $pass_flags -- $file; or set had_error 1
         case png

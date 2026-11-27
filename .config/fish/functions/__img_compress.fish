@@ -7,7 +7,7 @@ function __img_validate -d "Validate image existence, extension, and MIME type" 
     return 1
   end
 
-  set -l ext (extension --lower $input)
+  set -l ext (extension --lower -- $input 2>/dev/null)
   set -l file_info (file --brief -- $input)
 
   switch $expected_type
@@ -73,7 +73,7 @@ end
 function __img_compress -d "Worker function for image compression" -a input output_path silent expected_type
   set -l img_type $expected_type
   if test -z "$img_type"; or test "$img_type" = "any"
-    switch (extension --lower $input)
+    switch (extension --lower -- $input 2>/dev/null)
       case jpg jpeg
         set img_type jpg
       case png
